@@ -14,8 +14,7 @@ public sealed class PageService(IElementRepository elementRepository) : IPageSer
         ArgumentNullException.ThrowIfNull(id);
 
         var elements = _elementRepository.GetFromPage(id);
-
-
+        ArgumentNullException.ThrowIfNull(elements);
 
         return new PageContent(elements);
     }

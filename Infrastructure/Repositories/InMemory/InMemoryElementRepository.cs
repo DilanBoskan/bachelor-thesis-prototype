@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Infrastructure.Repositories.InMemory;
+
 public class InMemoryElementRepository : IElementRepository {
     public IReadOnlyList<Element>? GetFromPage(PageId pageId) {
         ArgumentNullException.ThrowIfNull(pageId);
@@ -19,15 +20,15 @@ public class InMemoryElementRepository : IElementRepository {
 
         return _pageElements.TryGetValue(pageId, out var elements) ? elements : null;
     }
-    public void CreateInPage(PageId pageId, Element id) {
+    public void CreateInPage(PageId pageId, Element element) {
         ArgumentNullException.ThrowIfNull(pageId);
-        ArgumentNullException.ThrowIfNull(id);
+        ArgumentNullException.ThrowIfNull(element);
 
         if (!_pageElements.TryGetValue(pageId, out var elements)) {
             elements = _pageElements[pageId] = [];
         }
 
-        elements.Add(id);
+        elements.Add(element);
     }
     public void DeleteInPage(PageId pageId, ElementId id) {
         ArgumentNullException.ThrowIfNull(pageId);
@@ -39,7 +40,5 @@ public class InMemoryElementRepository : IElementRepository {
         elements.RemoveAll(e => e.Id == id);
     }
 
-    private static readonly Dictionary<PageId, List<Element>> _pageElements = new Dictionary<PageId, List<Element>> {
-        [PageId.New()] = [InkStrokeElement.CreateRandom()]
-    };
+    private static readonly Dictionary<PageId, List<Element>> _pageElements = [];
 }

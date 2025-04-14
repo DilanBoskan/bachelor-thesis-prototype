@@ -1,5 +1,6 @@
 ﻿using Application.Services.Books;
 using Domain.Entities.Books;
+using Presentation.Extensions;
 using Presentation.Models;
 using Presentation.Models.Books;
 using Presentation.Models.Page;
@@ -14,17 +15,14 @@ public sealed class WindowsBookService(IBookService bookService) : IWindowsBookS
     public async Task<BookModel> GetAsync(BookId id, CancellationToken ct = default) {
         var book = await _bookService.GetAsync(id, ct);
 
-        return MapBook(book);
+        return book.ToBookModel();
     }
     public async Task<WindowsBookContent> GetContentAsync(BookId id, CancellationToken ct = default) {
         var book = await _bookService.GetContentAsync(id, ct);
         var pages = book.Pages
-            .Select(MapPage)
+            .Select(p => p.ToPageModel())
             .ToList();
 
         return new WindowsBookContent(pages);
     }
-
-    private static BookModel MapBook(Book book) => new(book);
-    private static PageModel MapPage(Domain.Entities.Pages.Page page) => new(page);
 }

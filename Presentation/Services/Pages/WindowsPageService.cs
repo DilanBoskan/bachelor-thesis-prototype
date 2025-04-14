@@ -1,7 +1,11 @@
 ﻿using Application.Services.Pages;
+using Domain.Entities.Elements;
 using Domain.Entities.Elements.InkStrokes;
 using Domain.Entities.Pages;
+using Presentation.Extensions;
+using Presentation.Models.Elements.InkStrokes;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using System.Threading;
@@ -12,32 +16,27 @@ using Windows.UI.Input.Inking;
 namespace Presentation.Services.Pages;
 public class WindowsPageService(IPageService pageService) : IWindowsPageService {
     private readonly IPageService _pageService = pageService;
+
+    public async Task CreateElementsAsync(PageId id, IReadOnlyList<Element> elements, CancellationToken ct = default) {
+        await Task.Run(() => {
+            foreach (var element in elements) {
+                _pageService.CreateElement(id, element);
+            }
+        }, ct);
+    }
+    public async Task CreateElementAsync(PageId id, Element element, CancellationToken ct = default) {
+        await Task.Run(() => _pageService.CreateElement(id, element), ct);
+    }
     public async Task<WindowsPageContent> GetContentAsync(PageId id, CancellationToken ct = default) {
         var page = await Task.Run(() => _pageService.GetContent(id), ct);
 
-        var inkStrokes = page.Elements
-            .OfType<InkStrokeElement>()
-            .Select(MapInkStroke)
-            .ToList();
+        var elements = page.Elements
+            .Select(e => e.ToElementModel());
+
+        var inkStrokes = elements
+            .OfType<InkStrokeElementModel>()
+            .ToArray();
 
         return new WindowsPageContent(inkStrokes);
-    }
-
-    private static InkStroke MapInkStroke(InkStrokeElement inkStrokeElement) {
-        var builder = new InkStrokeBuilder();
-        builder.SetDefaultDrawingAttributes(new InkDrawingAttributes() {
-            Color = Windows.UI.Colors.Red,
-            IgnorePressure = false,
-            FitToCurve = true,
-            PenTip = PenTipShape.Circle,
-            Size = new Size(10, 10)
-        });
-
-        var points = inkStrokeElement.Points
-            .Select(p => new InkPoint(p.Position.ToPoint(), p.Pressure))
-            .ToList();
-        var stroke = builder.CreateStrokeFromInkPoints(points, Matrix3x2.Identity, inkStrokeElement.CreationDate, TimeSpan.Zero);
-
-        return stroke;
     }
 }

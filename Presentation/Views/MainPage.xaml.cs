@@ -83,7 +83,7 @@ public sealed partial class MainPage : Page
         inkCanvas.InkPresenter.StrokeContainer = pageModel.StrokeContainer;
 
         var strokesCollectedHandler = new TypedEventHandler<InkPresenter, InkStrokesCollectedEventArgs>(
-            (s, a) => pageModel.StrokesCollectedCommand.Execute(a.Strokes)
+            async (s, a) => await pageModel.StrokesCollectedCommand.ExecuteAsync(a.Strokes)
         );
         var events = new InkCanvasEventHandlers(strokesCollectedHandler);
 
