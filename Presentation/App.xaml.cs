@@ -2,6 +2,7 @@
 using Application.Services.Books;
 using Application.Services.Pages;
 using CommunityToolkit.Mvvm.DependencyInjection;
+using Infrastructure.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Presentation.Extensions;
@@ -42,8 +43,9 @@ public sealed partial class App : Windows.UI.Xaml.Application {
 
     private static ServiceProvider ConfigureServiceProvider() {
         var services = new ServiceCollection()
-            .RegisterApplicationServices()
-            .RegisterWindowsServices() // UI Layer
+            .AddInfrastructure()
+            .AddApplication()
+            .AddWindows() // UI Layer
             .BuildServiceProvider();
 
         return services;

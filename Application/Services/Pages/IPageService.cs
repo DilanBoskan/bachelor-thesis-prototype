@@ -1,8 +1,14 @@
-﻿using Domain.Entities.Pages;
+﻿using Domain.Entities.Elements;
+using Domain.Entities.Pages;
 
 namespace Application.Services.Pages;
 
 public interface IPageService {
-    Task<Page> GetAsync(PageId id, CancellationToken ct = default);
-    Task<PageContent> GetContentAsync(PageId id, CancellationToken ct = default);
+    Page Get(PageId id);
+    PageContent GetContent(PageId id);
+
+    #region Elements
+    void CreateElement<T>(PageId id, T element) where T : Element;
+    void DeleteElement(PageId id, ElementId elementId);
+    #endregion
 }

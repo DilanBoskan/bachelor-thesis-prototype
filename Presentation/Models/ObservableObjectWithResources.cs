@@ -4,7 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 
 namespace Presentation.Models;
-public abstract partial class ResourcesController : ObservableObject {
+public abstract partial class ObservableObjectWithResources : ObservableObject {
     [ObservableProperty]
     public partial bool IsActive { get; private set; }
 

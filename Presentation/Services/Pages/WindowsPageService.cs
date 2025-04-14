@@ -13,7 +13,7 @@ namespace Presentation.Services.Pages;
 public class WindowsPageService(IPageService pageService) : IWindowsPageService {
     private readonly IPageService _pageService = pageService;
     public async Task<WindowsPageContent> GetContentAsync(PageId id, CancellationToken ct = default) {
-        var page = await _pageService.GetContentAsync(id, ct);
+        var page = await Task.Run(() => _pageService.GetContent(id), ct);
 
         var inkStrokes = page.Elements
             .OfType<InkStrokeElement>()

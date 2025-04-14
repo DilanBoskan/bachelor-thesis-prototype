@@ -13,7 +13,7 @@ using Windows.UI.Input.Inking;
 
 namespace Presentation.Models.Page;
 
-public sealed partial class PageModel(Domain.Entities.Pages.Page page) : ResourcesController {
+public sealed partial class PageModel(Domain.Entities.Pages.Page page) : ObservableObjectWithResources {
     private readonly IWindowsPageService _pageService = App.Current.ServiceProvider.GetRequiredService<IWindowsPageService>();
     private readonly ILogger<PageModel> _logger = App.Current.ServiceProvider.GetRequiredService<ILogger<PageModel>>();
 

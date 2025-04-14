@@ -8,9 +8,9 @@ using System.Collections.ObjectModel;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Presentation.Models;
+namespace Presentation.Models.Books;
 
-public partial class BookModel(Book book) : ResourcesController {
+public partial class BookModel(Book book) : ObservableObjectWithResources {
     private readonly IWindowsBookService _bookService = App.Current.ServiceProvider.GetRequiredService<IWindowsBookService>();
     private readonly ILogger<BookModel> _logger = App.Current.ServiceProvider.GetRequiredService<ILogger<BookModel>>();
 

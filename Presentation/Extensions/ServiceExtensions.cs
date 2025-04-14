@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace Presentation.Extensions;
 public static class ServiceExtensions {
-    public static IServiceCollection RegisterWindowsServices(this IServiceCollection services) {
+    public static IServiceCollection AddWindows(this IServiceCollection services) {
         services
             .AddLogging(builder => {
                 builder.AddDebug();
