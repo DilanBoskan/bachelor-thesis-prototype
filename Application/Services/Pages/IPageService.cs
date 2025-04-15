@@ -1,5 +1,6 @@
 ﻿using Domain.Entities.Elements;
 using Domain.Entities.Pages;
+using Domain.Messages.Pages;
 
 namespace Application.Services.Pages;
 
@@ -11,4 +12,6 @@ public interface IPageService {
     void CreateElement<T>(PageId id, T element) where T : Element;
     void DeleteElement(PageId id, ElementId elementId);
     #endregion
+
+    IReadOnlyList<IPageMessage> GetNewEvents();
 }

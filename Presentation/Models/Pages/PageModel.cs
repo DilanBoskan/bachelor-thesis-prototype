@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using CommunityToolkit.WinUI;
 using Domain.Entities.Elements;
 using Domain.Entities.Elements.InkStrokes;
@@ -6,6 +7,7 @@ using Domain.Entities.Pages;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Presentation.Extensions;
+using Presentation.Messages.Pages;
 using Presentation.Services.Pages;
 using System;
 using System.Collections.Generic;
@@ -36,14 +38,18 @@ public sealed partial class PageModel(Domain.Entities.Pages.Page page) : Observa
         // Load current state of the page
         var content = await _pageService.GetContentAsync(Id, ct);
 
+        RegisterMessageHandlers();
+
         // UI
-        StrokeContainer.AddStrokes([.. content.InkStrokes.Select(i => i.InkStroke)]);
+        AddElements(content.Elements);
     }
     protected override Task ReleaseResourcesAsync() {
         _logger.LogDebug("Unloading page {PageId}", Id.Value);
 
+        UnregisterMessagesHandlers();
+
         // UI
-        StrokeContainer.Clear();
+        RemoveAllElements();
 
         return Task.CompletedTask;
     }

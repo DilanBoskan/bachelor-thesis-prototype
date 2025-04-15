@@ -15,12 +15,12 @@ public sealed class WindowsBookService(IBookService bookService) : IWindowsBookS
     public async Task<BookModel> GetAsync(BookId id, CancellationToken ct = default) {
         var book = await _bookService.GetAsync(id, ct);
 
-        return book.ToBookModel();
+        return book.ToWindows();
     }
     public async Task<WindowsBookContent> GetContentAsync(BookId id, CancellationToken ct = default) {
         var book = await _bookService.GetContentAsync(id, ct);
         var pages = book.Pages
-            .Select(p => p.ToPageModel())
+            .Select(p => p.ToWindows())
             .ToList();
 
         return new WindowsBookContent(pages);

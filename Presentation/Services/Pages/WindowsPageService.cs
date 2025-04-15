@@ -31,12 +31,9 @@ public class WindowsPageService(IPageService pageService) : IWindowsPageService 
         var page = await Task.Run(() => _pageService.GetContent(id), ct);
 
         var elements = page.Elements
-            .Select(e => e.ToElementModel());
-
-        var inkStrokes = elements
-            .OfType<InkStrokeElementModel>()
+            .Select(e => e.ToWindows())
             .ToArray();
 
-        return new WindowsPageContent(inkStrokes);
+        return new WindowsPageContent(elements);
     }
 }

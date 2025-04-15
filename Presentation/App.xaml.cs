@@ -41,14 +41,15 @@ public sealed partial class App : Windows.UI.Xaml.Application {
         Ioc.Default.ConfigureServices(ServiceProvider);
     }
 
-    private static ServiceProvider ConfigureServiceProvider() {
+    private static IServiceProvider ConfigureServiceProvider() {
         var services = new ServiceCollection()
-            .AddInfrastructure()
+            .AddInfrastructure(Guid.NewGuid())
             .AddApplication()
             .AddWindows() // UI Layer
-            .BuildServiceProvider();
+            .BuildServiceProvider()
+            .CreateScope();
 
-        return services;
+        return services.ServiceProvider;
     }
 
     /// <inheritdoc/>
