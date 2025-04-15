@@ -23,7 +23,7 @@ namespace Presentation;
 /// Provides application-specific behavior to supplement the default <see cref="Application"/> class.
 /// </summary>
 public sealed partial class App : Windows.UI.Xaml.Application {
-    public IServiceProvider ServiceProvider { get; }
+    public IServiceProvider ServiceProvider { get; } = ConfigureServiceProvider();
 
     public new static App Current => (App)Windows.UI.Xaml.Application.Current;
 
@@ -36,20 +36,17 @@ public sealed partial class App : Windows.UI.Xaml.Application {
         InitializeComponent();
 
         Suspending += OnSuspending;
-
-        ServiceProvider = ConfigureServiceProvider();
-        Ioc.Default.ConfigureServices(ServiceProvider);
     }
 
+    private static IServiceProvider _serviceProvider = null!;
     private static IServiceProvider ConfigureServiceProvider() {
-        var services = new ServiceCollection()
-            .AddInfrastructure(Guid.NewGuid())
+        _serviceProvider ??= new ServiceCollection()
+            .AddInfrastructure()
             .AddApplication()
             .AddWindows() // UI Layer
-            .BuildServiceProvider()
-            .CreateScope();
+            .BuildServiceProvider();
 
-        return services.ServiceProvider;
+        return _serviceProvider.CreateScope().ServiceProvider;
     }
 
     /// <inheritdoc/>

@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml.Controls;
 using Presentation.Models.Page;
@@ -18,9 +19,9 @@ namespace Presentation.Views;
 
 public sealed partial class MainPage : Page
 {
-    public MainPageViewModel ViewModel = Ioc.Default.GetRequiredService<MainPageViewModel>();
+    public MainPageViewModel ViewModel = App.Current.ServiceProvider.GetRequiredService<MainPageViewModel>();
 
-    private readonly ILogger<MainPage> _logger = Ioc.Default.GetRequiredService<ILogger<MainPage>>();
+    private readonly ILogger<MainPage> _logger = App.Current.ServiceProvider.GetRequiredService<ILogger<MainPage>>();
     public MainPage()
     {
         InitializeComponent();

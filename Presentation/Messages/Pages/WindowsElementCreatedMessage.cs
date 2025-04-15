@@ -1,4 +1,5 @@
 ﻿using Domain.Entities.Elements;
+using Domain.Entities.Pages;
 using Presentation.Models.Elements;
 using System;
 using System.Collections.Generic;
@@ -8,4 +9,4 @@ using System.Threading.Tasks;
 
 namespace Presentation.Messages.Pages;
 
-public record WindowsElementCreatedMessage(DateTime TimeGenerated, ElementModel Element) : IWindowsMessage;
+public record WindowsElementCreatedMessage(DateTime TimeGenerated, PageId PageId, ElementModel Element) : IWindowsMessage;

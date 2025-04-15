@@ -64,15 +64,15 @@ public static class MappingExtensions {
     #region Messages
     public static IWindowsMessage ToWindows(this IMessage message) {
         return message switch {
-            ElementCreatedMessage elementCreatedMessage => new WindowsElementCreatedMessage(elementCreatedMessage.TimeGenerated, elementCreatedMessage.Element.ToWindows()),
-            ElementDeletedMessage elementDeletedMessage => new WindowsElementDeletedMessage(elementDeletedMessage.TimeGenerated, elementDeletedMessage.ElementId),
+            ElementCreatedMessage elementCreatedMessage => new WindowsElementCreatedMessage(elementCreatedMessage.TimeGenerated, elementCreatedMessage.PageId, elementCreatedMessage.Element.ToWindows()),
+            ElementDeletedMessage elementDeletedMessage => new WindowsElementDeletedMessage(elementDeletedMessage.TimeGenerated, elementDeletedMessage.PageId, elementDeletedMessage.ElementId),
             _ => throw new NotImplementedException($"Mapping for {message.GetType()} is not implemented")
         };
     }
     public static IMessage ToDomain(this IWindowsMessage message) {
         return message switch {
-            WindowsElementCreatedMessage elementCreatedMessage => new ElementCreatedMessage(elementCreatedMessage.TimeGenerated, elementCreatedMessage.Element.ToDomain()),
-            WindowsElementDeletedMessage elementDeletedMessage => new ElementDeletedMessage(elementDeletedMessage.TimeGenerated, elementDeletedMessage.ElementId),
+            WindowsElementCreatedMessage elementCreatedMessage => new ElementCreatedMessage(elementCreatedMessage.TimeGenerated, elementCreatedMessage.PageId, elementCreatedMessage.Element.ToDomain()),
+            WindowsElementDeletedMessage elementDeletedMessage => new ElementDeletedMessage(elementDeletedMessage.TimeGenerated, elementDeletedMessage.PageId, elementDeletedMessage.ElementId),
             _ => throw new NotImplementedException($"Mapping for {message.GetType()} is not implemented")
         };
     }
