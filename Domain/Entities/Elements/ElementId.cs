@@ -1,7 +1,13 @@
-﻿namespace Domain.Entities.Elements;
+﻿using Domain.Common;
+using Domain.Entities.Pages;
 
-public sealed record ElementId(Guid Value) {
+namespace Domain.Entities.Elements;
+
+public sealed record ElementId(Guid Value) : IProtoSerializeable<ElementId, string> {
     public static ElementId New() => new(Guid.NewGuid());
-    public static ElementId Empty() => new(Guid.Empty);
-    public bool IsEmpty() => Value == Guid.Empty;
+    public static ElementId Create(Guid value) => new(value);
+
+
+    public static ElementId FromProto(string proto) => ElementId.Create(Guid.Parse(proto));
+    public static string ToProto(ElementId value) => value.Value.ToString();
 }

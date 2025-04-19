@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Presentation.Services.Books;
 
-public interface IWindowsBookService {
+public interface IBookModelService {
     Task<BookModel> GetAsync(BookId id, CancellationToken ct = default);
-    Task<WindowsBookContent> GetContentAsync(BookId id, CancellationToken ct = default);
+    Task<BookModelContent> GetContentAsync(BookId id, CancellationToken ct = default);
 }

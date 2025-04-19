@@ -6,4 +6,4 @@ using Windows.UI.Input.Inking;
 
 namespace Presentation.Services.Pages;
 
-public record WindowsPageContent(ElementModel[] Elements);
+public record PageModelContent(ElementModel[] Elements);

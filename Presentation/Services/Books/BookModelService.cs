@@ -9,7 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 
 namespace Presentation.Services.Books;
-public sealed class WindowsBookService(IBookService bookService) : IWindowsBookService {
+public sealed class BookModelService(IBookService bookService) : IBookModelService {
     private readonly IBookService _bookService = bookService;
 
     public async Task<BookModel> GetAsync(BookId id, CancellationToken ct = default) {
@@ -17,12 +17,12 @@ public sealed class WindowsBookService(IBookService bookService) : IWindowsBookS
 
         return book.ToWindows();
     }
-    public async Task<WindowsBookContent> GetContentAsync(BookId id, CancellationToken ct = default) {
+    public async Task<BookModelContent> GetContentAsync(BookId id, CancellationToken ct = default) {
         var book = await _bookService.GetContentAsync(id, ct);
         var pages = book.Pages
             .Select(p => p.ToWindows())
             .ToList();
 
-        return new WindowsBookContent(pages);
+        return new BookModelContent(pages);
     }
 }

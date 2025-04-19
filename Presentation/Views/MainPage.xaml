@@ -30,6 +30,9 @@
             <TextBlock Text="Here is the InkToolbar"></TextBlock>
         </StackPanel>
 
-        <Button VerticalAlignment="Top" HorizontalAlignment="Left" Margin="20,20,0,0" Command="{x:Bind PrintLoadedPagesCommand, Mode=OneTime}">DEBUG: Loaded Pages</Button>
+        <StackPanel VerticalAlignment="Top" HorizontalAlignment="Left" Margin="20,20,0,0" Spacing="20" Orientation="Vertical">
+            <Button Command="{x:Bind NewWindowCommand, Mode=OneTime}">New Window</Button>
+            <Button Command="{x:Bind PrintLoadedPagesCommand, Mode=OneTime}">DEBUG: Loaded Pages</Button>
+        </StackPanel>
     </Grid>
 </Page>

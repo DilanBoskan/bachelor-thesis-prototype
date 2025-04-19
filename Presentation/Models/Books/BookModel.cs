@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace Presentation.Models.Books;
 
 public partial class BookModel(Book book) : ObservableObjectWithResources {
-    private readonly IWindowsBookService _bookService = App.Current.ServiceProvider.GetRequiredService<IWindowsBookService>();
+    private readonly IBookModelService _bookService = App.Current.ServiceProvider.GetRequiredService<IBookModelService>();
     private readonly ILogger<BookModel> _logger = App.Current.ServiceProvider.GetRequiredService<ILogger<BookModel>>();
 
     public BookId Id { get; } = book.Id;

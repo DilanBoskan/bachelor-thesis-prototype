@@ -1,0 +1,15 @@
+﻿syntax = "proto3";
+package elements;
+option csharp_namespace = "Domain.Protos.Elements";
+
+import "google/protobuf/timestamp.proto";
+import "elements/ink_stroke_element.proto";
+
+// Base message definition
+message Element {
+	string id = 1;
+	google.protobuf.Timestamp creation_date = 2;
+	oneof element {
+		InkStrokeElement ink_stroke = 3;
+	}
+}

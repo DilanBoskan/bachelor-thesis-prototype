@@ -1,0 +1,16 @@
+﻿syntax = "proto3";
+package messages;
+option csharp_namespace = "Domain.Protos.Messages";
+
+import "google/protobuf/timestamp.proto";
+import "messages/element_created_message.proto";
+import "messages/element_deleted_message.proto";
+
+// Base message definition
+message Message {
+	google.protobuf.Timestamp time_generated = 1;
+	oneof message {
+		ElementCreatedMessage element_created = 2;
+		ElementDeletedMessage element_deleted = 3;
+	}
+}

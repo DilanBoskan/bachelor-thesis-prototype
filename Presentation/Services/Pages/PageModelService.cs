@@ -14,7 +14,7 @@ using Windows.Foundation;
 using Windows.UI.Input.Inking;
 
 namespace Presentation.Services.Pages;
-public class WindowsPageService(IPageService pageService) : IWindowsPageService {
+public class PageModelService(IPageService pageService) : IPageModelService {
     private readonly IPageService _pageService = pageService;
 
     public async Task CreateElementsAsync(PageId id, IReadOnlyList<Element> elements, CancellationToken ct = default) {
@@ -27,13 +27,13 @@ public class WindowsPageService(IPageService pageService) : IWindowsPageService 
     public async Task CreateElementAsync(PageId id, Element element, CancellationToken ct = default) {
         await Task.Run(() => _pageService.CreateElement(id, element), ct);
     }
-    public async Task<WindowsPageContent> GetContentAsync(PageId id, CancellationToken ct = default) {
+    public async Task<PageModelContent> GetContentAsync(PageId id, CancellationToken ct = default) {
         var page = await Task.Run(() => _pageService.GetContent(id), ct);
 
         var elements = page.Elements
             .Select(e => e.ToWindows())
             .ToArray();
 
-        return new WindowsPageContent(elements);
+        return new PageModelContent(elements);
     }
 }

@@ -19,25 +19,5 @@ public sealed class DummyBookService : IBookService {
 
     private static readonly BookContent BOOK_CONTENT = new([
         new Page(PageId.New(), new SizeF(1000, 1414)),
-        new Page(PageId.New(), new SizeF(1000, 1414)),
-        new Page(PageId.New(), new SizeF(1000, 1414)),
-        new Page(PageId.New(), new SizeF(1000, 1414)),
-        new Page(PageId.New(), new SizeF(1000, 1414)),
-        new Page(PageId.New(), new SizeF(1000, 1414)),
-        new Page(PageId.New(), new SizeF(1000, 1414)),
-        new Page(PageId.New(), new SizeF(1000, 1414)),
-        new Page(PageId.New(), new SizeF(1000, 1414)),
-        new Page(PageId.New(), new SizeF(1000, 1414)),
-        new Page(PageId.New(), new SizeF(1000, 1414)),
-        new Page(PageId.New(), new SizeF(1000, 1414)),
-        new Page(PageId.New(), new SizeF(1000, 1414)),
-        new Page(PageId.New(), new SizeF(1000, 1414)),
-        new Page(PageId.New(), new SizeF(1000, 1414)),
-        new Page(PageId.New(), new SizeF(1000, 1414)),
-        new Page(PageId.New(), new SizeF(1000, 1414)),
-        new Page(PageId.New(), new SizeF(1000, 1414)),
-        new Page(PageId.New(), new SizeF(1000, 1414)),
-        new Page(PageId.New(), new SizeF(1000, 1414)),
-        new Page(PageId.New(), new SizeF(1000, 1414)),
     ]);
 }

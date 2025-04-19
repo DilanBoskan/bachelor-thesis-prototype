@@ -1,6 +1,8 @@
-﻿using CommunityToolkit.Mvvm.DependencyInjection;
+﻿using ABI.System;
+using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI;
+using Domain.Entities.Books;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml.Controls;
@@ -8,11 +10,22 @@ using Presentation.Models.Page;
 using Presentation.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using Windows.ApplicationModel.Core;
 using Windows.Foundation;
+using Windows.System;
+using Windows.UI;
 using Windows.UI.Input.Inking;
+using Windows.UI.ViewManagement;
+using Windows.UI.WindowManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Hosting;
+using Windows.UI.Xaml.Navigation;
+using Uri = System.Uri;
 
 namespace Presentation.Views;
 
@@ -25,12 +38,21 @@ public sealed partial class MainPage : Page
     public MainPage()
     {
         InitializeComponent();
-
-        Loaded += MainPage_Loaded;
     }
 
-    private async void MainPage_Loaded(object sender, RoutedEventArgs e) {
-        await ViewModel.ActivateAsync();
+    protected async override void OnNavigatedTo(NavigationEventArgs e) {
+        base.OnNavigatedTo(e);
+
+        if (e.Parameter is not BookId bookId) {
+            bookId = BookId.New();
+        }
+
+        await ViewModel.ActivateAsync(bookId);
+    }
+    protected async override void OnNavigatedFrom(NavigationEventArgs e) {
+        base.OnNavigatedFrom(e);
+
+        await ViewModel.DeactivateAsync();
     }
 
     [RelayCommand]
@@ -40,6 +62,14 @@ public sealed partial class MainPage : Page
                 _logger.LogInformation("Page is active {pageId}", page.Id.Value);
             }
         });
+    }
+    
+    [RelayCommand]
+    private async Task NewWindowAsync() {
+        ArgumentNullException.ThrowIfNull(ViewModel.Book);
+
+        var uri = new Uri($"ba-collaboration://{ViewModel.Book.Id.Value}");
+        await Launcher.LaunchUriAsync(uri);
     }
 
     private async void ItemsRepeater_ElementPrepared(ItemsRepeater _, ItemsRepeaterElementPreparedEventArgs args) {

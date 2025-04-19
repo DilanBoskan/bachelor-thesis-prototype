@@ -17,11 +17,11 @@ public static class ServiceExtensions {
         services
             .AddLogging(builder => {
                 builder.AddDebug();
-                builder.SetMinimumLevel(LogLevel.Information);
+                builder.SetMinimumLevel(LogLevel.Debug);
             })
-            .AddSingleton<IWindowsBookService, WindowsBookService>()
-            .AddSingleton<IWindowsPageService, WindowsPageService>()
-            .AddSingleton<MainPageViewModel>();
+            .AddScoped<IBookModelService, BookModelService>()
+            .AddScoped<IPageModelService, PageModelService>()
+            .AddScoped<MainPageViewModel>();
 
         return services;
     }

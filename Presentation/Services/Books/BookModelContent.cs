@@ -3,4 +3,4 @@ using System.Collections.Generic;
 
 namespace Presentation.Services.Books;
 
-public record WindowsBookContent(IReadOnlyList<PageModel> Pages);
+public record BookModelContent(IReadOnlyList<PageModel> Pages);

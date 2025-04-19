@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Domain.Entities.Books;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -7,5 +8,5 @@ using System.Threading.Tasks;
 
 namespace Domain.Messages;
 public interface IMessageListener {
-    IReadOnlyList<T> ReceiveRecent<T>(DateTime lastUpdate) where T : IMessage;
+    Task<IReadOnlyList<Message>> GetEventsAsync(BookId bookId, DateTime from);
 }

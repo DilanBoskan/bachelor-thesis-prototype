@@ -3,7 +3,6 @@ using Domain.Entities.Elements;
 using Domain.Entities.Elements.InkStrokes;
 using Domain.Entities.Pages;
 using Domain.Messages;
-using Domain.Messages.Pages;
 using Presentation.Messages.Pages;
 using Presentation.Models.Books;
 using Presentation.Models.Elements;
@@ -62,14 +61,14 @@ public static class MappingExtensions {
     }
 
     #region Messages
-    public static IWindowsMessage ToWindows(this IMessage message) {
+    public static IWindowsMessage ToWindows(this Message message) {
         return message switch {
             ElementCreatedMessage elementCreatedMessage => new WindowsElementCreatedMessage(elementCreatedMessage.TimeGenerated, elementCreatedMessage.PageId, elementCreatedMessage.Element.ToWindows()),
             ElementDeletedMessage elementDeletedMessage => new WindowsElementDeletedMessage(elementDeletedMessage.TimeGenerated, elementDeletedMessage.PageId, elementDeletedMessage.ElementId),
             _ => throw new NotImplementedException($"Mapping for {message.GetType()} is not implemented")
         };
     }
-    public static IMessage ToDomain(this IWindowsMessage message) {
+    public static Message ToDomain(this IWindowsMessage message) {
         return message switch {
             WindowsElementCreatedMessage elementCreatedMessage => new ElementCreatedMessage(elementCreatedMessage.TimeGenerated, elementCreatedMessage.PageId, elementCreatedMessage.Element.ToDomain()),
             WindowsElementDeletedMessage elementDeletedMessage => new ElementDeletedMessage(elementDeletedMessage.TimeGenerated, elementDeletedMessage.PageId, elementDeletedMessage.ElementId),

@@ -1,11 +1,13 @@
 ﻿using System;
+using System.Threading;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
+using Windows.System;
 
 namespace Presentation;
 
 public static class Program {
-    static void Main(string[] _) {
+    public static void Main(string[] _) {
         IActivatedEventArgs activatedArgs = AppInstance.GetActivatedEventArgs();
 
         // If the Windows shell indicates a recommended instance, then
@@ -27,8 +29,8 @@ public static class Program {
                 // If we successfully registered this instance, we can now just
                 // go ahead and do normal XAML initialization.
                 Windows.UI.Xaml.Application.Start((p) => {
-                    var context = new global::Windows.System.DispatcherQueueSynchronizationContext(global::Windows.System.DispatcherQueue.GetForCurrentThread());
-                    global::System.Threading.SynchronizationContext.SetSynchronizationContext(context);
+                    var context = new DispatcherQueueSynchronizationContext(DispatcherQueue.GetForCurrentThread());
+                    SynchronizationContext.SetSynchronizationContext(context);
                     var _ = new App();
                 });
             } else {

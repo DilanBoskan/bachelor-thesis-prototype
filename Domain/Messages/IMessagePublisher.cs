@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Domain.Entities.Books;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Messages;
 public interface IMessagePublisher {
-    void Publish(IMessage message);
+    void Publish(Message message);
 
-    void Flush();
+    Task FlushAsync(BookId bookId);
 }

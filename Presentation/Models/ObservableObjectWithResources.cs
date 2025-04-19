@@ -12,11 +12,11 @@ public abstract partial class ObservableObjectWithResources : ObservableObject {
     public partial bool IsResourcesCreated { get; private set; }
 
 
-    public async Task ActivateAsync(CancellationToken ct = default) {
+    public virtual async Task ActivateAsync(CancellationToken ct = default) {
         IsActive = true;
         await SafeCreateResourcesAsync(ct);
     }
-    public async Task DeactivateAsync() {
+    public virtual async Task DeactivateAsync() {
         await SafeReleaseResourcesAsync();
         IsActive = false;
     }

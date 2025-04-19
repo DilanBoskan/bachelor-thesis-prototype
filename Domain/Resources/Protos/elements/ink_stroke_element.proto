@@ -1,0 +1,14 @@
+﻿syntax = "proto3";
+package elements;
+option csharp_namespace = "Domain.Protos.Elements";
+
+
+message InkStrokeElement {
+    repeated InkStrokePoint points = 1;
+}
+
+message InkStrokePoint {  
+    float position_x = 1;
+    float position_y = 2;
+    float pressure = 3;
+}

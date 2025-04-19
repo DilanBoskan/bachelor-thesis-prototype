@@ -3,7 +3,6 @@ using Domain.Entities.Elements.InkStrokes;
 using Domain.Entities.Pages;
 using Domain.Helpers;
 using Domain.Messages;
-using Domain.Messages.Pages;
 using System.Drawing;
 using System.Numerics;
 
@@ -36,16 +35,8 @@ public sealed class PageService(IElementRepository elementRepository, IMessagePu
         _messagePublisher.Publish(new ElementDeletedMessage(DateTime.Now, id, elementId));
     }
 
-    public IReadOnlyList<IPageMessage> GetNewEvents() {
-        var lastUpdate = _lastUpdated;
-        _lastUpdated = DateTime.Now;
-
-        return _messageListener.ReceiveRecent<IPageMessage>(lastUpdate);
-    }
 
     private readonly IElementRepository _elementRepository = elementRepository;
     private readonly IMessagePublisher _messagePublisher = messagePublisher;
     private readonly IMessageListener _messageListener = messageListener;
-
-    private DateTime _lastUpdated = DateTime.MinValue;
 }
