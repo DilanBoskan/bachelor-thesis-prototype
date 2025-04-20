@@ -6,5 +6,5 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Presentation.Messages.Pages;
-public record WindowsElementDeletedMessage(DateTime TimeGenerated, PageId PageId, ElementId ElementId) : IPageWindowsMessage;
+namespace Presentation.Events.Pages;
+public record WindowsElementDeletedEvent(DateTime TimeGenerated, PageId PageId, ElementId ElementId) : IPageWindowsEvent;

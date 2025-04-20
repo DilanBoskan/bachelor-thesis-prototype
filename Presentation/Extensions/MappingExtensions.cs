@@ -2,9 +2,9 @@
 using Domain.Entities.Elements;
 using Domain.Entities.Elements.InkStrokes;
 using Domain.Entities.Pages;
-using Domain.Messages;
-using Presentation.Messages;
-using Presentation.Messages.Pages;
+using Domain.Events;
+using Presentation.Events;
+using Presentation.Events.Pages;
 using Presentation.Models.Books;
 using Presentation.Models.Elements;
 using Presentation.Models.Elements.InkStrokes;
@@ -61,19 +61,19 @@ public static class MappingExtensions {
         return points;
     }
 
-    #region Messages
-    public static IWindowsMessage ToWindows(this Message message) {
-        return message switch {
-            ElementCreatedMessage elementCreatedMessage => new WindowsElementCreatedMessage(elementCreatedMessage.TimeGenerated, elementCreatedMessage.PageId, elementCreatedMessage.Element.ToWindows()),
-            ElementDeletedMessage elementDeletedMessage => new WindowsElementDeletedMessage(elementDeletedMessage.TimeGenerated, elementDeletedMessage.PageId, elementDeletedMessage.ElementId),
-            _ => throw new NotImplementedException($"Mapping for {message.GetType()} is not implemented")
+    #region Events
+    public static IWindowsEvent ToWindows(this Event @event) {
+        return @event switch {
+            ElementCreatedEvent elementCreatedEvent => new WindowsElementCreatedEvent(elementCreatedEvent.TimeGenerated, elementCreatedEvent.PageId, elementCreatedEvent.Element.ToWindows()),
+            ElementDeletedEvent elementDeletedEvent => new WindowsElementDeletedEvent(elementDeletedEvent.TimeGenerated, elementDeletedEvent.PageId, elementDeletedEvent.ElementId),
+            _ => throw new NotImplementedException($"Mapping for {@event.GetType()} is not implemented")
         };
     }
-    public static Message ToDomain(this IWindowsMessage message) {
-        return message switch {
-            WindowsElementCreatedMessage elementCreatedMessage => new ElementCreatedMessage(elementCreatedMessage.TimeGenerated, elementCreatedMessage.PageId, elementCreatedMessage.Element.ToDomain()),
-            WindowsElementDeletedMessage elementDeletedMessage => new ElementDeletedMessage(elementDeletedMessage.TimeGenerated, elementDeletedMessage.PageId, elementDeletedMessage.ElementId),
-            _ => throw new NotImplementedException($"Mapping for {message.GetType()} is not implemented")
+    public static Event ToDomain(this IWindowsEvent @event) {
+        return @event switch {
+            WindowsElementCreatedEvent elementCreatedEvent => new ElementCreatedEvent(elementCreatedEvent.TimeGenerated, elementCreatedEvent.PageId, elementCreatedEvent.Element.ToDomain()),
+            WindowsElementDeletedEvent elementDeletedEvent => new ElementDeletedEvent(elementDeletedEvent.TimeGenerated, elementDeletedEvent.PageId, elementDeletedEvent.ElementId),
+            _ => throw new NotImplementedException($"Mapping for {@event.GetType()} is not implemented")
         };
     }
     #endregion

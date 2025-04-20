@@ -1,5 +1,6 @@
 ﻿using Domain.Entities.Elements;
-using Domain.Messages;
+using Domain.Events;
+using Infrastructure.Events.Local;
 using Infrastructure.Messages.Local;
 using Infrastructure.Repositories.InMemory;
 using Microsoft.Extensions.DependencyInjection;
@@ -21,9 +22,9 @@ public static class ServiceExtensions {
         var jsonContentSerializer = new SystemTextJsonContentSerializer(jsonSerializerOptions);
 
         services
-            .AddScoped<MessageDispatcher>(sp => new MessageDispatcher(Guid.NewGuid(), sp.GetRequiredService<IEventsClient>()))
-            .AddScoped<IMessageListener>(sp => sp.GetRequiredService<MessageDispatcher>())
-            .AddScoped<IMessagePublisher>(sp => sp.GetRequiredService<MessageDispatcher>())
+            .AddScoped<EventDispatcher>(sp => new EventDispatcher(Guid.NewGuid(), sp.GetRequiredService<IEventsClient>()))
+            .AddScoped<IEventListener>(sp => sp.GetRequiredService<EventDispatcher>())
+            .AddScoped<IEventPublisher>(sp => sp.GetRequiredService<EventDispatcher>())
             .AddScoped<IElementRepository, InMemoryElementRepository>();
 
 

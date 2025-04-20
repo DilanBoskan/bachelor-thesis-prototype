@@ -1,8 +1,0 @@
-﻿syntax = "proto3";
-package messages;
-option csharp_namespace = "Domain.Protos.Messages";
-
-message ElementDeletedMessage {
-	string page_id = 1;
-	string element_id = 2;
-}

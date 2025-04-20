@@ -6,7 +6,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.Messages;
-public interface IMessageListener {
-    Task<IReadOnlyList<Message>> GetEventsAsync(BookId bookId, DateTime from);
+namespace Domain.Events;
+public interface IEventListener {
+    Task<IReadOnlyList<Event>> GetEventsAsync(BookId bookId, DateTime from);
 }

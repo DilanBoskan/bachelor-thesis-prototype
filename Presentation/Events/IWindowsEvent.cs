@@ -1,7 +1,7 @@
 ﻿using Presentation.Models.Elements;
 using System;
 
-namespace Presentation.Messages;
-public interface IWindowsMessage {
+namespace Presentation.Events;
+public interface IWindowsEvent {
     DateTime TimeGenerated { get; }
 }

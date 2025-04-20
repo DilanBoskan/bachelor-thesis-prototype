@@ -1,13 +1,13 @@
-﻿using Application.Services.Messages;
+﻿using Application.Services.Events;
 using Application.Services.Pages;
 using CommunityToolkit.Mvvm.Messaging;
 using Domain.Entities.Books;
-using Domain.Messages;
+using Domain.Events;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Presentation.Events;
+using Presentation.Events.Pages;
 using Presentation.Extensions;
-using Presentation.Messages;
-using Presentation.Messages.Pages;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -21,16 +21,16 @@ namespace Presentation.Services.Collaboration;
 public sealed class CollaborationHelper {
     public const int DELAY_MS = 5000; // 5 seconds
 
-    private readonly IMessageManagerFactory _messageManagerFactory = App.Current.ServiceProvider.GetRequiredService<IMessageManagerFactory>();
+    private readonly IEventManagerFactory _eventManagerFactory = App.Current.ServiceProvider.GetRequiredService<IEventManagerFactory>();
     private readonly ILogger<CollaborationHelper> _logger = App.Current.ServiceProvider.GetRequiredService<ILogger<CollaborationHelper>>();
 
     public Task StartAsync(BookId bookId, CancellationToken ct) {
-        var messageManager = _messageManagerFactory.Create(bookId);
+        var eventManager = _eventManagerFactory.Create(bookId);
 
         async Task FlushAndGetEventsAsync(BookId bookId) {
-            await messageManager.FlushAsync();
+            await eventManager.FlushAsync();
 
-            var events = await messageManager.GetEventsAsync();
+            var events = await eventManager.GetEventsAsync();
             if (!events.Any()) {
                 _logger.LogDebug("No events");
                 return;
@@ -49,16 +49,16 @@ public sealed class CollaborationHelper {
         }, ct);
     }
 
-    private static void PublishEvents(IReadOnlyList<Message> messages) {
+    private static void PublishEvents(IReadOnlyList<Event> events) {
         var messenger = WeakReferenceMessenger.Default;
 
-        foreach (var message in messages) {
-            switch (message.ToWindows()) {
-                case IPageWindowsMessage pageMessage:
-                    messenger.Send(pageMessage, pageMessage.PageId);
+        foreach (var @event in events) {
+            switch (@event.ToWindows()) {
+                case IPageWindowsEvent pageEvent:
+                    messenger.Send(pageEvent, pageEvent.PageId);
                     break;
-                case IWindowsMessage windowsMessage:
-                    messenger.Send(windowsMessage);
+                case IWindowsEvent windowsEvent:
+                    messenger.Send(windowsEvent);
                     break;
             }
         }

@@ -7,6 +7,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Presentation.Messages.Pages;
+namespace Presentation.Events.Pages;
 
-public record WindowsElementCreatedMessage(DateTime TimeGenerated, PageId PageId, ElementModel Element) : IPageWindowsMessage;
+public record WindowsElementCreatedEvent(DateTime TimeGenerated, PageId PageId, ElementModel Element) : IPageWindowsEvent;

@@ -7,12 +7,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Infrastructure.Messages.Local;
+namespace Infrastructure.Events.Local;
 
 public interface IEventsClient {
     [Get("/events/{bookId}")]
     Task<byte[]> GetEventsAsync(BookId bookId, [Query] Guid userId, [Query] DateTime from);
 
     [Post("/events/{bookId}")]
-    Task PostMessagesAsync(BookId bookId, [Query] Guid userId, [Body] byte[] messages);
+    Task PostEventsAsync(BookId bookId, [Query] Guid userId, [Body] byte[] data);
 }

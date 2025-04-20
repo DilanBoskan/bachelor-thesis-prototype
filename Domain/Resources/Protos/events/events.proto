@@ -1,0 +1,20 @@
+﻿syntax = "proto3";
+package events;
+option csharp_namespace = "Domain.Protos.Events";
+
+import "google/protobuf/timestamp.proto";
+import "events/element_created_event.proto";
+import "events/element_deleted_event.proto";
+
+// Base message definition
+message Event {
+	google.protobuf.Timestamp time_generated = 1;
+	oneof event {
+		ElementCreatedEvent element_created = 2;
+		ElementDeletedEvent element_deleted = 3;
+	}
+}
+
+message EventGroup {
+	repeated Event events = 1;
+}

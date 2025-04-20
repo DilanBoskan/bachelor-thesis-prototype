@@ -1,9 +1,9 @@
 ﻿
 using Domain.Entities.Books;
-using Domain.Messages;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Google.Protobuf;
+using Domain.Events;
 
 namespace WebApi.EndpointDefinitions;
 
@@ -25,7 +25,7 @@ public class EventsEndpoint : IEndpointDefinition {
                 messageGroup.Messages.AddRange(_publishedMessages[bookId]
                     .Where(e => e.Key > from && e.Value.UserId != userId) // Not self-published events
                     .SelectMany(e => e.Value.Messages)
-                    .Select(Message.ToProto));
+                    .Select(Event.ToProto));
             }
         }
 
@@ -34,7 +34,7 @@ public class EventsEndpoint : IEndpointDefinition {
 
     private static void PostMessage(BookId bookId, [FromQuery] Guid userId, [FromBody] byte[] data) {
         var messageGroup = Domain.Protos.Messages.MessageGroup.Parser.ParseFrom(data);
-        var messages = messageGroup.Messages.Select(Message.FromProto).ToArray();
+        var messages = messageGroup.Messages.Select(Event.FromProto).ToArray();
 
         lock (_queueLock) {
             if (!_publishedMessages.ContainsKey(bookId))
@@ -46,5 +46,5 @@ public class EventsEndpoint : IEndpointDefinition {
 
 
     private static readonly Lock _queueLock = new();
-    private static readonly Dictionary<BookId, SortedList<DateTime, (Guid UserId, Message[] Messages)>> _publishedMessages = [];
+    private static readonly Dictionary<BookId, SortedList<DateTime, (Guid UserId, Event[] Messages)>> _publishedMessages = [];
 }

@@ -1,15 +1,16 @@
 ﻿using Domain.Entities.Elements;
 using Domain.Entities.Elements.InkStrokes;
 using Domain.Entities.Pages;
+using Domain.Events;
 using Domain.Helpers;
 using Domain.Messages;
 using System.Drawing;
 using System.Numerics;
 
 namespace Application.Services.Pages;
-public sealed class PageService(IElementRepository elementRepository, IMessagePublisher messagePublisher) : IPageService {
+public sealed class PageService(IElementRepository elementRepository, IEventPublisher eventPublisher) : IPageService {
     private readonly IElementRepository _elementRepository = elementRepository;
-    private readonly IMessagePublisher _messagePublisher = messagePublisher;
+    private readonly IEventPublisher _eventPublisher = eventPublisher;
 
     public Page Get(PageId id) => new(id, new SizeF(1000, 1414));
     public PageContent GetContent(PageId id) {
@@ -26,7 +27,7 @@ public sealed class PageService(IElementRepository elementRepository, IMessagePu
         ArgumentNullException.ThrowIfNull(element);
 
         _elementRepository.CreateInPage(id, element);
-        _messagePublisher.Publish(new ElementCreatedMessage(DateTime.Now, id, element));
+        _eventPublisher.Publish(new ElementCreatedEvent(DateTime.Now, id, element));
     }
 
     public void DeleteElement(PageId id, ElementId elementId) {
@@ -34,6 +35,6 @@ public sealed class PageService(IElementRepository elementRepository, IMessagePu
         ArgumentNullException.ThrowIfNull(elementId);
 
         _elementRepository.DeleteInPage(id, elementId);
-        _messagePublisher.Publish(new ElementDeletedMessage(DateTime.Now, id, elementId));
+        _eventPublisher.Publish(new ElementDeletedEvent(DateTime.Now, id, elementId));
     }
 }

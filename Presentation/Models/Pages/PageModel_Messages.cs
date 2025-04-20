@@ -7,8 +7,8 @@ using Domain.Entities.Elements.InkStrokes;
 using Domain.Entities.Pages;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Presentation.Events.Pages;
 using Presentation.Extensions;
-using Presentation.Messages.Pages;
 using Presentation.Services.Pages;
 using System;
 using System.Collections.Generic;
@@ -21,34 +21,34 @@ using Windows.UI.Input.Inking;
 
 namespace Presentation.Models.Page;
 
-public sealed partial class PageModel : IRecipient<IPageWindowsMessage> {
+public sealed partial class PageModel : IRecipient<IPageWindowsEvent> {
     private readonly WeakReferenceMessenger _messenger = WeakReferenceMessenger.Default;
 
 
     private void RegisterMessageHandlers() {
-        _messenger.Register<IPageWindowsMessage, PageId>(this, Id);
+        _messenger.Register<IPageWindowsEvent, PageId>(this, Id);
     }
     private void UnregisterMessagesHandlers() {
         _messenger.UnregisterAll(this);
     }
 
 
-    public void Receive(IPageWindowsMessage message) {
+    public void Receive(IPageWindowsEvent message) {
         switch (message) {
-            case WindowsElementCreatedMessage createdMessage:
+            case WindowsElementCreatedEvent createdMessage:
                 Receive(createdMessage);
                 break;
-            case WindowsElementDeletedMessage deletedMessage:
+            case WindowsElementDeletedEvent deletedMessage:
                 Receive(deletedMessage);
                 break;
             default:
                 throw new NotImplementedException();
         }
     }
-    private void Receive(WindowsElementCreatedMessage message) {
+    private void Receive(WindowsElementCreatedEvent message) {
         AddElement(message.Element);
     }
-    private void Receive(WindowsElementDeletedMessage message) {
+    private void Receive(WindowsElementDeletedEvent message) {
         RemoveElement(message.ElementId);
     }
 }

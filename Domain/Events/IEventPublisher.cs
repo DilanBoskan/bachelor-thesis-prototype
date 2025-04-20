@@ -5,8 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.Messages;
-public interface IMessagePublisher {
-    void Publish(Message message);
+namespace Domain.Events;
+public interface IEventPublisher {
+    void Publish(Event @event);
     Task FlushAsync(BookId bookId);
 }

@@ -1,10 +1,10 @@
 ﻿syntax = "proto3";
-package messages;
-option csharp_namespace = "Domain.Protos.Messages";
+package events;
+option csharp_namespace = "Domain.Protos.Events";
 
 import "elements/element.proto";
 
-message ElementCreatedMessage {
+message ElementCreatedEvent {
 	string page_id = 1;
 	elements.Element element = 2;
 }
