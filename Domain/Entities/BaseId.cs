@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 
 namespace Domain.Entities;
 public abstract record BaseId<TSelf>(Guid Value) : IParsable<TSelf> where TSelf : BaseId<TSelf>, IBaseId<TSelf> {
-    public override string ToString() => Value.ToString();
     public static TSelf Parse(string s, IFormatProvider? provider) => TSelf.Create(Guid.Parse(s));
     public static bool TryParse([NotNullWhen(true)] string? s, IFormatProvider? provider, [MaybeNullWhen(false)] out TSelf result) {
         if (Guid.TryParse(s, out var guid)) {

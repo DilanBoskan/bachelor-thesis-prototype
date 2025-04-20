@@ -19,32 +19,32 @@ public class EventsEndpoint : IEndpointDefinition {
     private static byte[] GetMessage([FromRoute] BookId bookId, [FromQuery] Guid userId, [FromQuery] DateTime? from = null) {
         from ??= DateTime.MinValue; // Default to the earliest date if not provided
 
-        var messageGroup = new Domain.Protos.Messages.MessageGroup();
+        var eventGroup = new Domain.Protos.Events.EventGroup();
         lock (_queueLock) {
-            if (_publishedMessages.ContainsKey(bookId)) {
-                messageGroup.Messages.AddRange(_publishedMessages[bookId]
+            if (_publishedEvents.ContainsKey(bookId)) {
+                eventGroup.Events.AddRange(_publishedEvents[bookId]
                     .Where(e => e.Key > from && e.Value.UserId != userId) // Not self-published events
-                    .SelectMany(e => e.Value.Messages)
+                    .SelectMany(e => e.Value.Events)
                     .Select(Event.ToProto));
             }
         }
 
-        return messageGroup.ToByteArray();
+        return eventGroup.ToByteArray();
     }
 
     private static void PostMessage(BookId bookId, [FromQuery] Guid userId, [FromBody] byte[] data) {
-        var messageGroup = Domain.Protos.Messages.MessageGroup.Parser.ParseFrom(data);
-        var messages = messageGroup.Messages.Select(Event.FromProto).ToArray();
+        var eventGroup = Domain.Protos.Events.EventGroup.Parser.ParseFrom(data);
+        var events = eventGroup.Events.Select(Event.FromProto).ToArray();
 
         lock (_queueLock) {
-            if (!_publishedMessages.ContainsKey(bookId))
-                _publishedMessages[bookId] = new();
+            if (!_publishedEvents.ContainsKey(bookId))
+                _publishedEvents[bookId] = new();
 
-            _publishedMessages[bookId].Add(DateTime.Now, (userId, messages));
+            _publishedEvents[bookId].Add(DateTime.Now, (userId, events));
         }
     }
 
 
     private static readonly Lock _queueLock = new();
-    private static readonly Dictionary<BookId, SortedList<DateTime, (Guid UserId, Event[] Messages)>> _publishedMessages = [];
+    private static readonly Dictionary<BookId, SortedList<DateTime, (Guid UserId, Event[] Events)>> _publishedEvents = [];
 }

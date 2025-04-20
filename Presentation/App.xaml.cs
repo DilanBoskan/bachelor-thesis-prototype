@@ -58,7 +58,7 @@ public sealed partial class App : Windows.UI.Xaml.Application {
 
     /// <inheritdoc/>
     protected override void OnLaunched(LaunchActivatedEventArgs e) => OnActivated(e);
-    protected override async void OnActivated(IActivatedEventArgs args) {
+    protected override void OnActivated(IActivatedEventArgs args) {
         BookId bookId = BookId.New();
         if (args is ProtocolActivatedEventArgs protocolArgs) {
             if (Guid.TryParse(protocolArgs.Uri.Host, out var id)) {

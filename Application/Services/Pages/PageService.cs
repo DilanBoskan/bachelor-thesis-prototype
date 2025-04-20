@@ -3,7 +3,6 @@ using Domain.Entities.Elements.InkStrokes;
 using Domain.Entities.Pages;
 using Domain.Events;
 using Domain.Helpers;
-using Domain.Messages;
 using System.Drawing;
 using System.Numerics;
 

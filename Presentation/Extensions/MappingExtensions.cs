@@ -38,14 +38,6 @@ public static class MappingExtensions {
     public static InkStroke ToInkStroke(this IEnumerable<InkStrokePoint> inkStrokePoints) {
         var builder = new InkStrokeBuilder();
 
-        builder.SetDefaultDrawingAttributes(new InkDrawingAttributes() {
-            Color = Windows.UI.Colors.Red,
-            IgnorePressure = false,
-            FitToCurve = true,
-            PenTip = PenTipShape.Circle,
-            Size = new Size(10, 10)
-        });
-
         var points = inkStrokePoints
             .Select(p => new InkPoint(p.Position.ToPoint(), p.Pressure))
             .ToList();
