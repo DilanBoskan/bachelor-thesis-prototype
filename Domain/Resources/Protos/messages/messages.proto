@@ -14,3 +14,7 @@ message Message {
 		ElementDeletedMessage element_deleted = 3;
 	}
 }
+
+message MessageGroup {
+	repeated Message messages = 1;
+}

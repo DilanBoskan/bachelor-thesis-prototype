@@ -3,6 +3,7 @@ using Domain.Entities.Elements;
 using Domain.Entities.Elements.InkStrokes;
 using Domain.Entities.Pages;
 using Domain.Messages;
+using Presentation.Messages;
 using Presentation.Messages.Pages;
 using Presentation.Models.Books;
 using Presentation.Models.Elements;

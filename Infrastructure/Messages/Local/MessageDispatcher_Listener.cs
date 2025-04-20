@@ -12,8 +12,9 @@ using System.Threading.Tasks;
 namespace Infrastructure.Messages.Local;
 public partial class MessageDispatcher : IMessageListener {
     public async Task<IReadOnlyList<Message>> GetEventsAsync(BookId bookId, DateTime from) {
-        var events = await _eventsClient.GetEventsAsync(bookId.Value, userId, from);
+        var messageGroupBytes = await _eventsClient.GetEventsAsync(bookId, userId, from);
+        var messageGroup = Domain.Protos.Messages.MessageGroup.Parser.ParseFrom(messageGroupBytes);
 
-        return events;
+        return messageGroup.Messages.Select(Message.FromProto).ToList();  
     }
 }

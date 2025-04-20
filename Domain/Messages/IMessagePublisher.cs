@@ -8,6 +8,5 @@ using System.Threading.Tasks;
 namespace Domain.Messages;
 public interface IMessagePublisher {
     void Publish(Message message);
-
     Task FlushAsync(BookId bookId);
 }

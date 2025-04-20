@@ -26,7 +26,7 @@ public record ElementDeletedMessage(DateTime TimeGenerated, PageId PageId, Eleme
     }
 
     public static Protos.Messages.Message ToProto(ElementDeletedMessage value) {
-        var timeGeneratedProto = value.TimeGenerated.ToTimestamp();
+        var timeGeneratedProto = value.TimeGenerated.ToUniversalTime().ToTimestamp();
         var pageIdProto = PageId.ToProto(value.PageId);
         var elementIdProto = ElementId.ToProto(value.ElementId);
 

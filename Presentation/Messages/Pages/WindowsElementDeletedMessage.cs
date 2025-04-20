@@ -7,4 +7,4 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Presentation.Messages.Pages;
-public record WindowsElementDeletedMessage(DateTime TimeGenerated, PageId PageId, ElementId ElementId) : IWindowsMessage;
+public record WindowsElementDeletedMessage(DateTime TimeGenerated, PageId PageId, ElementId ElementId) : IPageWindowsMessage;

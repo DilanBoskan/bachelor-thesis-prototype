@@ -39,7 +39,7 @@ public sealed record InkStrokeElement(ElementId Id, DateTime CreationDate, IRead
 
     public static Protos.Elements.Element ToProto(InkStrokeElement value) {
         var id = ElementId.ToProto(value.Id);
-        var creationDate = value.CreationDate.ToTimestamp();
+        var creationDate = value.CreationDate.ToUniversalTime().ToTimestamp();
 
         var inkStrokeProto = new Protos.Elements.InkStrokeElement();
         inkStrokeProto.Points.AddRange(InkStrokePoint.ToProto(value.Points));

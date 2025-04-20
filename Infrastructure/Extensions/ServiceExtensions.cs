@@ -15,9 +15,7 @@ public static class ServiceExtensions {
     public static IServiceCollection AddInfrastructure(this IServiceCollection services) {
 
         var jsonSerializerOptions = new JsonSerializerOptions {
-            // Configure any other options you need here
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-            // ... other options
             TypeInfoResolver = AppJsonSerializerContext.Default // Use your source generator context
         };
         var jsonContentSerializer = new SystemTextJsonContentSerializer(jsonSerializerOptions);

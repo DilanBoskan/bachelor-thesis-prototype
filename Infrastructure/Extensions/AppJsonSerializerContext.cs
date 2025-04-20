@@ -4,8 +4,7 @@ using System.Text.Json.Serialization;
 
 namespace Infrastructure.Extensions;
 
-[JsonSerializable(typeof(Message[]))]
-[JsonSerializable(typeof(ElementCreatedMessage))]
-[JsonSerializable(typeof(ElementDeletedMessage))]
+[JsonSerializable(typeof(byte[]))]
+[JsonSerializable(typeof(BookId))]
 public partial class AppJsonSerializerContext : JsonSerializerContext {
 }

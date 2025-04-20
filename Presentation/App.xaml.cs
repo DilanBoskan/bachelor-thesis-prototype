@@ -15,6 +15,7 @@ using Presentation.Views;
 using System;
 using System.Collections.Generic;
 using System.Threading;
+using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.Background;
@@ -57,7 +58,7 @@ public sealed partial class App : Windows.UI.Xaml.Application {
 
     /// <inheritdoc/>
     protected override void OnLaunched(LaunchActivatedEventArgs e) => OnActivated(e);
-    protected override void OnActivated(IActivatedEventArgs args) {
+    protected override async void OnActivated(IActivatedEventArgs args) {
         BookId bookId = BookId.New();
         if (args is ProtocolActivatedEventArgs protocolArgs) {
             if (Guid.TryParse(protocolArgs.Uri.Host, out var id)) {
@@ -77,19 +78,22 @@ public sealed partial class App : Windows.UI.Xaml.Application {
         Activate(bookId);
     }
     public void Activate(BookId bookId) {
-        // Regiser background threads
-        var refresh = new CollaborationHelper().Use(bookId);
-        _collaborationTimer = ThreadPoolTimer.CreatePeriodicTimer(_ => refresh(), TimeSpan.FromSeconds(5));
+        _cts.Cancel();
+        _cts.Dispose();
+        _cts = new CancellationTokenSource();
+
+        // Register background thread
+        _ = new CollaborationHelper().StartAsync(bookId, _cts.Token);
     }
 
     private void OnSuspending(object sender, SuspendingEventArgs e)
     {
         SuspendingDeferral deferral = e.SuspendingOperation.GetDeferral();
 
-        _collaborationTimer?.Cancel();
+        _cts.Cancel();
 
         deferral.Complete();
     }
 
-    private ThreadPoolTimer? _collaborationTimer;
+    private CancellationTokenSource _cts = new();
 }

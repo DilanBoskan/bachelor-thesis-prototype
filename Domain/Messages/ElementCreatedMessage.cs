@@ -26,7 +26,7 @@ public record ElementCreatedMessage(DateTime TimeGenerated, PageId PageId, Eleme
     }
 
     public static Protos.Messages.Message ToProto(ElementCreatedMessage value) {
-        var timeGeneratedProto = value.TimeGenerated.ToTimestamp();
+        var timeGeneratedProto = value.TimeGenerated.ToUniversalTime().ToTimestamp();
         var pageIdProto = PageId.ToProto(value.PageId);
         var elementProto = Element.ToProto(value.Element);
 

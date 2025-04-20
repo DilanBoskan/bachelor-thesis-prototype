@@ -1,5 +1,6 @@
 ﻿using Domain.Entities.Books;
 using Domain.Messages;
+using Google.Protobuf;
 using System;
 using System.Collections.Generic;
 using System.Data.Common;
@@ -30,7 +31,10 @@ public partial class MessageDispatcher(Guid userId, IEventsClient eventsClient) 
             _preparedMessages.Clear();
         }
 
-        await _eventsClient.PostMessagesAsync(bookId.Value, userId, messages);
+        var messageGroup = new Domain.Protos.Messages.MessageGroup();
+        messageGroup.Messages.AddRange(messages.Select(Message.ToProto));
+
+        await _eventsClient.PostMessagesAsync(bookId, userId, messageGroup.ToByteArray());
     }
 
     private readonly List<Message> _preparedMessages = [];

@@ -1,7 +1,8 @@
-﻿using Presentation.Models.Elements;
+﻿using Domain.Entities.Pages;
+using Presentation.Models.Elements;
 using System;
 
 namespace Presentation.Messages.Pages;
-public interface IWindowsMessage {
-    DateTime TimeGenerated { get; }
+public interface IPageWindowsMessage : IWindowsMessage {
+    PageId PageId { get; }
 }

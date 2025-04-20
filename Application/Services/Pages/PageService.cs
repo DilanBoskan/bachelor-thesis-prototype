@@ -7,9 +7,11 @@ using System.Drawing;
 using System.Numerics;
 
 namespace Application.Services.Pages;
-public sealed class PageService(IElementRepository elementRepository, IMessagePublisher messagePublisher, IMessageListener messageListener) : IPageService {
-    public Page Get(PageId id) => new(id, new SizeF(1000, 1414));
+public sealed class PageService(IElementRepository elementRepository, IMessagePublisher messagePublisher) : IPageService {
+    private readonly IElementRepository _elementRepository = elementRepository;
+    private readonly IMessagePublisher _messagePublisher = messagePublisher;
 
+    public Page Get(PageId id) => new(id, new SizeF(1000, 1414));
     public PageContent GetContent(PageId id) {
         ArgumentNullException.ThrowIfNull(id);
 
@@ -34,9 +36,4 @@ public sealed class PageService(IElementRepository elementRepository, IMessagePu
         _elementRepository.DeleteInPage(id, elementId);
         _messagePublisher.Publish(new ElementDeletedMessage(DateTime.Now, id, elementId));
     }
-
-
-    private readonly IElementRepository _elementRepository = elementRepository;
-    private readonly IMessagePublisher _messagePublisher = messagePublisher;
-    private readonly IMessageListener _messageListener = messageListener;
 }

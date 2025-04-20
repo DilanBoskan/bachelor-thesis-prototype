@@ -3,6 +3,7 @@ using Domain.Entities.Books;
 using Domain.Messages;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Google.Protobuf;
 
 namespace WebApi.EndpointDefinitions;
 
@@ -14,31 +15,32 @@ public class EventsEndpoint : IEndpointDefinition {
         group.MapPost("/{bookId}", PostMessage);
     }
 
-    private static IReadOnlyList<Message> GetMessage(Guid bookId, [FromQuery(Name = "userId")] Guid userId, [FromQuery(Name = "from")] DateTime? from = null) {
+    [Produces("application/x-protobuf")]
+    private static byte[] GetMessage([FromRoute] BookId bookId, [FromQuery] Guid userId, [FromQuery] DateTime? from = null) {
         from ??= DateTime.MinValue; // Default to the earliest date if not provided
-        var bId = BookId.Create(bookId);
 
-        List<Message> events;
+        var messageGroup = new Domain.Protos.Messages.MessageGroup();
         lock (_queueLock) {
-            if (!_publishedMessages.ContainsKey(bId))
-                return Array.Empty<Message>();
-
-            events = _publishedMessages[bId]
-                .Where(e => e.Key > from && e.Value.UserId != userId) // Not self-published events
-                .SelectMany(e => e.Value.Messages)
-                .ToList();
+            if (_publishedMessages.ContainsKey(bookId)) {
+                messageGroup.Messages.AddRange(_publishedMessages[bookId]
+                    .Where(e => e.Key > from && e.Value.UserId != userId) // Not self-published events
+                    .SelectMany(e => e.Value.Messages)
+                    .Select(Message.ToProto));
+            }
         }
 
-        return events;
+        return messageGroup.ToByteArray();
     }
-    private static void PostMessage(Guid bookId, [FromQuery(Name = "userId")] Guid userId, [FromBody] Message[] messages) {
-        var bId = BookId.Create(bookId);
+
+    private static void PostMessage(BookId bookId, [FromQuery] Guid userId, [FromBody] byte[] data) {
+        var messageGroup = Domain.Protos.Messages.MessageGroup.Parser.ParseFrom(data);
+        var messages = messageGroup.Messages.Select(Message.FromProto).ToArray();
 
         lock (_queueLock) {
-            if (!_publishedMessages.ContainsKey(bId))
-                _publishedMessages[bId] = new();
+            if (!_publishedMessages.ContainsKey(bookId))
+                _publishedMessages[bookId] = new();
 
-            _publishedMessages[bId].Add(DateTime.Now, (userId, messages));
+            _publishedMessages[bookId].Add(DateTime.Now, (userId, messages));
         }
     }
 

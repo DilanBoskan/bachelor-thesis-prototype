@@ -9,4 +9,4 @@ using System.Threading.Tasks;
 
 namespace Presentation.Messages.Pages;
 
-public record WindowsElementCreatedMessage(DateTime TimeGenerated, PageId PageId, ElementModel Element) : IWindowsMessage;
+public record WindowsElementCreatedMessage(DateTime TimeGenerated, PageId PageId, ElementModel Element) : IPageWindowsMessage;
