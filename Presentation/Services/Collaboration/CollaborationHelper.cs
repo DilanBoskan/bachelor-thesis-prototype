@@ -1,7 +1,5 @@
-﻿using Application.Services.Events;
-using Application.Services.Pages;
-using CommunityToolkit.Mvvm.Messaging;
-using Domain.Entities.Books;
+﻿using CommunityToolkit.Mvvm.Messaging;
+using Domain.Aggregates.Books;
 using Domain.Events;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -18,6 +16,7 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel.Background;
 
 namespace Presentation.Services.Collaboration;
+
 public sealed class CollaborationHelper {
     public const int DELAY_MS = 5000; // 5 seconds
 

@@ -1,4 +1,4 @@
-﻿using Domain.Entities.Pages;
+﻿using Domain.Aggregates.Pages;
 using Presentation.Events;
 using Presentation.Models.Elements;
 using System;

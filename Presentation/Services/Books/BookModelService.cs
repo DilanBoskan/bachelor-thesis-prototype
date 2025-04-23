@@ -1,5 +1,5 @@
-﻿using Application.Services.Books;
-using Domain.Entities.Books;
+﻿using Application.Contracts.Services;
+using Domain.Aggregates.Books;
 using Presentation.Extensions;
 using Presentation.Models;
 using Presentation.Models.Books;

@@ -1,7 +1,7 @@
-﻿using Domain.Entities.Books;
-using Domain.Entities.Elements;
-using Domain.Entities.Elements.InkStrokes;
-using Domain.Entities.Pages;
+﻿using Domain.Aggregates.Books;
+using Domain.Aggregates.Elements;
+using Domain.Aggregates.Elements.InkStrokes;
+using Domain.Aggregates.Pages;
 using Domain.Events;
 using Presentation.Events;
 using Presentation.Events.Pages;
@@ -24,17 +24,20 @@ public static class MappingExtensions {
     public static Book ToDomain(this BookModel book) => new(book.Id);
 
     public static PageModel ToWindows(this Page page) => new(page);
-    public static Page ToDomain(this PageModel page) => new(page.Id, page.Size);
+    public static Page ToDomain(this PageModel page) => new(page.Id, page.BookId, page.Size);
 
 
     public static ElementModel ToWindows(this Element element) => element switch {
-        InkStrokeElement inkStrokeElement => new InkStrokeElementModel(inkStrokeElement),
+        InkStrokeElement inkStrokeElement => inkStrokeElement.ToWindows(),
         _ => throw new NotImplementedException($"Mapping for {element.GetType()} is not implemented")
     };
     public static Element ToDomain(this ElementModel element) => element switch {
-        InkStrokeElementModel inkStrokeElementModel => new InkStrokeElement(inkStrokeElementModel.Id, inkStrokeElementModel.CreationDate, inkStrokeElementModel.InkStroke.ToInkStrokePoints()),
+        InkStrokeElementModel inkStrokeElement => inkStrokeElement.ToDomain(),
         _ => throw new NotImplementedException($"Mapping for {element.GetType()} is not implemented")
     };
+
+    public static InkStrokeElementModel ToWindows(this InkStrokeElement inkStrokeElement) => new(inkStrokeElement);
+    public static InkStrokeElement ToDomain(this InkStrokeElementModel inkStrokeElement) => InkStrokeElement.Load(inkStrokeElement.Id, inkStrokeElement.BookId, inkStrokeElement.PageId, inkStrokeElement.CreatedAt, inkStrokeElement.UpdatedAt, inkStrokeElement.InkStroke.ToInkStrokePoints());
     public static InkStroke ToInkStroke(this IEnumerable<InkStrokePoint> inkStrokePoints) {
         var builder = new InkStrokeBuilder();
 
@@ -54,17 +57,17 @@ public static class MappingExtensions {
     }
 
     #region Events
-    public static IWindowsEvent ToWindows(this Event @event) {
+    public static IWindowsEvent ToWindows(this IEvent @event) {
         return @event switch {
-            ElementCreatedEvent elementCreatedEvent => new WindowsElementCreatedEvent(elementCreatedEvent.TimeGenerated, elementCreatedEvent.PageId, elementCreatedEvent.Element.ToWindows()),
-            ElementDeletedEvent elementDeletedEvent => new WindowsElementDeletedEvent(elementDeletedEvent.TimeGenerated, elementDeletedEvent.PageId, elementDeletedEvent.ElementId),
+            ElementCreatedEvent elementCreatedEvent => new WindowsElementCreatedEvent(elementCreatedEvent.Element.PageId, elementCreatedEvent.Element.ToWindows()),
+            ElementDeletedEvent elementDeletedEvent => new WindowsElementDeletedEvent(elementDeletedEvent.BookId, elementDeletedEvent.PageId, elementDeletedEvent.ElementId),
             _ => throw new NotImplementedException($"Mapping for {@event.GetType()} is not implemented")
         };
     }
-    public static Event ToDomain(this IWindowsEvent @event) {
+    public static IEvent ToDomain(this IWindowsEvent @event) {
         return @event switch {
-            WindowsElementCreatedEvent elementCreatedEvent => new ElementCreatedEvent(elementCreatedEvent.TimeGenerated, elementCreatedEvent.PageId, elementCreatedEvent.Element.ToDomain()),
-            WindowsElementDeletedEvent elementDeletedEvent => new ElementDeletedEvent(elementDeletedEvent.TimeGenerated, elementDeletedEvent.PageId, elementDeletedEvent.ElementId),
+            WindowsElementCreatedEvent elementCreatedEvent => new ElementCreatedEvent(elementCreatedEvent.Element.ToDomain()),
+            WindowsElementDeletedEvent elementDeletedEvent => new ElementDeletedEvent(elementDeletedEvent.BookId, elementDeletedEvent.PageId, elementDeletedEvent.ElementId),
             _ => throw new NotImplementedException($"Mapping for {@event.GetType()} is not implemented")
         };
     }

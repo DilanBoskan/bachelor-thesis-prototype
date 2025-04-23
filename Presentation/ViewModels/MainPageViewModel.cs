@@ -1,5 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using Domain.Entities.Books;
+using Domain.Aggregates.Books;
 using Presentation.Models;
 using Presentation.Models.Books;
 using Presentation.Services.Books;

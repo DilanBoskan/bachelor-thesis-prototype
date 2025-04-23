@@ -1,5 +1,5 @@
-﻿using Domain.Entities.Elements;
-using Domain.Entities.Pages;
+﻿using Domain.Aggregates.Books;
+using Domain.Aggregates.Pages;
 using Presentation.Models.Elements;
 using System;
 using System.Collections.Generic;
@@ -9,4 +9,4 @@ using System.Threading.Tasks;
 
 namespace Presentation.Events.Pages;
 
-public record WindowsElementCreatedEvent(DateTime TimeGenerated, PageId PageId, ElementModel Element) : IPageWindowsEvent;
+public record WindowsElementCreatedEvent(PageId PageId, ElementModel Element) : IPageWindowsEvent;

@@ -1,6 +1,4 @@
-﻿using Application.Services.Books;
-using Application.Services.Pages;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Presentation.Services.Books;
 using Presentation.Services.Pages;

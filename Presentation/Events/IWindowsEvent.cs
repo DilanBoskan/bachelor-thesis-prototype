@@ -2,6 +2,4 @@
 using System;
 
 namespace Presentation.Events;
-public interface IWindowsEvent {
-    DateTime TimeGenerated { get; }
-}
+public interface IWindowsEvent;

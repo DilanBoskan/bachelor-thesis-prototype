@@ -2,9 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using CommunityToolkit.WinUI;
-using Domain.Entities.Elements;
-using Domain.Entities.Elements.InkStrokes;
-using Domain.Entities.Pages;
+using Domain.Aggregates.Pages;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Presentation.Events.Pages;

@@ -1,4 +1,4 @@
-﻿using Domain.Entities.Books;
+﻿using Domain.Aggregates.Books;
 using System.Text.Json.Serialization;
 
 namespace Infrastructure.Extensions;

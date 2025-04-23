@@ -1,19 +1,18 @@
 ﻿using Application.Extensions;
-using Application.Services.Books;
-using Application.Services.Pages;
+using Application.Helpers.Concurrency;
 using CommunityToolkit.Mvvm.DependencyInjection;
-using Domain.Entities.Books;
+using Domain.Aggregates.Books;
 using Infrastructure.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Presentation.Extensions;
 using Presentation.Services.Books;
-using Presentation.Services.Collaboration;
 using Presentation.Services.Pages;
 using Presentation.ViewModels;
 using Presentation.Views;
 using System;
 using System.Collections.Generic;
+using System.Runtime.Versioning;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
@@ -31,6 +30,7 @@ namespace Presentation;
 /// Provides application-specific behavior to supplement the default <see cref="Application"/> class.
 /// </summary>
 public sealed partial class App : Windows.UI.Xaml.Application {
+    public IScheduler DatabaseScheduler { get; } = new DatabaseThreadScheduler(new SingleThreadTaskScheduler());
     public IServiceProvider ServiceProvider { get; } = ConfigureServiceProvider();
 
     public new static App Current => (App)Windows.UI.Xaml.Application.Current;
@@ -58,6 +58,7 @@ public sealed partial class App : Windows.UI.Xaml.Application {
 
     /// <inheritdoc/>
     protected override void OnLaunched(LaunchActivatedEventArgs e) => OnActivated(e);
+
     protected override void OnActivated(IActivatedEventArgs args) {
         BookId bookId = BookId.New();
         if (args is ProtocolActivatedEventArgs protocolArgs) {
@@ -83,7 +84,7 @@ public sealed partial class App : Windows.UI.Xaml.Application {
         _cts = new CancellationTokenSource();
 
         // Register background thread
-        _ = new CollaborationHelper().StartAsync(bookId, _cts.Token);
+        //_ = new CollaborationHelper().StartAsync(bookId, _cts.Token);
     }
 
     private void OnSuspending(object sender, SuspendingEventArgs e)

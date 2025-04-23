@@ -1,9 +1,9 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using CommunityToolkit.WinUI;
-using Domain.Entities.Elements;
-using Domain.Entities.Elements.InkStrokes;
-using Domain.Entities.Pages;
+using Domain.Aggregates.Books;
+using Domain.Aggregates.Elements;
+using Domain.Aggregates.Pages;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Presentation.Extensions;
@@ -19,11 +19,12 @@ using Windows.UI.Input.Inking;
 
 namespace Presentation.Models.Page;
 
-public sealed partial class PageModel(Domain.Entities.Pages.Page page) : ObservableObjectWithResources {
+public sealed partial class PageModel(Domain.Aggregates.Pages.Page page) : ObservableObjectWithResources {
     private readonly IPageModelService _pageService = App.Current.ServiceProvider.GetRequiredService<IPageModelService>();
     private readonly ILogger<PageModel> _logger = App.Current.ServiceProvider.GetRequiredService<ILogger<PageModel>>();
 
     public PageId Id { get; } = page.Id;
+    public BookId BookId { get; } = page.BookId;
     public SizeF Size { get; } = page.Size;
 
     #region UI-Specific
@@ -57,11 +58,13 @@ public sealed partial class PageModel(Domain.Entities.Pages.Page page) : Observa
 
     [RelayCommand]
     private async Task StrokesCollectedAsync(IReadOnlyList<InkStroke> inkStrokes) {
-        var inkStrokeElements = inkStrokes
-            .Select(s => new InkStrokeElement(ElementId.New(), s.StrokeStartedTime.GetValueOrDefault(DateTimeOffset.Now).DateTime, s.ToInkStrokePoints()))
-            .ToList();
-        
-        await _pageService.CreateElementsAsync(Id, inkStrokeElements);
+
+        foreach (var inkStroke in inkStrokes) {
+            var createdAt =  inkStroke.StrokeStartedTime.GetValueOrDefault(DateTimeOffset.UtcNow).DateTime.ToUniversalTime();
+            var points = inkStroke.ToInkStrokePoints();
+
+            await _pageService.CreateInkStrokeElementAsync(BookId, Id, createdAt, points);
+        }
 
         _logger.LogDebug("Strokes collected on page {PageId}", Id.Value);
     }

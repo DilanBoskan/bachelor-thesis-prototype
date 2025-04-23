@@ -1,8 +1,10 @@
-﻿using Domain.Entities.Elements;
+﻿using Application.Contracts.Command;
+using Application.Contracts.Event;
+using Domain.Aggregates.Elements;
 using Domain.Events;
-using Infrastructure.Events.Local;
-using Infrastructure.Messages.Local;
-using Infrastructure.Repositories.InMemory;
+using Infrastructure.Command;
+using Infrastructure.Event;
+using Infrastructure.Persistance.Repositories.InMemory;
 using Microsoft.Extensions.DependencyInjection;
 using Refit;
 using System.Diagnostics;
@@ -14,7 +16,6 @@ namespace Infrastructure.Extensions;
 
 public static class ServiceExtensions {
     public static IServiceCollection AddInfrastructure(this IServiceCollection services) {
-
         var jsonSerializerOptions = new JsonSerializerOptions {
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
             TypeInfoResolver = AppJsonSerializerContext.Default // Use your source generator context
@@ -22,9 +23,10 @@ public static class ServiceExtensions {
         var jsonContentSerializer = new SystemTextJsonContentSerializer(jsonSerializerOptions);
 
         services
-            .AddScoped<EventDispatcher>(sp => new EventDispatcher(Guid.NewGuid(), sp.GetRequiredService<IEventsClient>()))
-            .AddScoped<IEventListener>(sp => sp.GetRequiredService<EventDispatcher>())
-            .AddScoped<IEventPublisher>(sp => sp.GetRequiredService<EventDispatcher>())
+            // Command/Events
+            .AddScoped<ICommandDispatcher, CommandDispatcher>()
+            .AddScoped<IEventDispatcher, EventDispatcher>()
+            // Repositories
             .AddScoped<IElementRepository, InMemoryElementRepository>();
 
 

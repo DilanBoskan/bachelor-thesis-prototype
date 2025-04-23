@@ -1,7 +1,8 @@
-﻿using Application.Services.Pages;
-using Domain.Entities.Elements;
-using Domain.Entities.Elements.InkStrokes;
-using Domain.Entities.Pages;
+﻿using Application.Contracts.Services;
+using Domain.Aggregates.Books;
+using Domain.Aggregates.Elements;
+using Domain.Aggregates.Elements.InkStrokes;
+using Domain.Aggregates.Pages;
 using Presentation.Extensions;
 using Presentation.Models.Elements.InkStrokes;
 using System;
@@ -14,21 +15,19 @@ using Windows.Foundation;
 using Windows.UI.Input.Inking;
 
 namespace Presentation.Services.Pages;
-public class PageModelService(IPageService pageService) : IPageModelService {
+public class PageModelService(IPageService pageService, IElementService elementService) : IPageModelService {
     private readonly IPageService _pageService = pageService;
-
-    public async Task CreateElementsAsync(PageId id, IReadOnlyList<Element> elements, CancellationToken ct = default) {
-        await Task.Run(() => {
-            foreach (var element in elements) {
-                _pageService.CreateElement(id, element);
-            }
+    private readonly IElementService _elementService = elementService;
+    public async Task<InkStrokeElementModel> CreateInkStrokeElementAsync(BookId bookId, PageId id, DateTime createdAt, InkStrokePoint[] points, CancellationToken ct = default) {
+        var inkStroke = await App.Current.DatabaseScheduler.EnqueueAsync(async () => {
+            var inkStroke = await _elementService.CreateInkStrokeElementAsync(bookId, id, createdAt, points);
+            return inkStroke;
         }, ct);
-    }
-    public async Task CreateElementAsync(PageId id, Element element, CancellationToken ct = default) {
-        await Task.Run(() => _pageService.CreateElement(id, element), ct);
+
+        return inkStroke.ToWindows();
     }
     public async Task<PageModelContent> GetContentAsync(PageId id, CancellationToken ct = default) {
-        var page = await Task.Run(() => _pageService.GetContent(id), ct);
+        var page = await Task.Run(async () => await _pageService.GetContentAsync(id), ct);
 
         var elements = page.Elements
             .Select(e => e.ToWindows())

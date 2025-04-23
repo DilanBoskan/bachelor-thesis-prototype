@@ -1,5 +1,4 @@
-﻿using Domain.Entities.Elements.InkStrokes;
-using Presentation.Models.Elements;
+﻿using Presentation.Models.Elements;
 using Presentation.Models.Elements.InkStrokes;
 using System.Collections.Generic;
 using Windows.UI.Input.Inking;
