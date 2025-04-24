@@ -18,6 +18,7 @@ namespace Presentation.Services.Pages;
 public class PageModelService(IPageService pageService, IElementService elementService) : IPageModelService {
     private readonly IPageService _pageService = pageService;
     private readonly IElementService _elementService = elementService;
+
     public async Task<InkStrokeElementModel> CreateInkStrokeElementAsync(BookId bookId, PageId id, DateTime createdAt, InkStrokePoint[] points, CancellationToken ct = default) {
         var inkStroke = await App.Current.DatabaseScheduler.EnqueueAsync(async () => {
             var inkStroke = await _elementService.CreateInkStrokeElementAsync(bookId, id, createdAt, points);

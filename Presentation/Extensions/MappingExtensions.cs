@@ -21,10 +21,10 @@ using Windows.UI.Input.Inking;
 namespace Presentation.Extensions;
 public static class MappingExtensions {
     public static BookModel ToWindows(this Book book) => new(book);
-    public static Book ToDomain(this BookModel book) => new(book.Id);
+    public static Book ToDomain(this BookModel book) => Book.Load(book.Id, book.CreatedAt, book.UpdatedAt);
 
     public static PageModel ToWindows(this Page page) => new(page);
-    public static Page ToDomain(this PageModel page) => new(page.Id, page.BookId, page.Size);
+    public static Page ToDomain(this PageModel page) => Page.Load(page.Id, page.BookId, page.Size, page.CreatedAt, page.UpdatedAt);
 
 
     public static ElementModel ToWindows(this Element element) => element switch {
@@ -59,17 +59,23 @@ public static class MappingExtensions {
     #region Events
     public static IWindowsEvent ToWindows(this IEvent @event) {
         return @event switch {
-            ElementCreatedEvent elementCreatedEvent => new WindowsElementCreatedEvent(elementCreatedEvent.Element.PageId, elementCreatedEvent.Element.ToWindows()),
-            ElementDeletedEvent elementDeletedEvent => new WindowsElementDeletedEvent(elementDeletedEvent.BookId, elementDeletedEvent.PageId, elementDeletedEvent.ElementId),
+            ElementCreatedEvent elementCreatedEvent => elementCreatedEvent.ToWindows(),
+            ElementDeletedEvent elementDeletedEvent => elementDeletedEvent.ToWindows(),
             _ => throw new NotImplementedException($"Mapping for {@event.GetType()} is not implemented")
         };
     }
     public static IEvent ToDomain(this IWindowsEvent @event) {
         return @event switch {
-            WindowsElementCreatedEvent elementCreatedEvent => new ElementCreatedEvent(elementCreatedEvent.Element.ToDomain()),
-            WindowsElementDeletedEvent elementDeletedEvent => new ElementDeletedEvent(elementDeletedEvent.BookId, elementDeletedEvent.PageId, elementDeletedEvent.ElementId),
+            WindowsElementCreatedEvent elementCreatedEvent => elementCreatedEvent.ToDomain(),
+            WindowsElementDeletedEvent elementDeletedEvent => elementDeletedEvent.ToDomain(),
             _ => throw new NotImplementedException($"Mapping for {@event.GetType()} is not implemented")
         };
     }
+
+    public static WindowsElementCreatedEvent ToWindows(this ElementCreatedEvent @event) => new(@event.UserId, @event.Element.PageId, @event.Element.ToWindows());
+    public static WindowsElementDeletedEvent ToWindows(this ElementDeletedEvent @event) => new(@event.UserId, @event.BookId, @event.PageId, @event.ElementId);
+
+    public static ElementCreatedEvent ToDomain(this WindowsElementCreatedEvent @event) => new(@event.Element.ToDomain()) { UserId = @event.UserId };
+    public static ElementDeletedEvent ToDomain(this WindowsElementDeletedEvent @event) => new(@event.BookId, @event.PageId, @event.ElementId) { UserId = @event.UserId };
     #endregion
 }

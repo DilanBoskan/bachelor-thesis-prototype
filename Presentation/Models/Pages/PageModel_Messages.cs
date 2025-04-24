@@ -19,34 +19,21 @@ using Windows.UI.Input.Inking;
 
 namespace Presentation.Models.Page;
 
-public sealed partial class PageModel : IRecipient<IPageWindowsEvent> {
+public sealed partial class PageModel : IRecipient<WindowsElementCreatedEvent>, IRecipient<WindowsElementDeletedEvent> {
     private readonly WeakReferenceMessenger _messenger = WeakReferenceMessenger.Default;
 
-
     private void RegisterMessageHandlers() {
-        _messenger.Register<IPageWindowsEvent, PageId>(this, Id);
+        _messenger.Register<WindowsElementCreatedEvent, PageId>(this, Id);
+        _messenger.Register<WindowsElementDeletedEvent, PageId>(this, Id);
     }
     private void UnregisterMessagesHandlers() {
         _messenger.UnregisterAll(this);
     }
 
-
-    public void Receive(IPageWindowsEvent message) {
-        switch (message) {
-            case WindowsElementCreatedEvent createdMessage:
-                Receive(createdMessage);
-                break;
-            case WindowsElementDeletedEvent deletedMessage:
-                Receive(deletedMessage);
-                break;
-            default:
-                throw new NotImplementedException();
-        }
-    }
-    private void Receive(WindowsElementCreatedEvent message) {
+    public void Receive(WindowsElementCreatedEvent message) {
         AddElement(message.Element);
     }
-    private void Receive(WindowsElementDeletedEvent message) {
+    public void Receive(WindowsElementDeletedEvent message) {
         RemoveElement(message.ElementId);
     }
 }

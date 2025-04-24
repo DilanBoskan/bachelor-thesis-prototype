@@ -21,14 +21,6 @@
 		<Protobuf Include="Resources/Protos/**/*.proto" ProtoRoot="Resources\Protos" CompileOutputs="false" OutputDir="Protos" GrpcServices="None" />
 	</ItemGroup>
 
-
-	<ItemGroup>
-	  <Compile Remove="Extensions\Elements\**" />
-	  <EmbeddedResource Remove="Extensions\Elements\**" />
-	  <None Remove="Extensions\Elements\**" />
-	  <Protobuf Remove="Extensions\Elements\**" />
-	</ItemGroup>
-
 	<ItemGroup>
 		<ProjectReference Include="..\Domain\Domain.csproj" />
 	</ItemGroup>

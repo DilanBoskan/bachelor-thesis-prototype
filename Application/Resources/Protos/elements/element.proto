@@ -8,8 +8,11 @@ import "elements/ink_stroke_element.proto";
 // Base message definition
 message Element {
 	string id = 1;
-	google.protobuf.Timestamp creation_date = 2;
+	string book_id = 2;
+	string page_id = 3;
+	google.protobuf.Timestamp created_at = 4;
+	google.protobuf.Timestamp updated_at = 5;
 	oneof element {
-		InkStrokeElement ink_stroke = 3;
+		InkStrokeElement ink_stroke = 6;
 	}
 }

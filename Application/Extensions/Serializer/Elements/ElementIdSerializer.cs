@@ -1,6 +1,6 @@
 ﻿using Domain.Aggregates.Elements;
 
-namespace Application.Extensions.Elements;
+namespace Application.Extensions.Serializer.Elements;
 
 public static class ElementIdSerializer {
     public static ElementId ToDomain(string proto) => ElementId.Create(Guid.Parse(proto));

@@ -6,6 +6,10 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Application.Contracts.Event;
-public interface IEventHandler<TEvent> where TEvent : IEvent {
-    Task HandleAsync(TEvent @event, CancellationToken ct = default);
+
+/// <summary>
+/// Handler for internal events
+/// </summary>
+public interface IEventHandler {
+    Task HandleAsync(IReadOnlyList<IEvent> events);
 }

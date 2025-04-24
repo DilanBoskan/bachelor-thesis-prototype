@@ -1,12 +1,14 @@
 ﻿using Application.Extensions;
 using Application.Helpers.Concurrency;
 using CommunityToolkit.Mvvm.DependencyInjection;
+using Domain.Aggregates;
 using Domain.Aggregates.Books;
 using Infrastructure.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Presentation.Extensions;
 using Presentation.Services.Books;
+using Presentation.Services.Cloud;
 using Presentation.Services.Pages;
 using Presentation.ViewModels;
 using Presentation.Views;
@@ -18,6 +20,7 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.Background;
+using Windows.System;
 using Windows.System.Threading;
 using Windows.UI;
 using Windows.UI.Xaml;
@@ -30,8 +33,11 @@ namespace Presentation;
 /// Provides application-specific behavior to supplement the default <see cref="Application"/> class.
 /// </summary>
 public sealed partial class App : Windows.UI.Xaml.Application {
+    public UserId UserId { get; } = UserId.Create(Guid.Parse("00000000-0000-0000-0000-000000000001"));
+    public Guid InstanceId { get; } = Guid.NewGuid();
+    public DispatcherQueue UIScheduler { get; } = DispatcherQueue.GetForCurrentThread();
     public IScheduler DatabaseScheduler { get; } = new DatabaseThreadScheduler(new SingleThreadTaskScheduler());
-    public IServiceProvider ServiceProvider { get; } = ConfigureServiceProvider();
+    public IServiceProvider ServiceProvider { get; }
 
     public new static App Current => (App)Windows.UI.Xaml.Application.Current;
 
@@ -43,12 +49,14 @@ public sealed partial class App : Windows.UI.Xaml.Application {
     {
         InitializeComponent();
 
+        ServiceProvider = ConfigureServiceProvider();
+
         Suspending += OnSuspending;
     }
 
-    private static ServiceProvider ConfigureServiceProvider() {
+    private ServiceProvider ConfigureServiceProvider() {
         var serviceProvider = new ServiceCollection()
-            .AddInfrastructure()
+            .AddInfrastructure(UserId, InstanceId)
             .AddApplication()
             .AddWindows() // UI Layer
             .BuildServiceProvider();
@@ -84,7 +92,8 @@ public sealed partial class App : Windows.UI.Xaml.Application {
         _cts = new CancellationTokenSource();
 
         // Register background thread
-        //_ = new CollaborationHelper().StartAsync(bookId, _cts.Token);
+        var syncingService = App.Current.ServiceProvider.GetRequiredService<CloudSyncingService>();
+        _ = syncingService.StartAsync(InstanceId, bookId, _cts.Token);
     }
 
     private void OnSuspending(object sender, SuspendingEventArgs e)

@@ -6,31 +6,21 @@ using System.Numerics;
 namespace Domain.Aggregates.Elements.InkStrokes;
 
 public sealed class InkStrokeElement : Element {
-    public IReadOnlyList<InkStrokePoint> Points { get; private set; } = null!;
+    public IReadOnlyList<InkStrokePoint> Points { get; private set; }
+
+    private InkStrokeElement(ElementId id, BookId bookId, PageId pageId, DateTime createdAt, DateTime updatedAt, IReadOnlyList<InkStrokePoint> points) : base(id, bookId, pageId, createdAt, updatedAt) {
+        Points = points;
+    } 
 
     public static InkStrokeElement Create(ElementId id, BookId bookId, PageId pageId, DateTime createdAt, IReadOnlyList<InkStrokePoint> points) {
-        var element = new InkStrokeElement() {
-            Id = id,
-            BookId = bookId,
-            PageId = pageId,
-            CreatedAt = createdAt,
-            UpdatedAt = DateTime.UtcNow,
-            Points = points
-        };
+        var element = new InkStrokeElement(id, bookId, pageId, createdAt, createdAt, points);
 
         element.AddDomainEvent(new ElementCreatedEvent(element));
 
         return element;
     }
     public static InkStrokeElement Load(ElementId id, BookId bookId, PageId pageId, DateTime createdAt, DateTime updatedAt, IReadOnlyList<InkStrokePoint> points) {
-        return new InkStrokeElement() {
-            Id = id,
-            BookId = bookId,
-            PageId = pageId,
-            CreatedAt = createdAt,
-            UpdatedAt = updatedAt,
-            Points = points
-        };
+        return new InkStrokeElement(id, bookId, pageId, createdAt, updatedAt, points);
     }
 
     public static InkStrokeElement CreateRandom(BookId bookId, PageId pageId) {

@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Presentation.Models.Page;
 using Presentation.Services.Books;
+using System;
 using System.Collections.ObjectModel;
 using System.Threading;
 using System.Threading.Tasks;
@@ -15,6 +16,8 @@ public partial class BookModel(Book book) : ObservableObjectWithResources {
     private readonly ILogger<BookModel> _logger = App.Current.ServiceProvider.GetRequiredService<ILogger<BookModel>>();
 
     public BookId Id { get; } = book.Id;
+    public DateTime CreatedAt { get; } = book.CreatedAt;
+    public DateTime UpdatedAt { get; } = book.UpdatedAt;
 
     [ObservableProperty]
     public partial ObservableCollection<PageModel> Pages { get; set; } = [];

@@ -1,6 +1,9 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Application.Contracts.Event;
+using Domain.Events;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Presentation.Services.Books;
+using Presentation.Services.Cloud;
 using Presentation.Services.Pages;
 using Presentation.ViewModels;
 using System;
@@ -19,6 +22,8 @@ public static class ServiceExtensions {
             })
             .AddScoped<IBookModelService, BookModelService>()
             .AddScoped<IPageModelService, PageModelService>()
+            .AddScoped<CloudSyncingService>()
+            .AddScoped<ICloudEventHandler, CloudEventHandler>()
             .AddScoped<MainPageViewModel>();
 
         return services;

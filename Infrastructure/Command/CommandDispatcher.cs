@@ -8,7 +8,9 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Command;
 
-public sealed class CommandDispatcher(IServiceProvider serviceProvider) : ICommandDispatcher {
+
+internal sealed class CommandDispatcher(IServiceProvider serviceProvider) : ICommandDispatcher {
+
     private readonly IServiceProvider _serviceProvider = serviceProvider;
 
     public Task<TResult> PublishAsync<TCommand, TResult>(TCommand command, CancellationToken ct = default) where TCommand : ICommand<TResult> {

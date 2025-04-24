@@ -25,13 +25,13 @@ namespace Application.Protos.Events {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "CiJldmVudHMvZWxlbWVudF9kZWxldGVkX2V2ZW50LnByb3RvEgZldmVudHMi",
-            "OgoTRWxlbWVudERlbGV0ZWRFdmVudBIPCgdwYWdlX2lkGAEgASgJEhIKCmVs",
-            "ZW1lbnRfaWQYAiABKAlCHKoCGUFwcGxpY2F0aW9uLlByb3Rvcy5FdmVudHNi",
-            "BnByb3RvMw=="));
+            "SwoTRWxlbWVudERlbGV0ZWRFdmVudBIPCgdib29rX2lkGAEgASgJEg8KB3Bh",
+            "Z2VfaWQYAiABKAkSEgoKZWxlbWVudF9pZBgDIAEoCUIcqgIZQXBwbGljYXRp",
+            "b24uUHJvdG9zLkV2ZW50c2IGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Application.Protos.Events.ElementDeletedEvent), global::Application.Protos.Events.ElementDeletedEvent.Parser, new[]{ "PageId", "ElementId" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::Application.Protos.Events.ElementDeletedEvent), global::Application.Protos.Events.ElementDeletedEvent.Parser, new[]{ "BookId", "PageId", "ElementId" }, null, null, null, null)
           }));
     }
     #endregion
@@ -73,6 +73,7 @@ namespace Application.Protos.Events {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public ElementDeletedEvent(ElementDeletedEvent other) : this() {
+      bookId_ = other.bookId_;
       pageId_ = other.pageId_;
       elementId_ = other.elementId_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
@@ -84,8 +85,20 @@ namespace Application.Protos.Events {
       return new ElementDeletedEvent(this);
     }
 
+    /// <summary>Field number for the "book_id" field.</summary>
+    public const int BookIdFieldNumber = 1;
+    private string bookId_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public string BookId {
+      get { return bookId_; }
+      set {
+        bookId_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
     /// <summary>Field number for the "page_id" field.</summary>
-    public const int PageIdFieldNumber = 1;
+    public const int PageIdFieldNumber = 2;
     private string pageId_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -97,7 +110,7 @@ namespace Application.Protos.Events {
     }
 
     /// <summary>Field number for the "element_id" field.</summary>
-    public const int ElementIdFieldNumber = 2;
+    public const int ElementIdFieldNumber = 3;
     private string elementId_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -123,6 +136,7 @@ namespace Application.Protos.Events {
       if (ReferenceEquals(other, this)) {
         return true;
       }
+      if (BookId != other.BookId) return false;
       if (PageId != other.PageId) return false;
       if (ElementId != other.ElementId) return false;
       return Equals(_unknownFields, other._unknownFields);
@@ -132,6 +146,7 @@ namespace Application.Protos.Events {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override int GetHashCode() {
       int hash = 1;
+      if (BookId.Length != 0) hash ^= BookId.GetHashCode();
       if (PageId.Length != 0) hash ^= PageId.GetHashCode();
       if (ElementId.Length != 0) hash ^= ElementId.GetHashCode();
       if (_unknownFields != null) {
@@ -152,12 +167,16 @@ namespace Application.Protos.Events {
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       output.WriteRawMessage(this);
     #else
-      if (PageId.Length != 0) {
+      if (BookId.Length != 0) {
         output.WriteRawTag(10);
+        output.WriteString(BookId);
+      }
+      if (PageId.Length != 0) {
+        output.WriteRawTag(18);
         output.WriteString(PageId);
       }
       if (ElementId.Length != 0) {
-        output.WriteRawTag(18);
+        output.WriteRawTag(26);
         output.WriteString(ElementId);
       }
       if (_unknownFields != null) {
@@ -170,12 +189,16 @@ namespace Application.Protos.Events {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (PageId.Length != 0) {
+      if (BookId.Length != 0) {
         output.WriteRawTag(10);
+        output.WriteString(BookId);
+      }
+      if (PageId.Length != 0) {
+        output.WriteRawTag(18);
         output.WriteString(PageId);
       }
       if (ElementId.Length != 0) {
-        output.WriteRawTag(18);
+        output.WriteRawTag(26);
         output.WriteString(ElementId);
       }
       if (_unknownFields != null) {
@@ -188,6 +211,9 @@ namespace Application.Protos.Events {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public int CalculateSize() {
       int size = 0;
+      if (BookId.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(BookId);
+      }
       if (PageId.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(PageId);
       }
@@ -205,6 +231,9 @@ namespace Application.Protos.Events {
     public void MergeFrom(ElementDeletedEvent other) {
       if (other == null) {
         return;
+      }
+      if (other.BookId.Length != 0) {
+        BookId = other.BookId;
       }
       if (other.PageId.Length != 0) {
         PageId = other.PageId;
@@ -232,10 +261,14 @@ namespace Application.Protos.Events {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
           case 10: {
-            PageId = input.ReadString();
+            BookId = input.ReadString();
             break;
           }
           case 18: {
+            PageId = input.ReadString();
+            break;
+          }
+          case 26: {
             ElementId = input.ReadString();
             break;
           }
@@ -259,10 +292,14 @@ namespace Application.Protos.Events {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
           case 10: {
-            PageId = input.ReadString();
+            BookId = input.ReadString();
             break;
           }
           case 18: {
+            PageId = input.ReadString();
+            break;
+          }
+          case 26: {
             ElementId = input.ReadString();
             break;
           }

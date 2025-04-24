@@ -9,7 +9,7 @@ public sealed class DummyBookService : IBookService {
     public async Task<Book> GetAsync(BookId id, CancellationToken ct = default) {
         await DelayHelper.Short(ct);
 
-        return new Book(id);
+        return Book.Load(id, DateTime.UtcNow, DateTime.UtcNow);
     }
 
     public async Task<BookContent> GetContentAsync(BookId id, CancellationToken ct = default) {
@@ -19,6 +19,6 @@ public sealed class DummyBookService : IBookService {
     }
 
     private static readonly BookContent BOOK_CONTENT = new([
-        new Page(PageId.Create(Guid.Empty), BookId.Create(Guid.Empty), new SizeF(1000, 1414)),
+        Page.Load(PageId.Create(Guid.Empty), BookId.Create(Guid.Empty), new SizeF(1000, 1414), DateTime.UtcNow, DateTime.UtcNow),
     ]);
 }

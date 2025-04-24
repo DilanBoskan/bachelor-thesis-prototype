@@ -27,16 +27,16 @@ namespace Application.Protos.Events {
             "ChNldmVudHMvZXZlbnRzLnByb3RvEgZldmVudHMaH2dvb2dsZS9wcm90b2J1",
             "Zi90aW1lc3RhbXAucHJvdG8aImV2ZW50cy9lbGVtZW50X2NyZWF0ZWRfZXZl",
             "bnQucHJvdG8aImV2ZW50cy9lbGVtZW50X2RlbGV0ZWRfZXZlbnQucHJvdG8i",
-            "tAEKBUV2ZW50EjIKDnRpbWVfZ2VuZXJhdGVkGAEgASgLMhouZ29vZ2xlLnBy",
-            "b3RvYnVmLlRpbWVzdGFtcBI2Cg9lbGVtZW50X2NyZWF0ZWQYAiABKAsyGy5l",
-            "dmVudHMuRWxlbWVudENyZWF0ZWRFdmVudEgAEjYKD2VsZW1lbnRfZGVsZXRl",
-            "ZBgDIAEoCzIbLmV2ZW50cy5FbGVtZW50RGVsZXRlZEV2ZW50SABCBwoFZXZl",
-            "bnQiKwoKRXZlbnRHcm91cBIdCgZldmVudHMYASADKAsyDS5ldmVudHMuRXZl",
-            "bnRCHKoCGUFwcGxpY2F0aW9uLlByb3Rvcy5FdmVudHNiBnByb3RvMw=="));
+            "kQEKBUV2ZW50Eg8KB3VzZXJfaWQYASABKAkSNgoPZWxlbWVudF9jcmVhdGVk",
+            "GAIgASgLMhsuZXZlbnRzLkVsZW1lbnRDcmVhdGVkRXZlbnRIABI2Cg9lbGVt",
+            "ZW50X2RlbGV0ZWQYAyABKAsyGy5ldmVudHMuRWxlbWVudERlbGV0ZWRFdmVu",
+            "dEgAQgcKBWV2ZW50IisKCkV2ZW50R3JvdXASHQoGZXZlbnRzGAEgAygLMg0u",
+            "ZXZlbnRzLkV2ZW50QhyqAhlBcHBsaWNhdGlvbi5Qcm90b3MuRXZlbnRzYgZw",
+            "cm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::Google.Protobuf.WellKnownTypes.TimestampReflection.Descriptor, global::Application.Protos.Events.ElementCreatedEventReflection.Descriptor, global::Application.Protos.Events.ElementDeletedEventReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Application.Protos.Events.Event), global::Application.Protos.Events.Event.Parser, new[]{ "TimeGenerated", "ElementCreated", "ElementDeleted" }, new[]{ "Event" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Application.Protos.Events.Event), global::Application.Protos.Events.Event.Parser, new[]{ "UserId", "ElementCreated", "ElementDeleted" }, new[]{ "Event" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Application.Protos.Events.EventGroup), global::Application.Protos.Events.EventGroup.Parser, new[]{ "Events" }, null, null, null, null)
           }));
     }
@@ -82,7 +82,7 @@ namespace Application.Protos.Events {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public Event(Event other) : this() {
-      timeGenerated_ = other.timeGenerated_ != null ? other.timeGenerated_.Clone() : null;
+      userId_ = other.userId_;
       switch (other.EventCase) {
         case EventOneofCase.ElementCreated:
           ElementCreated = other.ElementCreated.Clone();
@@ -101,15 +101,15 @@ namespace Application.Protos.Events {
       return new Event(this);
     }
 
-    /// <summary>Field number for the "time_generated" field.</summary>
-    public const int TimeGeneratedFieldNumber = 1;
-    private global::Google.Protobuf.WellKnownTypes.Timestamp timeGenerated_;
+    /// <summary>Field number for the "user_id" field.</summary>
+    public const int UserIdFieldNumber = 1;
+    private string userId_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Google.Protobuf.WellKnownTypes.Timestamp TimeGenerated {
-      get { return timeGenerated_; }
+    public string UserId {
+      get { return userId_; }
       set {
-        timeGenerated_ = value;
+        userId_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
 
@@ -173,7 +173,7 @@ namespace Application.Protos.Events {
       if (ReferenceEquals(other, this)) {
         return true;
       }
-      if (!object.Equals(TimeGenerated, other.TimeGenerated)) return false;
+      if (UserId != other.UserId) return false;
       if (!object.Equals(ElementCreated, other.ElementCreated)) return false;
       if (!object.Equals(ElementDeleted, other.ElementDeleted)) return false;
       if (EventCase != other.EventCase) return false;
@@ -184,7 +184,7 @@ namespace Application.Protos.Events {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override int GetHashCode() {
       int hash = 1;
-      if (timeGenerated_ != null) hash ^= TimeGenerated.GetHashCode();
+      if (UserId.Length != 0) hash ^= UserId.GetHashCode();
       if (eventCase_ == EventOneofCase.ElementCreated) hash ^= ElementCreated.GetHashCode();
       if (eventCase_ == EventOneofCase.ElementDeleted) hash ^= ElementDeleted.GetHashCode();
       hash ^= (int) eventCase_;
@@ -206,9 +206,9 @@ namespace Application.Protos.Events {
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       output.WriteRawMessage(this);
     #else
-      if (timeGenerated_ != null) {
+      if (UserId.Length != 0) {
         output.WriteRawTag(10);
-        output.WriteMessage(TimeGenerated);
+        output.WriteString(UserId);
       }
       if (eventCase_ == EventOneofCase.ElementCreated) {
         output.WriteRawTag(18);
@@ -228,9 +228,9 @@ namespace Application.Protos.Events {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (timeGenerated_ != null) {
+      if (UserId.Length != 0) {
         output.WriteRawTag(10);
-        output.WriteMessage(TimeGenerated);
+        output.WriteString(UserId);
       }
       if (eventCase_ == EventOneofCase.ElementCreated) {
         output.WriteRawTag(18);
@@ -250,8 +250,8 @@ namespace Application.Protos.Events {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public int CalculateSize() {
       int size = 0;
-      if (timeGenerated_ != null) {
-        size += 1 + pb::CodedOutputStream.ComputeMessageSize(TimeGenerated);
+      if (UserId.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(UserId);
       }
       if (eventCase_ == EventOneofCase.ElementCreated) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(ElementCreated);
@@ -271,11 +271,8 @@ namespace Application.Protos.Events {
       if (other == null) {
         return;
       }
-      if (other.timeGenerated_ != null) {
-        if (timeGenerated_ == null) {
-          TimeGenerated = new global::Google.Protobuf.WellKnownTypes.Timestamp();
-        }
-        TimeGenerated.MergeFrom(other.TimeGenerated);
+      if (other.UserId.Length != 0) {
+        UserId = other.UserId;
       }
       switch (other.EventCase) {
         case EventOneofCase.ElementCreated:
@@ -312,10 +309,7 @@ namespace Application.Protos.Events {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
           case 10: {
-            if (timeGenerated_ == null) {
-              TimeGenerated = new global::Google.Protobuf.WellKnownTypes.Timestamp();
-            }
-            input.ReadMessage(TimeGenerated);
+            UserId = input.ReadString();
             break;
           }
           case 18: {
@@ -356,10 +350,7 @@ namespace Application.Protos.Events {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
           case 10: {
-            if (timeGenerated_ == null) {
-              TimeGenerated = new global::Google.Protobuf.WellKnownTypes.Timestamp();
-            }
-            input.ReadMessage(TimeGenerated);
+            UserId = input.ReadString();
             break;
           }
           case 18: {

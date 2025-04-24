@@ -13,7 +13,7 @@ namespace Application.Features.Pages;
 public sealed class PageService(IElementRepository elementRepository) : IPageService {
     private readonly IElementRepository _elementRepository = elementRepository;
 
-    public Task<Page> GetAsync(PageId id) => Task.FromResult<Page>(new(id, BookId.Create(Guid.Empty), new SizeF(1000, 1414)));
+    public Task<Page> GetAsync(PageId id) => Task.FromResult<Page>(Page.Load(id, BookId.Create(Guid.Empty), new SizeF(1000, 1414), DateTime.UtcNow, DateTime.UtcNow));
     public async Task<PageContent> GetContentAsync(PageId id) {
         ArgumentNullException.ThrowIfNull(id);
 

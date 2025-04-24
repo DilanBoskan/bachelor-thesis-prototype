@@ -7,5 +7,5 @@ using System.Threading.Tasks;
 
 namespace Application.Contracts.Event;
 public interface IEventDispatcher {
-    Task PublishAsync(IEvent @event, CancellationToken ct = default);
+    Task PublishAsync(IReadOnlyList<IEvent> events, CancellationToken ct = default);
 }

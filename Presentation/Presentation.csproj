@@ -34,12 +34,6 @@
 	  <DefineConstants>$(DefineConstants);DISABLE_XAML_GENERATED_MAIN</DefineConstants>
 	</PropertyGroup>
 	<ItemGroup>
-	  <Compile Remove="Services\Collaboration\**" />
-	  <EmbeddedResource Remove="Services\Collaboration\**" />
-	  <None Remove="Services\Collaboration\**" />
-	  <Page Remove="Services\Collaboration\**" />
-	</ItemGroup>
-	<ItemGroup>
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
 		<PackageReference Include="CommunityToolkit.Uwp.Extensions" Version="8.2.250402" />
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.4" />
@@ -48,14 +42,8 @@
 		<PackageReference Include="Microsoft.UI.Xaml" Version="2.8.7" />
 	</ItemGroup>
 	<ItemGroup>
-		<Folder Include="Views\" />
-	</ItemGroup>
-	<ItemGroup>
 	  <ProjectReference Include="..\Application\Application.csproj" />
 	  <ProjectReference Include="..\Domain\Domain.csproj" />
 	  <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
-	</ItemGroup>
-	<ItemGroup>
-	  <PRIResource Remove="Services\Collaboration\**" />
 	</ItemGroup>
 </Project>

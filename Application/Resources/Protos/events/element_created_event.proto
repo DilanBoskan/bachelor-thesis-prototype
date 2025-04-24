@@ -5,6 +5,5 @@ option csharp_namespace = "Application.Protos.Events";
 import "elements/element.proto";
 
 message ElementCreatedEvent {
-	string page_id = 1;
-	elements.Element element = 2;
+	elements.Element element = 1;
 }

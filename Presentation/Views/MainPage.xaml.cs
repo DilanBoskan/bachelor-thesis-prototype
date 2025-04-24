@@ -57,7 +57,7 @@ public sealed partial class MainPage : Page
 
     [RelayCommand]
     private void PrintLoadedPages() {
-        ViewModel.Book?.Pages.ToList().ForEach(page => {
+        ViewModel.Book?.Pages.ToList<PageModel>().ForEach(page => {
             if (page.IsActive) {
                 _logger.LogInformation("Page is active {pageId}", page.Id.Value);
             }

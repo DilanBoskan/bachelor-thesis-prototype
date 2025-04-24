@@ -8,17 +8,25 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Infrastructure.Event;
-public sealed class EventDispatcher(IServiceProvider serviceProvider) : IEventDispatcher {
-    private readonly IServiceProvider _serviceProvider = serviceProvider;
+internal sealed class EventDispatcher(IEnumerable<IEventHandler> eventHandlers, IEnumerable<ICloudEventHandler> cloudEventHandlers) : IEventDispatcher, ICloudEventDispatcher {
+    private readonly IReadOnlyCollection<IEventHandler> _eventHandlers = eventHandlers.ToList();
+    private readonly IReadOnlyCollection<ICloudEventHandler> _cloudEventHandlers = cloudEventHandlers.ToList();
 
-    public Task PublishAsync(IEvent @event, CancellationToken ct = default) {
-        ArgumentNullException.ThrowIfNull(@event);
+    async Task IEventDispatcher.PublishAsync(IReadOnlyList<IEvent> events, CancellationToken ct) {
+        ArgumentNullException.ThrowIfNull(events);
+        if (events.Count == 0) return;
 
-        var eventType = @event.GetType();
-        var handlerType = typeof(IEventHandler<>).MakeGenericType(eventType);
+        foreach (var eventHandler in _eventHandlers) {
+            await eventHandler.HandleAsync(events);
+        }
+    }
 
-        var handler = (dynamic)_serviceProvider.GetRequiredService(handlerType);
+    async Task ICloudEventDispatcher.PublishAsync(IReadOnlyList<IEvent> events, CancellationToken ct) {
+        ArgumentNullException.ThrowIfNull(events);
+        if (events.Count == 0) return;
 
-        return handler.HandleAsync(@event, ct);
+        foreach (var eventHandler in _cloudEventHandlers) {
+             await eventHandler.HandleAsync(events);
+        }
     }
 }

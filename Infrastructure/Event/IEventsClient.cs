@@ -10,8 +10,8 @@ namespace Infrastructure.Event;
 
 public interface IEventsClient {
     [Get("/events/{bookId}")]
-    Task<byte[]> GetEventsAsync(BookId bookId, [Query] Guid userId, [Query] DateTime from);
+    Task<byte[]> PullAsync(BookId bookId, [Query] Guid instanceId, [Query] DateTime from);
 
     [Post("/events/{bookId}")]
-    Task PostEventsAsync(BookId bookId, [Query] Guid userId, [Body] byte[] data);
+    Task PushAsync(BookId bookId, [Query] Guid instanceId, [Body] byte[] data);
 }

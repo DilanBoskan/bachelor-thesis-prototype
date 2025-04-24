@@ -26,15 +26,16 @@ namespace Application.Protos.Elements {
           string.Concat(
             "ChZlbGVtZW50cy9lbGVtZW50LnByb3RvEghlbGVtZW50cxofZ29vZ2xlL3By",
             "b3RvYnVmL3RpbWVzdGFtcC5wcm90bxohZWxlbWVudHMvaW5rX3N0cm9rZV9l",
-            "bGVtZW50LnByb3RvIoUBCgdFbGVtZW50EgoKAmlkGAEgASgJEjEKDWNyZWF0",
-            "aW9uX2RhdGUYAiABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wEjAK",
-            "Cmlua19zdHJva2UYAyABKAsyGi5lbGVtZW50cy5JbmtTdHJva2VFbGVtZW50",
-            "SABCCQoHZWxlbWVudEIeqgIbQXBwbGljYXRpb24uUHJvdG9zLkVsZW1lbnRz",
-            "YgZwcm90bzM="));
+            "bGVtZW50LnByb3RvItQBCgdFbGVtZW50EgoKAmlkGAEgASgJEg8KB2Jvb2tf",
+            "aWQYAiABKAkSDwoHcGFnZV9pZBgDIAEoCRIuCgpjcmVhdGVkX2F0GAQgASgL",
+            "MhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcBIuCgp1cGRhdGVkX2F0GAUg",
+            "ASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcBIwCgppbmtfc3Ryb2tl",
+            "GAYgASgLMhouZWxlbWVudHMuSW5rU3Ryb2tlRWxlbWVudEgAQgkKB2VsZW1l",
+            "bnRCHqoCG0FwcGxpY2F0aW9uLlByb3Rvcy5FbGVtZW50c2IGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::Google.Protobuf.WellKnownTypes.TimestampReflection.Descriptor, global::Application.Protos.Elements.InkStrokeElementReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Application.Protos.Elements.Element), global::Application.Protos.Elements.Element.Parser, new[]{ "Id", "CreationDate", "InkStroke" }, new[]{ "Element" }, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::Application.Protos.Elements.Element), global::Application.Protos.Elements.Element.Parser, new[]{ "Id", "BookId", "PageId", "CreatedAt", "UpdatedAt", "InkStroke" }, new[]{ "Element" }, null, null, null)
           }));
     }
     #endregion
@@ -80,7 +81,10 @@ namespace Application.Protos.Elements {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public Element(Element other) : this() {
       id_ = other.id_;
-      creationDate_ = other.creationDate_ != null ? other.creationDate_.Clone() : null;
+      bookId_ = other.bookId_;
+      pageId_ = other.pageId_;
+      createdAt_ = other.createdAt_ != null ? other.createdAt_.Clone() : null;
+      updatedAt_ = other.updatedAt_ != null ? other.updatedAt_.Clone() : null;
       switch (other.ElementCase) {
         case ElementOneofCase.InkStroke:
           InkStroke = other.InkStroke.Clone();
@@ -108,20 +112,56 @@ namespace Application.Protos.Elements {
       }
     }
 
-    /// <summary>Field number for the "creation_date" field.</summary>
-    public const int CreationDateFieldNumber = 2;
-    private global::Google.Protobuf.WellKnownTypes.Timestamp creationDate_;
+    /// <summary>Field number for the "book_id" field.</summary>
+    public const int BookIdFieldNumber = 2;
+    private string bookId_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Google.Protobuf.WellKnownTypes.Timestamp CreationDate {
-      get { return creationDate_; }
+    public string BookId {
+      get { return bookId_; }
       set {
-        creationDate_ = value;
+        bookId_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "page_id" field.</summary>
+    public const int PageIdFieldNumber = 3;
+    private string pageId_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public string PageId {
+      get { return pageId_; }
+      set {
+        pageId_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "created_at" field.</summary>
+    public const int CreatedAtFieldNumber = 4;
+    private global::Google.Protobuf.WellKnownTypes.Timestamp createdAt_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::Google.Protobuf.WellKnownTypes.Timestamp CreatedAt {
+      get { return createdAt_; }
+      set {
+        createdAt_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "updated_at" field.</summary>
+    public const int UpdatedAtFieldNumber = 5;
+    private global::Google.Protobuf.WellKnownTypes.Timestamp updatedAt_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::Google.Protobuf.WellKnownTypes.Timestamp UpdatedAt {
+      get { return updatedAt_; }
+      set {
+        updatedAt_ = value;
       }
     }
 
     /// <summary>Field number for the "ink_stroke" field.</summary>
-    public const int InkStrokeFieldNumber = 3;
+    public const int InkStrokeFieldNumber = 6;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public global::Application.Protos.Elements.InkStrokeElement InkStroke {
@@ -136,7 +176,7 @@ namespace Application.Protos.Elements {
     /// <summary>Enum of possible cases for the "element" oneof.</summary>
     public enum ElementOneofCase {
       None = 0,
-      InkStroke = 3,
+      InkStroke = 6,
     }
     private ElementOneofCase elementCase_ = ElementOneofCase.None;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -168,7 +208,10 @@ namespace Application.Protos.Elements {
         return true;
       }
       if (Id != other.Id) return false;
-      if (!object.Equals(CreationDate, other.CreationDate)) return false;
+      if (BookId != other.BookId) return false;
+      if (PageId != other.PageId) return false;
+      if (!object.Equals(CreatedAt, other.CreatedAt)) return false;
+      if (!object.Equals(UpdatedAt, other.UpdatedAt)) return false;
       if (!object.Equals(InkStroke, other.InkStroke)) return false;
       if (ElementCase != other.ElementCase) return false;
       return Equals(_unknownFields, other._unknownFields);
@@ -179,7 +222,10 @@ namespace Application.Protos.Elements {
     public override int GetHashCode() {
       int hash = 1;
       if (Id.Length != 0) hash ^= Id.GetHashCode();
-      if (creationDate_ != null) hash ^= CreationDate.GetHashCode();
+      if (BookId.Length != 0) hash ^= BookId.GetHashCode();
+      if (PageId.Length != 0) hash ^= PageId.GetHashCode();
+      if (createdAt_ != null) hash ^= CreatedAt.GetHashCode();
+      if (updatedAt_ != null) hash ^= UpdatedAt.GetHashCode();
       if (elementCase_ == ElementOneofCase.InkStroke) hash ^= InkStroke.GetHashCode();
       hash ^= (int) elementCase_;
       if (_unknownFields != null) {
@@ -204,12 +250,24 @@ namespace Application.Protos.Elements {
         output.WriteRawTag(10);
         output.WriteString(Id);
       }
-      if (creationDate_ != null) {
+      if (BookId.Length != 0) {
         output.WriteRawTag(18);
-        output.WriteMessage(CreationDate);
+        output.WriteString(BookId);
+      }
+      if (PageId.Length != 0) {
+        output.WriteRawTag(26);
+        output.WriteString(PageId);
+      }
+      if (createdAt_ != null) {
+        output.WriteRawTag(34);
+        output.WriteMessage(CreatedAt);
+      }
+      if (updatedAt_ != null) {
+        output.WriteRawTag(42);
+        output.WriteMessage(UpdatedAt);
       }
       if (elementCase_ == ElementOneofCase.InkStroke) {
-        output.WriteRawTag(26);
+        output.WriteRawTag(50);
         output.WriteMessage(InkStroke);
       }
       if (_unknownFields != null) {
@@ -226,12 +284,24 @@ namespace Application.Protos.Elements {
         output.WriteRawTag(10);
         output.WriteString(Id);
       }
-      if (creationDate_ != null) {
+      if (BookId.Length != 0) {
         output.WriteRawTag(18);
-        output.WriteMessage(CreationDate);
+        output.WriteString(BookId);
+      }
+      if (PageId.Length != 0) {
+        output.WriteRawTag(26);
+        output.WriteString(PageId);
+      }
+      if (createdAt_ != null) {
+        output.WriteRawTag(34);
+        output.WriteMessage(CreatedAt);
+      }
+      if (updatedAt_ != null) {
+        output.WriteRawTag(42);
+        output.WriteMessage(UpdatedAt);
       }
       if (elementCase_ == ElementOneofCase.InkStroke) {
-        output.WriteRawTag(26);
+        output.WriteRawTag(50);
         output.WriteMessage(InkStroke);
       }
       if (_unknownFields != null) {
@@ -247,8 +317,17 @@ namespace Application.Protos.Elements {
       if (Id.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(Id);
       }
-      if (creationDate_ != null) {
-        size += 1 + pb::CodedOutputStream.ComputeMessageSize(CreationDate);
+      if (BookId.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(BookId);
+      }
+      if (PageId.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(PageId);
+      }
+      if (createdAt_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(CreatedAt);
+      }
+      if (updatedAt_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(UpdatedAt);
       }
       if (elementCase_ == ElementOneofCase.InkStroke) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(InkStroke);
@@ -268,11 +347,23 @@ namespace Application.Protos.Elements {
       if (other.Id.Length != 0) {
         Id = other.Id;
       }
-      if (other.creationDate_ != null) {
-        if (creationDate_ == null) {
-          CreationDate = new global::Google.Protobuf.WellKnownTypes.Timestamp();
+      if (other.BookId.Length != 0) {
+        BookId = other.BookId;
+      }
+      if (other.PageId.Length != 0) {
+        PageId = other.PageId;
+      }
+      if (other.createdAt_ != null) {
+        if (createdAt_ == null) {
+          CreatedAt = new global::Google.Protobuf.WellKnownTypes.Timestamp();
         }
-        CreationDate.MergeFrom(other.CreationDate);
+        CreatedAt.MergeFrom(other.CreatedAt);
+      }
+      if (other.updatedAt_ != null) {
+        if (updatedAt_ == null) {
+          UpdatedAt = new global::Google.Protobuf.WellKnownTypes.Timestamp();
+        }
+        UpdatedAt.MergeFrom(other.UpdatedAt);
       }
       switch (other.ElementCase) {
         case ElementOneofCase.InkStroke:
@@ -307,13 +398,28 @@ namespace Application.Protos.Elements {
             break;
           }
           case 18: {
-            if (creationDate_ == null) {
-              CreationDate = new global::Google.Protobuf.WellKnownTypes.Timestamp();
-            }
-            input.ReadMessage(CreationDate);
+            BookId = input.ReadString();
             break;
           }
           case 26: {
+            PageId = input.ReadString();
+            break;
+          }
+          case 34: {
+            if (createdAt_ == null) {
+              CreatedAt = new global::Google.Protobuf.WellKnownTypes.Timestamp();
+            }
+            input.ReadMessage(CreatedAt);
+            break;
+          }
+          case 42: {
+            if (updatedAt_ == null) {
+              UpdatedAt = new global::Google.Protobuf.WellKnownTypes.Timestamp();
+            }
+            input.ReadMessage(UpdatedAt);
+            break;
+          }
+          case 50: {
             global::Application.Protos.Elements.InkStrokeElement subBuilder = new global::Application.Protos.Elements.InkStrokeElement();
             if (elementCase_ == ElementOneofCase.InkStroke) {
               subBuilder.MergeFrom(InkStroke);
@@ -346,13 +452,28 @@ namespace Application.Protos.Elements {
             break;
           }
           case 18: {
-            if (creationDate_ == null) {
-              CreationDate = new global::Google.Protobuf.WellKnownTypes.Timestamp();
-            }
-            input.ReadMessage(CreationDate);
+            BookId = input.ReadString();
             break;
           }
           case 26: {
+            PageId = input.ReadString();
+            break;
+          }
+          case 34: {
+            if (createdAt_ == null) {
+              CreatedAt = new global::Google.Protobuf.WellKnownTypes.Timestamp();
+            }
+            input.ReadMessage(CreatedAt);
+            break;
+          }
+          case 42: {
+            if (updatedAt_ == null) {
+              UpdatedAt = new global::Google.Protobuf.WellKnownTypes.Timestamp();
+            }
+            input.ReadMessage(UpdatedAt);
+            break;
+          }
+          case 50: {
             global::Application.Protos.Elements.InkStrokeElement subBuilder = new global::Application.Protos.Elements.InkStrokeElement();
             if (elementCase_ == ElementOneofCase.InkStroke) {
               subBuilder.MergeFrom(InkStroke);

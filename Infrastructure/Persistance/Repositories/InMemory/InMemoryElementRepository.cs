@@ -12,7 +12,8 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Persistance.Repositories.InMemory;
 
-public class InMemoryElementRepository(IEventDispatcher eventDispatcher) : IElementRepository {
+public class InMemoryElementRepository(UserId userId, IEventDispatcher eventDispatcher) : IElementRepository {
+    private readonly UserId _userId = userId;
     private readonly IEventDispatcher _eventDispatcher = eventDispatcher;
 
     public Task<IReadOnlyList<Element>> GetByPageIdAsync(PageId pageId, CancellationToken ct = default) {
@@ -29,6 +30,7 @@ public class InMemoryElementRepository(IEventDispatcher eventDispatcher) : IElem
         }
 
         elements.Add(element);
+        _modifiedElements.Add(element);
 
         return Task.CompletedTask;
     }
@@ -36,10 +38,11 @@ public class InMemoryElementRepository(IEventDispatcher eventDispatcher) : IElem
     public Task DeleteAsync(ElementId id, CancellationToken ct = default) {
         ArgumentNullException.ThrowIfNull(id);
 
-        foreach (var elements in _pageElements.Values) {
-            var element = elements.Find(e => e.Id == id);
+        foreach (var pageId in _pageElements.Keys) {
+            var element = _pageElements[pageId].Find(e => e.Id == id);
             if (element is not null) {
                 _deletedElements.Add(element);
+                _pageElements[pageId].Remove(element);
                 return Task.CompletedTask;
             }
         }
@@ -50,13 +53,15 @@ public class InMemoryElementRepository(IEventDispatcher eventDispatcher) : IElem
     public async Task SaveChangesAsync(CancellationToken ct = default) {
         var events = _modifiedElements
             .SelectMany(e => e.PopDomainEvents())
-            .Concat(_deletedElements.Select(e => new ElementDeletedEvent(e.BookId, e.PageId, e.Id)));
+            .Concat(_deletedElements.Select(e => new ElementDeletedEvent(e.BookId, e.PageId, e.Id)))
+            .ToList();
 
         // Save changes (EF Core)
 
         foreach (var @event in events) {
-            await _eventDispatcher.PublishAsync(@event, CancellationToken.None);
+            @event.UserId = _userId;
         }
+        await _eventDispatcher.PublishAsync(events, CancellationToken.None);
 
         _modifiedElements.Clear();
         _deletedElements.Clear();

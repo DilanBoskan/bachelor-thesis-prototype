@@ -26,6 +26,8 @@ public sealed partial class PageModel(Domain.Aggregates.Pages.Page page) : Obser
     public PageId Id { get; } = page.Id;
     public BookId BookId { get; } = page.BookId;
     public SizeF Size { get; } = page.Size;
+    public DateTime CreatedAt { get; } = page.CreatedAt;
+    public DateTime UpdatedAt { get; } = page.UpdatedAt;
 
     #region UI-Specific
     public InkStrokeContainer StrokeContainer { get; } = new InkStrokeContainer();

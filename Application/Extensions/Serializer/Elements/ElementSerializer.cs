@@ -1,5 +1,4 @@
-﻿using Application.Extensions.Elements;
-using Application.Protos;
+﻿using Application.Protos;
 using Domain.Aggregates.Elements;
 using Domain.Aggregates.Elements.InkStrokes;
 using Google.Protobuf;
@@ -10,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.Extensions.Elements;
+namespace Application.Extensions.Serializer.Elements;
 
 public static class ElementSerializer {
     public static Element ToDomain(this Protos.Elements.Element proto) {

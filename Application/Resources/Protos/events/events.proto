@@ -8,7 +8,7 @@ import "events/element_deleted_event.proto";
 
 // Base message definition
 message Event {
-	google.protobuf.Timestamp time_generated = 1;
+	string user_id = 1;
 	oneof event {
 		ElementCreatedEvent element_created = 2;
 		ElementDeletedEvent element_deleted = 3;

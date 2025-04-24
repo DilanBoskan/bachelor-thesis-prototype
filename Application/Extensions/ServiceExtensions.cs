@@ -2,8 +2,8 @@
 using Application.Contracts.Event;
 using Application.Contracts.Services;
 using Application.Features.Books;
+using Application.Features.Elements;
 using Application.Features.Elements.Commands;
-using Application.Features.Elements.Events;
 using Application.Features.Pages;
 using Domain.Aggregates.Elements.InkStrokes;
 using Domain.Events;
@@ -16,12 +16,10 @@ public static class ServiceExtensions {
             // Command Handlers
             .AddScoped<ICommandHandler<CreateInkStrokeElementCommand, InkStrokeElement>, CreateElementCommandHandler>()
             .AddScoped<ICommandHandler<DeleteElementCommand>, DeleteElementCommandHandler>()
-            // Event Handlers
-            .AddScoped<IEventHandler<ElementDeletedEvent>, ElementDeletedEventHandler>()
-            .AddScoped<IEventHandler<ElementCreatedEvent>, ElementCreatedEventHandler>()
             // Services
             .AddScoped<IBookService, DummyBookService>()
-            .AddScoped<IPageService, PageService>();
+            .AddScoped<IPageService, PageService>()
+            .AddScoped<IElementService, ElementService>();
 
         return services;
     }
