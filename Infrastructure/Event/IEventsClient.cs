@@ -1,4 +1,5 @@
-﻿using Domain.Aggregates.Books;
+﻿using Application.Contracts.Replication;
+using Domain.Aggregates.Books;
 using Refit;
 using System;
 using System.Collections.Generic;
@@ -8,10 +9,12 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Event;
 
-public interface IEventsClient {
-    [Get("/events/{bookId}")]
-    Task<byte[]> PullAsync(BookId bookId, [Query] Guid instanceId, [Query] DateTime from);
+public record PullData(ReplicationVersion LatestReplicationId, ReplicationVersion RequestedFromReplicationId, IReadOnlyList<(ReplicationVersion ReplicationId, byte[] Data)> Events);
 
-    [Post("/events/{bookId}")]
-    Task PushAsync(BookId bookId, [Query] Guid instanceId, [Body] byte[] data);
+public interface IEventsClient {
+    [Get("/books/{bookId}/events")]
+    Task<PullData> PullAsync(BookId bookId, [Header("X-Replication-Id")] ReplicationVersion fromReplicationId);
+
+    [Post("/books/{bookId}/events")]
+    Task<ReplicationVersion> PushAsync(BookId bookId, [Header("X-Replication-Id")] ReplicationVersion latestReplicationId, [Body] byte[] data);
 }

@@ -3,15 +3,15 @@ package events;
 option csharp_namespace = "Application.Protos.Events";
 
 import "google/protobuf/timestamp.proto";
-import "events/element_created_event.proto";
-import "events/element_deleted_event.proto";
+import "events/element_added_to_page_event.proto";
+import "events/element_removed_from_page_event.proto";
 
 // Base message definition
 message Event {
-	string user_id = 1;
+	google.protobuf.Timestamp occurred_at = 1;
 	oneof event {
-		ElementCreatedEvent element_created = 2;
-		ElementDeletedEvent element_deleted = 3;
+		ElementAddedToPageEvent element_added_to_page = 2;
+		ElementRemovedFromPageEvent element_removed_from_page = 3;
 	}
 }
 

@@ -1,4 +1,4 @@
-﻿using Application.Contracts.Cloud;
+﻿using Application.Contracts.Replication;
 using Domain.Aggregates.Books;
 using Microsoft.Extensions.Logging;
 using System;
@@ -9,9 +9,9 @@ using System.Threading;
 using System.Threading.Tasks;
 
 namespace Presentation.Services.Cloud;
-public class CloudSyncingService(ICloudManagerFactory cloudManagerFactory, ILogger<CloudSyncingService> logger) {
+public class CloudSyncingService(IReplicationManagerFactory cloudManagerFactory, ILogger<CloudSyncingService> logger) {
     private const int DELAY_MS = 1000;
-    private readonly ICloudManagerFactory _cloudManagerFactory = cloudManagerFactory;
+    private readonly IReplicationManagerFactory _cloudManagerFactory = cloudManagerFactory;
     private readonly ILogger<CloudSyncingService> _logger = logger;
 
     public Task StartAsync(Guid instanceId, BookId bookId, CancellationToken ct) {

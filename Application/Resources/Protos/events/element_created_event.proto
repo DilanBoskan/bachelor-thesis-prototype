@@ -1,9 +1,0 @@
-﻿syntax = "proto3";
-package events;
-option csharp_namespace = "Application.Protos.Events";
-
-import "elements/element.proto";
-
-message ElementCreatedEvent {
-	elements.Element element = 1;
-}

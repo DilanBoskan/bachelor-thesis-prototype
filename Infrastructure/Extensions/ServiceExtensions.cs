@@ -1,13 +1,15 @@
-﻿using Application.Contracts.Cloud;
-using Application.Contracts.Command;
+﻿using Application.Contracts.Command;
 using Application.Contracts.Event;
-using Domain.Aggregates;
+using Application.Contracts.Replication;
+using Domain.Aggregates.Books;
 using Domain.Aggregates.Elements;
+using Domain.Aggregates.Pages;
+using Domain.Aggregates.Users;
 using Domain.Events;
-using Infrastructure.Cloud;
 using Infrastructure.Command;
 using Infrastructure.Event;
 using Infrastructure.Persistance.Repositories.InMemory;
+using Infrastructure.Replication;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Refit;
@@ -30,12 +32,13 @@ public static class ServiceExtensions {
             // Command/Events
             .AddScoped<ICommandDispatcher, CommandDispatcher>()
             .AddScoped<IEventDispatcher, EventDispatcher>()
-            .AddScoped<ICloudEventDispatcher, EventDispatcher>()
+            .AddScoped<ICloudEventDispatcher, EventDispatcher>(prov => new EventDispatcher(userId, prov.GetServices<IEventHandler>(), prov.GetServices<ICloudEventHandler>()))
             .AddSingleton<EventAggregator>()
             .AddScoped<IEventHandler, EventAggregator>(prov => prov.GetRequiredService<EventAggregator>())
-            .AddScoped<ICloudManagerFactory, CloudManagerFactory>()
+            .AddScoped<IReplicationManagerFactory, ReplicationManagerFactory>()
             // Repositories
-            .AddScoped<IElementRepository, InMemoryElementRepository>(prov => new InMemoryElementRepository(userId, prov.GetRequiredService<IEventDispatcher>()));
+            .AddScoped<IBookRepository, InMemoryBookRepository>()
+            .AddScoped<IPageRepository, InMemoryPageRepository>();
 
 
         services

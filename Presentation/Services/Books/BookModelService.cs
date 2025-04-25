@@ -13,7 +13,7 @@ public sealed class BookModelService(IBookService bookService) : IBookModelServi
     private readonly IBookService _bookService = bookService;
 
     public async Task<BookModel> GetAsync(BookId id, CancellationToken ct = default) {
-        var book = await _bookService.GetAsync(id, ct);
+        var book = await _bookService.GetByIdAsync(id, ct);
 
         return book.ToWindows();
     }

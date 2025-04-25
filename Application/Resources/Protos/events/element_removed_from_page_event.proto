@@ -1,0 +1,8 @@
+﻿syntax = "proto3";
+package events;
+option csharp_namespace = "Application.Protos.Events";
+
+message ElementRemovedFromPageEvent {
+	string page_id = 1;
+	string element_id = 2;
+}

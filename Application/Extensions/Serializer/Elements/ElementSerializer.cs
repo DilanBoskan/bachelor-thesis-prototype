@@ -12,14 +12,14 @@ using System.Threading.Tasks;
 namespace Application.Extensions.Serializer.Elements;
 
 public static class ElementSerializer {
-    public static Element ToDomain(this Protos.Elements.Element proto) {
+    public static Element ToDomain(Protos.Elements.Element proto) {
         return proto.ElementCase switch {
             Protos.Elements.Element.ElementOneofCase.InkStroke => InkStrokeElementSerializer.ToDomain(proto),
             _ => throw new NotImplementedException()
         };
     }
 
-    public static Protos.Elements.Element ToProto(this Element value) {
+    public static Protos.Elements.Element ToProto(Element value) {
         return value switch {
             InkStrokeElement inkStroke => InkStrokeElementSerializer.ToProto(inkStroke),
             _ => throw new NotImplementedException()

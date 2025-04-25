@@ -1,8 +1,5 @@
-﻿namespace Domain.Aggregates.Books;
+﻿using Domain.Aggregates.Common;
 
-public sealed record BookId(Guid Value) : BaseId<BookId>(Value), IBaseId<BookId> {
-    public static BookId New() => new(Guid.NewGuid());
-    public static BookId Create(Guid value) => new(value);
+namespace Domain.Aggregates.Books;
 
-    public override string ToString() => Value.ToString();
-}
+public sealed record BookId : BaseId<BookId>;

@@ -1,8 +1,8 @@
 ﻿using Application.Extensions;
 using Application.Helpers.Concurrency;
 using CommunityToolkit.Mvvm.DependencyInjection;
-using Domain.Aggregates;
 using Domain.Aggregates.Books;
+using Domain.Aggregates.Users;
 using Infrastructure.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;

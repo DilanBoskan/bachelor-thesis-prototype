@@ -1,4 +1,4 @@
-﻿using Domain.Aggregates;
+﻿using Domain.Aggregates.Users;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,5 +8,5 @@ using System.Threading.Tasks;
 namespace Domain.Events;
 
 public interface IEvent {
-    UserId UserId { get; set; }
+    DateTime OccurredAt { get; }
 }

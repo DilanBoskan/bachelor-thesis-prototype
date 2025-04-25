@@ -1,6 +1,6 @@
-﻿using Domain.Aggregates;
-using Domain.Aggregates.Books;
+﻿using Domain.Aggregates.Books;
 using Domain.Aggregates.Elements;
+using Domain.Aggregates.Users;
 
 namespace Application.Extensions.Serializer;
 

@@ -8,7 +8,4 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Application.Contracts.Services;
-public interface IElementService {
-
-    Task<InkStrokeElement> CreateInkStrokeElementAsync(BookId bookId, PageId pageId, DateTime createdAt, IReadOnlyList<InkStrokePoint> points);
-}
+public interface IElementService;

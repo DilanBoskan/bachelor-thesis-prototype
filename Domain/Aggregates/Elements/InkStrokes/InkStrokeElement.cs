@@ -1,4 +1,5 @@
 ﻿using Domain.Aggregates.Books;
+using Domain.Aggregates.Elements;
 using Domain.Aggregates.Pages;
 using Domain.Events;
 using System.Numerics;
@@ -8,22 +9,14 @@ namespace Domain.Aggregates.Elements.InkStrokes;
 public sealed class InkStrokeElement : Element {
     public IReadOnlyList<InkStrokePoint> Points { get; private set; }
 
-    private InkStrokeElement(ElementId id, BookId bookId, PageId pageId, DateTime createdAt, DateTime updatedAt, IReadOnlyList<InkStrokePoint> points) : base(id, bookId, pageId, createdAt, updatedAt) {
-        Points = points;
-    } 
+    public InkStrokeElement(ElementId id, DateTime createdAt, DateTime updatedAt, IEnumerable<InkStrokePoint> points) : base(id, createdAt, updatedAt) {
+        ArgumentNullException.ThrowIfNull(points);
+        if (!points.Any()) throw new ArgumentException("Points cannot be empty", nameof(points));
 
-    public static InkStrokeElement Create(ElementId id, BookId bookId, PageId pageId, DateTime createdAt, IReadOnlyList<InkStrokePoint> points) {
-        var element = new InkStrokeElement(id, bookId, pageId, createdAt, createdAt, points);
-
-        element.AddDomainEvent(new ElementCreatedEvent(element));
-
-        return element;
-    }
-    public static InkStrokeElement Load(ElementId id, BookId bookId, PageId pageId, DateTime createdAt, DateTime updatedAt, IReadOnlyList<InkStrokePoint> points) {
-        return new InkStrokeElement(id, bookId, pageId, createdAt, updatedAt, points);
+        Points = points.ToList().AsReadOnly();
     }
 
-    public static InkStrokeElement CreateRandom(BookId bookId, PageId pageId) {
+    public static InkStrokeElement CreateRandom() {
         var random = new Random();
         var maxPoints = random.Next(100, 200);
 
@@ -39,6 +32,6 @@ public sealed class InkStrokeElement : Element {
             points.Add(newPoint);
         }
 
-        return Create(ElementId.New(), bookId, pageId, DateTime.UtcNow, points);
+        return new InkStrokeElement(ElementId.New(), DateTime.UtcNow, DateTime.UtcNow, points);
     }
 }

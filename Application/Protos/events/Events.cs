@@ -25,18 +25,19 @@ namespace Application.Protos.Events {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "ChNldmVudHMvZXZlbnRzLnByb3RvEgZldmVudHMaH2dvb2dsZS9wcm90b2J1",
-            "Zi90aW1lc3RhbXAucHJvdG8aImV2ZW50cy9lbGVtZW50X2NyZWF0ZWRfZXZl",
-            "bnQucHJvdG8aImV2ZW50cy9lbGVtZW50X2RlbGV0ZWRfZXZlbnQucHJvdG8i",
-            "kQEKBUV2ZW50Eg8KB3VzZXJfaWQYASABKAkSNgoPZWxlbWVudF9jcmVhdGVk",
-            "GAIgASgLMhsuZXZlbnRzLkVsZW1lbnRDcmVhdGVkRXZlbnRIABI2Cg9lbGVt",
-            "ZW50X2RlbGV0ZWQYAyABKAsyGy5ldmVudHMuRWxlbWVudERlbGV0ZWRFdmVu",
-            "dEgAQgcKBWV2ZW50IisKCkV2ZW50R3JvdXASHQoGZXZlbnRzGAEgAygLMg0u",
-            "ZXZlbnRzLkV2ZW50QhyqAhlBcHBsaWNhdGlvbi5Qcm90b3MuRXZlbnRzYgZw",
-            "cm90bzM="));
+            "Zi90aW1lc3RhbXAucHJvdG8aKGV2ZW50cy9lbGVtZW50X2FkZGVkX3RvX3Bh",
+            "Z2VfZXZlbnQucHJvdG8aLGV2ZW50cy9lbGVtZW50X3JlbW92ZWRfZnJvbV9w",
+            "YWdlX2V2ZW50LnByb3RvIs0BCgVFdmVudBIvCgtvY2N1cnJlZF9hdBgBIAEo",
+            "CzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXASQAoVZWxlbWVudF9hZGRl",
+            "ZF90b19wYWdlGAIgASgLMh8uZXZlbnRzLkVsZW1lbnRBZGRlZFRvUGFnZUV2",
+            "ZW50SAASSAoZZWxlbWVudF9yZW1vdmVkX2Zyb21fcGFnZRgDIAEoCzIjLmV2",
+            "ZW50cy5FbGVtZW50UmVtb3ZlZEZyb21QYWdlRXZlbnRIAEIHCgVldmVudCIr",
+            "CgpFdmVudEdyb3VwEh0KBmV2ZW50cxgBIAMoCzINLmV2ZW50cy5FdmVudEIc",
+            "qgIZQXBwbGljYXRpb24uUHJvdG9zLkV2ZW50c2IGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::Google.Protobuf.WellKnownTypes.TimestampReflection.Descriptor, global::Application.Protos.Events.ElementCreatedEventReflection.Descriptor, global::Application.Protos.Events.ElementDeletedEventReflection.Descriptor, },
+          new pbr::FileDescriptor[] { global::Google.Protobuf.WellKnownTypes.TimestampReflection.Descriptor, global::Application.Protos.Events.ElementAddedToPageEventReflection.Descriptor, global::Application.Protos.Events.ElementRemovedFromPageEventReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Application.Protos.Events.Event), global::Application.Protos.Events.Event.Parser, new[]{ "UserId", "ElementCreated", "ElementDeleted" }, new[]{ "Event" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Application.Protos.Events.Event), global::Application.Protos.Events.Event.Parser, new[]{ "OccurredAt", "ElementAddedToPage", "ElementRemovedFromPage" }, new[]{ "Event" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Application.Protos.Events.EventGroup), global::Application.Protos.Events.EventGroup.Parser, new[]{ "Events" }, null, null, null, null)
           }));
     }
@@ -82,13 +83,13 @@ namespace Application.Protos.Events {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public Event(Event other) : this() {
-      userId_ = other.userId_;
+      occurredAt_ = other.occurredAt_ != null ? other.occurredAt_.Clone() : null;
       switch (other.EventCase) {
-        case EventOneofCase.ElementCreated:
-          ElementCreated = other.ElementCreated.Clone();
+        case EventOneofCase.ElementAddedToPage:
+          ElementAddedToPage = other.ElementAddedToPage.Clone();
           break;
-        case EventOneofCase.ElementDeleted:
-          ElementDeleted = other.ElementDeleted.Clone();
+        case EventOneofCase.ElementRemovedFromPage:
+          ElementRemovedFromPage = other.ElementRemovedFromPage.Clone();
           break;
       }
 
@@ -101,39 +102,39 @@ namespace Application.Protos.Events {
       return new Event(this);
     }
 
-    /// <summary>Field number for the "user_id" field.</summary>
-    public const int UserIdFieldNumber = 1;
-    private string userId_ = "";
+    /// <summary>Field number for the "occurred_at" field.</summary>
+    public const int OccurredAtFieldNumber = 1;
+    private global::Google.Protobuf.WellKnownTypes.Timestamp occurredAt_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public string UserId {
-      get { return userId_; }
+    public global::Google.Protobuf.WellKnownTypes.Timestamp OccurredAt {
+      get { return occurredAt_; }
       set {
-        userId_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+        occurredAt_ = value;
       }
     }
 
-    /// <summary>Field number for the "element_created" field.</summary>
-    public const int ElementCreatedFieldNumber = 2;
+    /// <summary>Field number for the "element_added_to_page" field.</summary>
+    public const int ElementAddedToPageFieldNumber = 2;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Application.Protos.Events.ElementCreatedEvent ElementCreated {
-      get { return eventCase_ == EventOneofCase.ElementCreated ? (global::Application.Protos.Events.ElementCreatedEvent) event_ : null; }
+    public global::Application.Protos.Events.ElementAddedToPageEvent ElementAddedToPage {
+      get { return eventCase_ == EventOneofCase.ElementAddedToPage ? (global::Application.Protos.Events.ElementAddedToPageEvent) event_ : null; }
       set {
         event_ = value;
-        eventCase_ = value == null ? EventOneofCase.None : EventOneofCase.ElementCreated;
+        eventCase_ = value == null ? EventOneofCase.None : EventOneofCase.ElementAddedToPage;
       }
     }
 
-    /// <summary>Field number for the "element_deleted" field.</summary>
-    public const int ElementDeletedFieldNumber = 3;
+    /// <summary>Field number for the "element_removed_from_page" field.</summary>
+    public const int ElementRemovedFromPageFieldNumber = 3;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Application.Protos.Events.ElementDeletedEvent ElementDeleted {
-      get { return eventCase_ == EventOneofCase.ElementDeleted ? (global::Application.Protos.Events.ElementDeletedEvent) event_ : null; }
+    public global::Application.Protos.Events.ElementRemovedFromPageEvent ElementRemovedFromPage {
+      get { return eventCase_ == EventOneofCase.ElementRemovedFromPage ? (global::Application.Protos.Events.ElementRemovedFromPageEvent) event_ : null; }
       set {
         event_ = value;
-        eventCase_ = value == null ? EventOneofCase.None : EventOneofCase.ElementDeleted;
+        eventCase_ = value == null ? EventOneofCase.None : EventOneofCase.ElementRemovedFromPage;
       }
     }
 
@@ -141,8 +142,8 @@ namespace Application.Protos.Events {
     /// <summary>Enum of possible cases for the "event" oneof.</summary>
     public enum EventOneofCase {
       None = 0,
-      ElementCreated = 2,
-      ElementDeleted = 3,
+      ElementAddedToPage = 2,
+      ElementRemovedFromPage = 3,
     }
     private EventOneofCase eventCase_ = EventOneofCase.None;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -173,9 +174,9 @@ namespace Application.Protos.Events {
       if (ReferenceEquals(other, this)) {
         return true;
       }
-      if (UserId != other.UserId) return false;
-      if (!object.Equals(ElementCreated, other.ElementCreated)) return false;
-      if (!object.Equals(ElementDeleted, other.ElementDeleted)) return false;
+      if (!object.Equals(OccurredAt, other.OccurredAt)) return false;
+      if (!object.Equals(ElementAddedToPage, other.ElementAddedToPage)) return false;
+      if (!object.Equals(ElementRemovedFromPage, other.ElementRemovedFromPage)) return false;
       if (EventCase != other.EventCase) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
@@ -184,9 +185,9 @@ namespace Application.Protos.Events {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override int GetHashCode() {
       int hash = 1;
-      if (UserId.Length != 0) hash ^= UserId.GetHashCode();
-      if (eventCase_ == EventOneofCase.ElementCreated) hash ^= ElementCreated.GetHashCode();
-      if (eventCase_ == EventOneofCase.ElementDeleted) hash ^= ElementDeleted.GetHashCode();
+      if (occurredAt_ != null) hash ^= OccurredAt.GetHashCode();
+      if (eventCase_ == EventOneofCase.ElementAddedToPage) hash ^= ElementAddedToPage.GetHashCode();
+      if (eventCase_ == EventOneofCase.ElementRemovedFromPage) hash ^= ElementRemovedFromPage.GetHashCode();
       hash ^= (int) eventCase_;
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
@@ -206,17 +207,17 @@ namespace Application.Protos.Events {
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       output.WriteRawMessage(this);
     #else
-      if (UserId.Length != 0) {
+      if (occurredAt_ != null) {
         output.WriteRawTag(10);
-        output.WriteString(UserId);
+        output.WriteMessage(OccurredAt);
       }
-      if (eventCase_ == EventOneofCase.ElementCreated) {
+      if (eventCase_ == EventOneofCase.ElementAddedToPage) {
         output.WriteRawTag(18);
-        output.WriteMessage(ElementCreated);
+        output.WriteMessage(ElementAddedToPage);
       }
-      if (eventCase_ == EventOneofCase.ElementDeleted) {
+      if (eventCase_ == EventOneofCase.ElementRemovedFromPage) {
         output.WriteRawTag(26);
-        output.WriteMessage(ElementDeleted);
+        output.WriteMessage(ElementRemovedFromPage);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
@@ -228,17 +229,17 @@ namespace Application.Protos.Events {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (UserId.Length != 0) {
+      if (occurredAt_ != null) {
         output.WriteRawTag(10);
-        output.WriteString(UserId);
+        output.WriteMessage(OccurredAt);
       }
-      if (eventCase_ == EventOneofCase.ElementCreated) {
+      if (eventCase_ == EventOneofCase.ElementAddedToPage) {
         output.WriteRawTag(18);
-        output.WriteMessage(ElementCreated);
+        output.WriteMessage(ElementAddedToPage);
       }
-      if (eventCase_ == EventOneofCase.ElementDeleted) {
+      if (eventCase_ == EventOneofCase.ElementRemovedFromPage) {
         output.WriteRawTag(26);
-        output.WriteMessage(ElementDeleted);
+        output.WriteMessage(ElementRemovedFromPage);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
@@ -250,14 +251,14 @@ namespace Application.Protos.Events {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public int CalculateSize() {
       int size = 0;
-      if (UserId.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(UserId);
+      if (occurredAt_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(OccurredAt);
       }
-      if (eventCase_ == EventOneofCase.ElementCreated) {
-        size += 1 + pb::CodedOutputStream.ComputeMessageSize(ElementCreated);
+      if (eventCase_ == EventOneofCase.ElementAddedToPage) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(ElementAddedToPage);
       }
-      if (eventCase_ == EventOneofCase.ElementDeleted) {
-        size += 1 + pb::CodedOutputStream.ComputeMessageSize(ElementDeleted);
+      if (eventCase_ == EventOneofCase.ElementRemovedFromPage) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(ElementRemovedFromPage);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -271,21 +272,24 @@ namespace Application.Protos.Events {
       if (other == null) {
         return;
       }
-      if (other.UserId.Length != 0) {
-        UserId = other.UserId;
+      if (other.occurredAt_ != null) {
+        if (occurredAt_ == null) {
+          OccurredAt = new global::Google.Protobuf.WellKnownTypes.Timestamp();
+        }
+        OccurredAt.MergeFrom(other.OccurredAt);
       }
       switch (other.EventCase) {
-        case EventOneofCase.ElementCreated:
-          if (ElementCreated == null) {
-            ElementCreated = new global::Application.Protos.Events.ElementCreatedEvent();
+        case EventOneofCase.ElementAddedToPage:
+          if (ElementAddedToPage == null) {
+            ElementAddedToPage = new global::Application.Protos.Events.ElementAddedToPageEvent();
           }
-          ElementCreated.MergeFrom(other.ElementCreated);
+          ElementAddedToPage.MergeFrom(other.ElementAddedToPage);
           break;
-        case EventOneofCase.ElementDeleted:
-          if (ElementDeleted == null) {
-            ElementDeleted = new global::Application.Protos.Events.ElementDeletedEvent();
+        case EventOneofCase.ElementRemovedFromPage:
+          if (ElementRemovedFromPage == null) {
+            ElementRemovedFromPage = new global::Application.Protos.Events.ElementRemovedFromPageEvent();
           }
-          ElementDeleted.MergeFrom(other.ElementDeleted);
+          ElementRemovedFromPage.MergeFrom(other.ElementRemovedFromPage);
           break;
       }
 
@@ -309,25 +313,28 @@ namespace Application.Protos.Events {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
           case 10: {
-            UserId = input.ReadString();
+            if (occurredAt_ == null) {
+              OccurredAt = new global::Google.Protobuf.WellKnownTypes.Timestamp();
+            }
+            input.ReadMessage(OccurredAt);
             break;
           }
           case 18: {
-            global::Application.Protos.Events.ElementCreatedEvent subBuilder = new global::Application.Protos.Events.ElementCreatedEvent();
-            if (eventCase_ == EventOneofCase.ElementCreated) {
-              subBuilder.MergeFrom(ElementCreated);
+            global::Application.Protos.Events.ElementAddedToPageEvent subBuilder = new global::Application.Protos.Events.ElementAddedToPageEvent();
+            if (eventCase_ == EventOneofCase.ElementAddedToPage) {
+              subBuilder.MergeFrom(ElementAddedToPage);
             }
             input.ReadMessage(subBuilder);
-            ElementCreated = subBuilder;
+            ElementAddedToPage = subBuilder;
             break;
           }
           case 26: {
-            global::Application.Protos.Events.ElementDeletedEvent subBuilder = new global::Application.Protos.Events.ElementDeletedEvent();
-            if (eventCase_ == EventOneofCase.ElementDeleted) {
-              subBuilder.MergeFrom(ElementDeleted);
+            global::Application.Protos.Events.ElementRemovedFromPageEvent subBuilder = new global::Application.Protos.Events.ElementRemovedFromPageEvent();
+            if (eventCase_ == EventOneofCase.ElementRemovedFromPage) {
+              subBuilder.MergeFrom(ElementRemovedFromPage);
             }
             input.ReadMessage(subBuilder);
-            ElementDeleted = subBuilder;
+            ElementRemovedFromPage = subBuilder;
             break;
           }
         }
@@ -350,25 +357,28 @@ namespace Application.Protos.Events {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
           case 10: {
-            UserId = input.ReadString();
+            if (occurredAt_ == null) {
+              OccurredAt = new global::Google.Protobuf.WellKnownTypes.Timestamp();
+            }
+            input.ReadMessage(OccurredAt);
             break;
           }
           case 18: {
-            global::Application.Protos.Events.ElementCreatedEvent subBuilder = new global::Application.Protos.Events.ElementCreatedEvent();
-            if (eventCase_ == EventOneofCase.ElementCreated) {
-              subBuilder.MergeFrom(ElementCreated);
+            global::Application.Protos.Events.ElementAddedToPageEvent subBuilder = new global::Application.Protos.Events.ElementAddedToPageEvent();
+            if (eventCase_ == EventOneofCase.ElementAddedToPage) {
+              subBuilder.MergeFrom(ElementAddedToPage);
             }
             input.ReadMessage(subBuilder);
-            ElementCreated = subBuilder;
+            ElementAddedToPage = subBuilder;
             break;
           }
           case 26: {
-            global::Application.Protos.Events.ElementDeletedEvent subBuilder = new global::Application.Protos.Events.ElementDeletedEvent();
-            if (eventCase_ == EventOneofCase.ElementDeleted) {
-              subBuilder.MergeFrom(ElementDeleted);
+            global::Application.Protos.Events.ElementRemovedFromPageEvent subBuilder = new global::Application.Protos.Events.ElementRemovedFromPageEvent();
+            if (eventCase_ == EventOneofCase.ElementRemovedFromPage) {
+              subBuilder.MergeFrom(ElementRemovedFromPage);
             }
             input.ReadMessage(subBuilder);
-            ElementDeleted = subBuilder;
+            ElementRemovedFromPage = subBuilder;
             break;
           }
         }
