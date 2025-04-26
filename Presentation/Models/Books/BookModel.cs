@@ -1,9 +1,7 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using Application.Contracts.Services;
+using CommunityToolkit.Mvvm.ComponentModel;
 using Domain.Aggregates.Books;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Presentation.Models.Page;
-using Presentation.Services.Books;
 using System;
 using System.Collections.ObjectModel;
 using System.Threading;
@@ -11,29 +9,31 @@ using System.Threading.Tasks;
 
 namespace Presentation.Models.Books;
 
-public partial class BookModel(Book book) : ObservableObjectWithResources {
-    private readonly IBookModelService _bookService = App.Current.ServiceProvider.GetRequiredService<IBookModelService>();
-    private readonly ILogger<BookModel> _logger = App.Current.ServiceProvider.GetRequiredService<ILogger<BookModel>>();
+public partial class BookModel(BookId bookId) : ObservableObjectWithResources {
+    private readonly IBookService _bookService = App.Current.ServiceProvider.GetRequiredService<IBookService>();
 
-    public BookId Id { get; } = book.Id;
-    public DateTime CreatedAt { get; } = book.CreatedAt;
-    public DateTime UpdatedAt { get; } = book.UpdatedAt;
-
+    public BookId Id { get; } = bookId;
     [ObservableProperty]
-    public partial ObservableCollection<PageModel> Pages { get; set; } = [];
+    public partial DateTime CreatedAt { get; private set; }
+    [ObservableProperty]
+    public partial DateTime UpdatedAt { get; private set; }
+    [ObservableProperty]
+    public partial ObservableCollection<Book.Page> Pages { get; private set; }
+
 
     protected override async Task CreateResourcesAsync(CancellationToken ct) {
-        var content = await _bookService.GetContentAsync(Id, ct);
+        var book = await _bookService.GetByIdAsync(Id, ct);
+        ArgumentNullException.ThrowIfNull(book);
 
-        // UI
-        Pages = [.. content.Pages];
+        CreatedAt = book.CreatedAt;
+        UpdatedAt = book.UpdatedAt;
+        Pages = new ObservableCollection<Book.Page>(book.Pages);
     }
-
     protected override Task ReleaseResourcesAsync() {
-        // UI
+        CreatedAt = default;
+        UpdatedAt = default;
         Pages = [];
 
         return Task.CompletedTask;
     }
-
 }

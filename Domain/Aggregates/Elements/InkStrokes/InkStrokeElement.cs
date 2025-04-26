@@ -1,8 +1,4 @@
-﻿using Domain.Aggregates.Books;
-using Domain.Aggregates.Elements;
-using Domain.Aggregates.Pages;
-using Domain.Events;
-using System.Numerics;
+﻿using System.Numerics;
 
 namespace Domain.Aggregates.Elements.InkStrokes;
 

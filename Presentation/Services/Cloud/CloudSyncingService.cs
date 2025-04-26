@@ -1,27 +1,22 @@
-﻿using Application.Contracts.Replication;
+﻿using Application.Contracts.Services;
 using Domain.Aggregates.Books;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace Presentation.Services.Cloud;
-public class CloudSyncingService(IReplicationManagerFactory cloudManagerFactory, ILogger<CloudSyncingService> logger) {
+public class CloudSyncingService(IReplicationService replicationService, ILogger<CloudSyncingService> logger) {
     private const int DELAY_MS = 1000;
-    private readonly IReplicationManagerFactory _cloudManagerFactory = cloudManagerFactory;
+    private readonly IReplicationService _replicationService = replicationService;
     private readonly ILogger<CloudSyncingService> _logger = logger;
 
     public Task StartAsync(Guid instanceId, BookId bookId, CancellationToken ct) {
-        var cloudManager = _cloudManagerFactory.Create(instanceId, bookId);
-
         async Task SyncAsync(BookId bookId) {
             _logger.LogInformation("Syncing events for book {BookId}", bookId);
 
-            await cloudManager.PullAsync();
-            await cloudManager.PushAsync();
+            await _replicationService.PullAsync();
+            await _replicationService.PushAsync();
         }
 
         return Task.Run(async () => {

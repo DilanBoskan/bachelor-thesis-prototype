@@ -1,5 +1,4 @@
 ﻿using Domain.Aggregates.Books;
-using Domain.Aggregates.Elements;
 
 namespace Application.Extensions.Serializer.Books;
 

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-
-namespace Application.Helpers.Concurrency; 
+﻿namespace Application.Helpers.Concurrency; 
 public sealed class DatabaseThreadScheduler(SingleThreadTaskScheduler scheduler) : IScheduler {
     private readonly SingleThreadTaskScheduler _scheduler = scheduler;
     private readonly TaskFactory _factory = new(scheduler);

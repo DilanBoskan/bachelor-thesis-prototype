@@ -1,7 +1,4 @@
-﻿using Domain.Aggregates.Books;
-using Domain.Aggregates.Common;
-
-namespace Domain.Aggregates.Elements;
+﻿namespace Domain.Aggregates.Elements;
 
 public abstract class Element : IEntity {
     public ElementId Id { get; }

@@ -25,16 +25,17 @@ namespace Application.Protos.Pages {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "ChBwYWdlcy9wYWdlLnByb3RvEgVwYWdlcxoWZWxlbWVudHMvZWxlbWVudC5w",
-            "cm90bxofZ29vZ2xlL3Byb3RvYnVmL3RpbWVzdGFtcC5wcm90byK2AQoEUGFn",
-            "ZRIKCgJpZBgBIAEoCRINCgV3aWR0aBgCIAEoAhIOCgZoZWlnaHQYAyABKAIS",
-            "LgoKY3JlYXRlZF9hdBgEIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3Rh",
-            "bXASLgoKdXBkYXRlZF9hdBgFIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1l",
-            "c3RhbXASIwoIZWxlbWVudHMYBiADKAsyES5lbGVtZW50cy5FbGVtZW50Qhuq",
-            "AhhBcHBsaWNhdGlvbi5Qcm90b3MuUGFnZXNiBnByb3RvMw=="));
+            "cm90bxofZ29vZ2xlL3Byb3RvYnVmL3RpbWVzdGFtcC5wcm90byLOAQoEUGFn",
+            "ZRIKCgJpZBgBIAEoCRIWCg5yZXBsaWNhdGlvbl9pZBgCIAEoBBINCgV3aWR0",
+            "aBgDIAEoAhIOCgZoZWlnaHQYBCABKAISLgoKY3JlYXRlZF9hdBgFIAEoCzIa",
+            "Lmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXASLgoKdXBkYXRlZF9hdBgGIAEo",
+            "CzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXASIwoIZWxlbWVudHMYByAD",
+            "KAsyES5lbGVtZW50cy5FbGVtZW50QhuqAhhBcHBsaWNhdGlvbi5Qcm90b3Mu",
+            "UGFnZXNiBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::Application.Protos.Elements.ElementReflection.Descriptor, global::Google.Protobuf.WellKnownTypes.TimestampReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Application.Protos.Pages.Page), global::Application.Protos.Pages.Page.Parser, new[]{ "Id", "Width", "Height", "CreatedAt", "UpdatedAt", "Elements" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::Application.Protos.Pages.Page), global::Application.Protos.Pages.Page.Parser, new[]{ "Id", "ReplicationId", "Width", "Height", "CreatedAt", "UpdatedAt", "Elements" }, null, null, null, null)
           }));
     }
     #endregion
@@ -80,6 +81,7 @@ namespace Application.Protos.Pages {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public Page(Page other) : this() {
       id_ = other.id_;
+      replicationId_ = other.replicationId_;
       width_ = other.width_;
       height_ = other.height_;
       createdAt_ = other.createdAt_ != null ? other.createdAt_.Clone() : null;
@@ -106,8 +108,20 @@ namespace Application.Protos.Pages {
       }
     }
 
+    /// <summary>Field number for the "replication_id" field.</summary>
+    public const int ReplicationIdFieldNumber = 2;
+    private ulong replicationId_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ulong ReplicationId {
+      get { return replicationId_; }
+      set {
+        replicationId_ = value;
+      }
+    }
+
     /// <summary>Field number for the "width" field.</summary>
-    public const int WidthFieldNumber = 2;
+    public const int WidthFieldNumber = 3;
     private float width_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -119,7 +133,7 @@ namespace Application.Protos.Pages {
     }
 
     /// <summary>Field number for the "height" field.</summary>
-    public const int HeightFieldNumber = 3;
+    public const int HeightFieldNumber = 4;
     private float height_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -131,7 +145,7 @@ namespace Application.Protos.Pages {
     }
 
     /// <summary>Field number for the "created_at" field.</summary>
-    public const int CreatedAtFieldNumber = 4;
+    public const int CreatedAtFieldNumber = 5;
     private global::Google.Protobuf.WellKnownTypes.Timestamp createdAt_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -143,7 +157,7 @@ namespace Application.Protos.Pages {
     }
 
     /// <summary>Field number for the "updated_at" field.</summary>
-    public const int UpdatedAtFieldNumber = 5;
+    public const int UpdatedAtFieldNumber = 6;
     private global::Google.Protobuf.WellKnownTypes.Timestamp updatedAt_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -155,9 +169,9 @@ namespace Application.Protos.Pages {
     }
 
     /// <summary>Field number for the "elements" field.</summary>
-    public const int ElementsFieldNumber = 6;
+    public const int ElementsFieldNumber = 7;
     private static readonly pb::FieldCodec<global::Application.Protos.Elements.Element> _repeated_elements_codec
-        = pb::FieldCodec.ForMessage(50, global::Application.Protos.Elements.Element.Parser);
+        = pb::FieldCodec.ForMessage(58, global::Application.Protos.Elements.Element.Parser);
     private readonly pbc::RepeatedField<global::Application.Protos.Elements.Element> elements_ = new pbc::RepeatedField<global::Application.Protos.Elements.Element>();
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -181,6 +195,7 @@ namespace Application.Protos.Pages {
         return true;
       }
       if (Id != other.Id) return false;
+      if (ReplicationId != other.ReplicationId) return false;
       if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(Width, other.Width)) return false;
       if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(Height, other.Height)) return false;
       if (!object.Equals(CreatedAt, other.CreatedAt)) return false;
@@ -194,6 +209,7 @@ namespace Application.Protos.Pages {
     public override int GetHashCode() {
       int hash = 1;
       if (Id.Length != 0) hash ^= Id.GetHashCode();
+      if (ReplicationId != 0UL) hash ^= ReplicationId.GetHashCode();
       if (Width != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(Width);
       if (Height != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(Height);
       if (createdAt_ != null) hash ^= CreatedAt.GetHashCode();
@@ -221,20 +237,24 @@ namespace Application.Protos.Pages {
         output.WriteRawTag(10);
         output.WriteString(Id);
       }
+      if (ReplicationId != 0UL) {
+        output.WriteRawTag(16);
+        output.WriteUInt64(ReplicationId);
+      }
       if (Width != 0F) {
-        output.WriteRawTag(21);
+        output.WriteRawTag(29);
         output.WriteFloat(Width);
       }
       if (Height != 0F) {
-        output.WriteRawTag(29);
+        output.WriteRawTag(37);
         output.WriteFloat(Height);
       }
       if (createdAt_ != null) {
-        output.WriteRawTag(34);
+        output.WriteRawTag(42);
         output.WriteMessage(CreatedAt);
       }
       if (updatedAt_ != null) {
-        output.WriteRawTag(42);
+        output.WriteRawTag(50);
         output.WriteMessage(UpdatedAt);
       }
       elements_.WriteTo(output, _repeated_elements_codec);
@@ -252,20 +272,24 @@ namespace Application.Protos.Pages {
         output.WriteRawTag(10);
         output.WriteString(Id);
       }
+      if (ReplicationId != 0UL) {
+        output.WriteRawTag(16);
+        output.WriteUInt64(ReplicationId);
+      }
       if (Width != 0F) {
-        output.WriteRawTag(21);
+        output.WriteRawTag(29);
         output.WriteFloat(Width);
       }
       if (Height != 0F) {
-        output.WriteRawTag(29);
+        output.WriteRawTag(37);
         output.WriteFloat(Height);
       }
       if (createdAt_ != null) {
-        output.WriteRawTag(34);
+        output.WriteRawTag(42);
         output.WriteMessage(CreatedAt);
       }
       if (updatedAt_ != null) {
-        output.WriteRawTag(42);
+        output.WriteRawTag(50);
         output.WriteMessage(UpdatedAt);
       }
       elements_.WriteTo(ref output, _repeated_elements_codec);
@@ -281,6 +305,9 @@ namespace Application.Protos.Pages {
       int size = 0;
       if (Id.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(Id);
+      }
+      if (ReplicationId != 0UL) {
+        size += 1 + pb::CodedOutputStream.ComputeUInt64Size(ReplicationId);
       }
       if (Width != 0F) {
         size += 1 + 4;
@@ -309,6 +336,9 @@ namespace Application.Protos.Pages {
       }
       if (other.Id.Length != 0) {
         Id = other.Id;
+      }
+      if (other.ReplicationId != 0UL) {
+        ReplicationId = other.ReplicationId;
       }
       if (other.Width != 0F) {
         Width = other.Width;
@@ -352,29 +382,33 @@ namespace Application.Protos.Pages {
             Id = input.ReadString();
             break;
           }
-          case 21: {
-            Width = input.ReadFloat();
+          case 16: {
+            ReplicationId = input.ReadUInt64();
             break;
           }
           case 29: {
+            Width = input.ReadFloat();
+            break;
+          }
+          case 37: {
             Height = input.ReadFloat();
             break;
           }
-          case 34: {
+          case 42: {
             if (createdAt_ == null) {
               CreatedAt = new global::Google.Protobuf.WellKnownTypes.Timestamp();
             }
             input.ReadMessage(CreatedAt);
             break;
           }
-          case 42: {
+          case 50: {
             if (updatedAt_ == null) {
               UpdatedAt = new global::Google.Protobuf.WellKnownTypes.Timestamp();
             }
             input.ReadMessage(UpdatedAt);
             break;
           }
-          case 50: {
+          case 58: {
             elements_.AddEntriesFrom(input, _repeated_elements_codec);
             break;
           }
@@ -401,29 +435,33 @@ namespace Application.Protos.Pages {
             Id = input.ReadString();
             break;
           }
-          case 21: {
-            Width = input.ReadFloat();
+          case 16: {
+            ReplicationId = input.ReadUInt64();
             break;
           }
           case 29: {
+            Width = input.ReadFloat();
+            break;
+          }
+          case 37: {
             Height = input.ReadFloat();
             break;
           }
-          case 34: {
+          case 42: {
             if (createdAt_ == null) {
               CreatedAt = new global::Google.Protobuf.WellKnownTypes.Timestamp();
             }
             input.ReadMessage(CreatedAt);
             break;
           }
-          case 42: {
+          case 50: {
             if (updatedAt_ == null) {
               UpdatedAt = new global::Google.Protobuf.WellKnownTypes.Timestamp();
             }
             input.ReadMessage(UpdatedAt);
             break;
           }
-          case 50: {
+          case 58: {
             elements_.AddEntriesFrom(ref input, _repeated_elements_codec);
             break;
           }

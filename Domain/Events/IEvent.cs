@@ -1,12 +1,9 @@
-﻿using Domain.Aggregates.Users;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Domain.Aggregates.Pages;
 
 namespace Domain.Events;
 
 public interface IEvent {
     DateTime OccurredAt { get; }
+    PageId PageId { get; }
+    ReplicationId ReplicationId { get; }
 }

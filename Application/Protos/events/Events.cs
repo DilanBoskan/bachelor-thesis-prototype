@@ -25,19 +25,21 @@ namespace Application.Protos.Events {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "ChNldmVudHMvZXZlbnRzLnByb3RvEgZldmVudHMaH2dvb2dsZS9wcm90b2J1",
-            "Zi90aW1lc3RhbXAucHJvdG8aKGV2ZW50cy9lbGVtZW50X2FkZGVkX3RvX3Bh",
-            "Z2VfZXZlbnQucHJvdG8aLGV2ZW50cy9lbGVtZW50X3JlbW92ZWRfZnJvbV9w",
-            "YWdlX2V2ZW50LnByb3RvIs0BCgVFdmVudBIvCgtvY2N1cnJlZF9hdBgBIAEo",
-            "CzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXASQAoVZWxlbWVudF9hZGRl",
-            "ZF90b19wYWdlGAIgASgLMh8uZXZlbnRzLkVsZW1lbnRBZGRlZFRvUGFnZUV2",
-            "ZW50SAASSAoZZWxlbWVudF9yZW1vdmVkX2Zyb21fcGFnZRgDIAEoCzIjLmV2",
-            "ZW50cy5FbGVtZW50UmVtb3ZlZEZyb21QYWdlRXZlbnRIAEIHCgVldmVudCIr",
-            "CgpFdmVudEdyb3VwEh0KBmV2ZW50cxgBIAMoCzINLmV2ZW50cy5FdmVudEIc",
-            "qgIZQXBwbGljYXRpb24uUHJvdG9zLkV2ZW50c2IGcHJvdG8z"));
+            "Zi90aW1lc3RhbXAucHJvdG8aM2V2ZW50cy9pbmtfc3Ryb2tlX2VsZW1lbnRf",
+            "YWRkZWRfdG9fcGFnZV9ldmVudC5wcm90bxosZXZlbnRzL2VsZW1lbnRfcmVt",
+            "b3ZlZF9mcm9tX3BhZ2VfZXZlbnQucHJvdG8iigIKBUV2ZW50Ei8KC29jY3Vy",
+            "cmVkX2F0GAEgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcBIPCgdw",
+            "YWdlX2lkGAIgASgJEhYKDnJlcGxpY2F0aW9uX2lkGAMgASgEElQKIGlua19z",
+            "dHJva2VfZWxlbWVudF9hZGRlZF90b19wYWdlGAQgASgLMiguZXZlbnRzLklu",
+            "a1N0cm9rZUVsZW1lbnRBZGRlZFRvUGFnZUV2ZW50SAASSAoZZWxlbWVudF9y",
+            "ZW1vdmVkX2Zyb21fcGFnZRgFIAEoCzIjLmV2ZW50cy5FbGVtZW50UmVtb3Zl",
+            "ZEZyb21QYWdlRXZlbnRIAEIHCgVldmVudCIrCgpFdmVudEdyb3VwEh0KBmV2",
+            "ZW50cxgBIAMoCzINLmV2ZW50cy5FdmVudEIcqgIZQXBwbGljYXRpb24uUHJv",
+            "dG9zLkV2ZW50c2IGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::Google.Protobuf.WellKnownTypes.TimestampReflection.Descriptor, global::Application.Protos.Events.ElementAddedToPageEventReflection.Descriptor, global::Application.Protos.Events.ElementRemovedFromPageEventReflection.Descriptor, },
+          new pbr::FileDescriptor[] { global::Google.Protobuf.WellKnownTypes.TimestampReflection.Descriptor, global::Application.Protos.Events.InkStrokeElementAddedToPageEventReflection.Descriptor, global::Application.Protos.Events.ElementRemovedFromPageEventReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Application.Protos.Events.Event), global::Application.Protos.Events.Event.Parser, new[]{ "OccurredAt", "ElementAddedToPage", "ElementRemovedFromPage" }, new[]{ "Event" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::Application.Protos.Events.Event), global::Application.Protos.Events.Event.Parser, new[]{ "OccurredAt", "PageId", "ReplicationId", "InkStrokeElementAddedToPage", "ElementRemovedFromPage" }, new[]{ "Event" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::Application.Protos.Events.EventGroup), global::Application.Protos.Events.EventGroup.Parser, new[]{ "Events" }, null, null, null, null)
           }));
     }
@@ -84,9 +86,11 @@ namespace Application.Protos.Events {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public Event(Event other) : this() {
       occurredAt_ = other.occurredAt_ != null ? other.occurredAt_.Clone() : null;
+      pageId_ = other.pageId_;
+      replicationId_ = other.replicationId_;
       switch (other.EventCase) {
-        case EventOneofCase.ElementAddedToPage:
-          ElementAddedToPage = other.ElementAddedToPage.Clone();
+        case EventOneofCase.InkStrokeElementAddedToPage:
+          InkStrokeElementAddedToPage = other.InkStrokeElementAddedToPage.Clone();
           break;
         case EventOneofCase.ElementRemovedFromPage:
           ElementRemovedFromPage = other.ElementRemovedFromPage.Clone();
@@ -114,20 +118,44 @@ namespace Application.Protos.Events {
       }
     }
 
-    /// <summary>Field number for the "element_added_to_page" field.</summary>
-    public const int ElementAddedToPageFieldNumber = 2;
+    /// <summary>Field number for the "page_id" field.</summary>
+    public const int PageIdFieldNumber = 2;
+    private string pageId_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Application.Protos.Events.ElementAddedToPageEvent ElementAddedToPage {
-      get { return eventCase_ == EventOneofCase.ElementAddedToPage ? (global::Application.Protos.Events.ElementAddedToPageEvent) event_ : null; }
+    public string PageId {
+      get { return pageId_; }
+      set {
+        pageId_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "replication_id" field.</summary>
+    public const int ReplicationIdFieldNumber = 3;
+    private ulong replicationId_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ulong ReplicationId {
+      get { return replicationId_; }
+      set {
+        replicationId_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "ink_stroke_element_added_to_page" field.</summary>
+    public const int InkStrokeElementAddedToPageFieldNumber = 4;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public global::Application.Protos.Events.InkStrokeElementAddedToPageEvent InkStrokeElementAddedToPage {
+      get { return eventCase_ == EventOneofCase.InkStrokeElementAddedToPage ? (global::Application.Protos.Events.InkStrokeElementAddedToPageEvent) event_ : null; }
       set {
         event_ = value;
-        eventCase_ = value == null ? EventOneofCase.None : EventOneofCase.ElementAddedToPage;
+        eventCase_ = value == null ? EventOneofCase.None : EventOneofCase.InkStrokeElementAddedToPage;
       }
     }
 
     /// <summary>Field number for the "element_removed_from_page" field.</summary>
-    public const int ElementRemovedFromPageFieldNumber = 3;
+    public const int ElementRemovedFromPageFieldNumber = 5;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public global::Application.Protos.Events.ElementRemovedFromPageEvent ElementRemovedFromPage {
@@ -142,8 +170,8 @@ namespace Application.Protos.Events {
     /// <summary>Enum of possible cases for the "event" oneof.</summary>
     public enum EventOneofCase {
       None = 0,
-      ElementAddedToPage = 2,
-      ElementRemovedFromPage = 3,
+      InkStrokeElementAddedToPage = 4,
+      ElementRemovedFromPage = 5,
     }
     private EventOneofCase eventCase_ = EventOneofCase.None;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -175,7 +203,9 @@ namespace Application.Protos.Events {
         return true;
       }
       if (!object.Equals(OccurredAt, other.OccurredAt)) return false;
-      if (!object.Equals(ElementAddedToPage, other.ElementAddedToPage)) return false;
+      if (PageId != other.PageId) return false;
+      if (ReplicationId != other.ReplicationId) return false;
+      if (!object.Equals(InkStrokeElementAddedToPage, other.InkStrokeElementAddedToPage)) return false;
       if (!object.Equals(ElementRemovedFromPage, other.ElementRemovedFromPage)) return false;
       if (EventCase != other.EventCase) return false;
       return Equals(_unknownFields, other._unknownFields);
@@ -186,7 +216,9 @@ namespace Application.Protos.Events {
     public override int GetHashCode() {
       int hash = 1;
       if (occurredAt_ != null) hash ^= OccurredAt.GetHashCode();
-      if (eventCase_ == EventOneofCase.ElementAddedToPage) hash ^= ElementAddedToPage.GetHashCode();
+      if (PageId.Length != 0) hash ^= PageId.GetHashCode();
+      if (ReplicationId != 0UL) hash ^= ReplicationId.GetHashCode();
+      if (eventCase_ == EventOneofCase.InkStrokeElementAddedToPage) hash ^= InkStrokeElementAddedToPage.GetHashCode();
       if (eventCase_ == EventOneofCase.ElementRemovedFromPage) hash ^= ElementRemovedFromPage.GetHashCode();
       hash ^= (int) eventCase_;
       if (_unknownFields != null) {
@@ -211,12 +243,20 @@ namespace Application.Protos.Events {
         output.WriteRawTag(10);
         output.WriteMessage(OccurredAt);
       }
-      if (eventCase_ == EventOneofCase.ElementAddedToPage) {
+      if (PageId.Length != 0) {
         output.WriteRawTag(18);
-        output.WriteMessage(ElementAddedToPage);
+        output.WriteString(PageId);
+      }
+      if (ReplicationId != 0UL) {
+        output.WriteRawTag(24);
+        output.WriteUInt64(ReplicationId);
+      }
+      if (eventCase_ == EventOneofCase.InkStrokeElementAddedToPage) {
+        output.WriteRawTag(34);
+        output.WriteMessage(InkStrokeElementAddedToPage);
       }
       if (eventCase_ == EventOneofCase.ElementRemovedFromPage) {
-        output.WriteRawTag(26);
+        output.WriteRawTag(42);
         output.WriteMessage(ElementRemovedFromPage);
       }
       if (_unknownFields != null) {
@@ -233,12 +273,20 @@ namespace Application.Protos.Events {
         output.WriteRawTag(10);
         output.WriteMessage(OccurredAt);
       }
-      if (eventCase_ == EventOneofCase.ElementAddedToPage) {
+      if (PageId.Length != 0) {
         output.WriteRawTag(18);
-        output.WriteMessage(ElementAddedToPage);
+        output.WriteString(PageId);
+      }
+      if (ReplicationId != 0UL) {
+        output.WriteRawTag(24);
+        output.WriteUInt64(ReplicationId);
+      }
+      if (eventCase_ == EventOneofCase.InkStrokeElementAddedToPage) {
+        output.WriteRawTag(34);
+        output.WriteMessage(InkStrokeElementAddedToPage);
       }
       if (eventCase_ == EventOneofCase.ElementRemovedFromPage) {
-        output.WriteRawTag(26);
+        output.WriteRawTag(42);
         output.WriteMessage(ElementRemovedFromPage);
       }
       if (_unknownFields != null) {
@@ -254,8 +302,14 @@ namespace Application.Protos.Events {
       if (occurredAt_ != null) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(OccurredAt);
       }
-      if (eventCase_ == EventOneofCase.ElementAddedToPage) {
-        size += 1 + pb::CodedOutputStream.ComputeMessageSize(ElementAddedToPage);
+      if (PageId.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(PageId);
+      }
+      if (ReplicationId != 0UL) {
+        size += 1 + pb::CodedOutputStream.ComputeUInt64Size(ReplicationId);
+      }
+      if (eventCase_ == EventOneofCase.InkStrokeElementAddedToPage) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(InkStrokeElementAddedToPage);
       }
       if (eventCase_ == EventOneofCase.ElementRemovedFromPage) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(ElementRemovedFromPage);
@@ -278,12 +332,18 @@ namespace Application.Protos.Events {
         }
         OccurredAt.MergeFrom(other.OccurredAt);
       }
+      if (other.PageId.Length != 0) {
+        PageId = other.PageId;
+      }
+      if (other.ReplicationId != 0UL) {
+        ReplicationId = other.ReplicationId;
+      }
       switch (other.EventCase) {
-        case EventOneofCase.ElementAddedToPage:
-          if (ElementAddedToPage == null) {
-            ElementAddedToPage = new global::Application.Protos.Events.ElementAddedToPageEvent();
+        case EventOneofCase.InkStrokeElementAddedToPage:
+          if (InkStrokeElementAddedToPage == null) {
+            InkStrokeElementAddedToPage = new global::Application.Protos.Events.InkStrokeElementAddedToPageEvent();
           }
-          ElementAddedToPage.MergeFrom(other.ElementAddedToPage);
+          InkStrokeElementAddedToPage.MergeFrom(other.InkStrokeElementAddedToPage);
           break;
         case EventOneofCase.ElementRemovedFromPage:
           if (ElementRemovedFromPage == null) {
@@ -320,15 +380,23 @@ namespace Application.Protos.Events {
             break;
           }
           case 18: {
-            global::Application.Protos.Events.ElementAddedToPageEvent subBuilder = new global::Application.Protos.Events.ElementAddedToPageEvent();
-            if (eventCase_ == EventOneofCase.ElementAddedToPage) {
-              subBuilder.MergeFrom(ElementAddedToPage);
-            }
-            input.ReadMessage(subBuilder);
-            ElementAddedToPage = subBuilder;
+            PageId = input.ReadString();
             break;
           }
-          case 26: {
+          case 24: {
+            ReplicationId = input.ReadUInt64();
+            break;
+          }
+          case 34: {
+            global::Application.Protos.Events.InkStrokeElementAddedToPageEvent subBuilder = new global::Application.Protos.Events.InkStrokeElementAddedToPageEvent();
+            if (eventCase_ == EventOneofCase.InkStrokeElementAddedToPage) {
+              subBuilder.MergeFrom(InkStrokeElementAddedToPage);
+            }
+            input.ReadMessage(subBuilder);
+            InkStrokeElementAddedToPage = subBuilder;
+            break;
+          }
+          case 42: {
             global::Application.Protos.Events.ElementRemovedFromPageEvent subBuilder = new global::Application.Protos.Events.ElementRemovedFromPageEvent();
             if (eventCase_ == EventOneofCase.ElementRemovedFromPage) {
               subBuilder.MergeFrom(ElementRemovedFromPage);
@@ -364,15 +432,23 @@ namespace Application.Protos.Events {
             break;
           }
           case 18: {
-            global::Application.Protos.Events.ElementAddedToPageEvent subBuilder = new global::Application.Protos.Events.ElementAddedToPageEvent();
-            if (eventCase_ == EventOneofCase.ElementAddedToPage) {
-              subBuilder.MergeFrom(ElementAddedToPage);
-            }
-            input.ReadMessage(subBuilder);
-            ElementAddedToPage = subBuilder;
+            PageId = input.ReadString();
             break;
           }
-          case 26: {
+          case 24: {
+            ReplicationId = input.ReadUInt64();
+            break;
+          }
+          case 34: {
+            global::Application.Protos.Events.InkStrokeElementAddedToPageEvent subBuilder = new global::Application.Protos.Events.InkStrokeElementAddedToPageEvent();
+            if (eventCase_ == EventOneofCase.InkStrokeElementAddedToPage) {
+              subBuilder.MergeFrom(InkStrokeElementAddedToPage);
+            }
+            input.ReadMessage(subBuilder);
+            InkStrokeElementAddedToPage = subBuilder;
+            break;
+          }
+          case 42: {
             global::Application.Protos.Events.ElementRemovedFromPageEvent subBuilder = new global::Application.Protos.Events.ElementRemovedFromPageEvent();
             if (eventCase_ == EventOneofCase.ElementRemovedFromPage) {
               subBuilder.MergeFrom(ElementRemovedFromPage);

@@ -1,5 +1,4 @@
-﻿using Domain.Aggregates.Elements;
-using Domain.Aggregates.Pages;
+﻿using Domain.Aggregates.Pages;
 
 namespace Application.Extensions.Serializer.Pages;
 

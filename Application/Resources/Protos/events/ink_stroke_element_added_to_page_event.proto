@@ -1,0 +1,12 @@
+﻿syntax = "proto3";
+package events;
+option csharp_namespace = "Application.Protos.Events";
+
+import "google/protobuf/timestamp.proto";
+import "elements/ink_stroke_element.proto";
+
+message InkStrokeElementAddedToPageEvent {
+	string element_id = 1;
+	google.protobuf.Timestamp created_at = 2;
+    repeated elements.InkStrokePoint points = 3;
+}

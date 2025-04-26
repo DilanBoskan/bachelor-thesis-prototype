@@ -1,11 +1,4 @@
-﻿using Domain.Aggregates.Books;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Diagnostics.CodeAnalysis;
 
 namespace Domain.Aggregates.Common;
 public abstract record BaseId<TSelf> : IParsable<TSelf> where TSelf : BaseId<TSelf>, new() {

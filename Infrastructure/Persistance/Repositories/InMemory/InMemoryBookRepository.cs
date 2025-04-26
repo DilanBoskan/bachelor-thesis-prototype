@@ -1,15 +1,6 @@
-﻿using Application.Contracts.Event;
-using Application.Protos.Pages;
-using Domain.Aggregates.Books;
-using Domain.Aggregates.Books.Pages;
+﻿using Domain.Aggregates.Books;
 using Domain.Aggregates.Pages;
-using Domain.Aggregates.Users;
-using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Infrastructure.Persistance.Repositories.InMemory;
 public class InMemoryBookRepository : IBookRepository {
@@ -18,8 +9,8 @@ public class InMemoryBookRepository : IBookRepository {
 
     private static readonly Dictionary<BookId, Book> _books = new() {
        { BookId.Create(Guid.Empty), new Book(BookId.Create(Guid.Empty), DateTime.UtcNow, DateTime.UtcNow, [
-            PageId.Create(Guid.Parse("00000000-0000-0000-0000-000000000001")),
-            PageId.Create(Guid.Parse("00000000-0000-0000-0000-000000000002"))
+            new Book.Page(PageId.Create(Guid.Parse("00000000-0000-0000-0000-000000000001")), new SizeF(1000, 1414), DateTime.UtcNow, DateTime.UtcNow),
+            new Book.Page(PageId.Create(Guid.Parse("00000000-0000-0000-0000-000000000002")), new SizeF(1000, 1414), DateTime.UtcNow, DateTime.UtcNow)
         ]) }
     };
 }

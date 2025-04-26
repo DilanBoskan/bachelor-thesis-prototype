@@ -1,18 +1,10 @@
-﻿using Application.Contracts.Event;
-using CommunityToolkit.Mvvm.Messaging;
+﻿using CommunityToolkit.Mvvm.Messaging;
 using CommunityToolkit.WinUI;
-using Domain.Aggregates.Pages;
 using Domain.Events;
 using Microsoft.Extensions.Logging;
-using Presentation.Events;
-using Presentation.Events.Pages;
 using Presentation.Extensions;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using Windows.ApplicationModel.Core;
 
 namespace Presentation.Services.Cloud;
 

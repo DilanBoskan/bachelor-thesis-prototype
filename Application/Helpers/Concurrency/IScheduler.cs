@@ -1,8 +1,4 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-
-namespace Application.Helpers.Concurrency; 
+﻿namespace Application.Helpers.Concurrency; 
 
 public interface IScheduler : IDisposable {
     public bool IsOperationRunning { get; }

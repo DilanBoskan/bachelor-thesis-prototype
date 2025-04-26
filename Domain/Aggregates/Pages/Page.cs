@@ -1,25 +1,24 @@
-﻿using Domain.Aggregates.Books;
-using Domain.Aggregates.Common;
+﻿using Domain.Aggregates.Common;
 using Domain.Aggregates.Elements;
 using Domain.Aggregates.Elements.InkStrokes;
 using Domain.Events;
 using System.Drawing;
-using System.Reflection;
 
 namespace Domain.Aggregates.Pages;
 
-public sealed class Page : AggregateRoot, IApplyEvent<InkStrokeElementAddedToPageEvent>, IApplyEvent<ElementRemovedFromPageEvent> {
+public sealed class Page : AggregateRoot, IApplyEvent {
     public PageId Id { get; }
+    public ReplicationId ReplicationId { get; private set; }
     public SizeF Size { get; }
     public DateTime CreatedAt { get; }
     public DateTime UpdatedAt { get; private set; }
     public IReadOnlyList<Element> Elements => _elements;
 
-    public Page(PageId id, SizeF size, DateTime createdAt, DateTime updatedAt, IEnumerable<Element> elements) {
+    public Page(PageId id, ReplicationId replicationId, SizeF size, DateTime createdAt, DateTime updatedAt, IEnumerable<Element> elements) {
         if (createdAt.Kind != DateTimeKind.Utc) throw new ArgumentException("DateTime must be of Kind Utc", nameof(createdAt));
-        if (updatedAt.Kind != DateTimeKind.Utc) throw new ArgumentException("DateTime must be of Kind Utc", nameof(updatedAt));
 
         Id = id;
+        ReplicationId = replicationId;
         Size = size;
         CreatedAt = createdAt;
         UpdatedAt = updatedAt;
@@ -34,32 +33,49 @@ public sealed class Page : AggregateRoot, IApplyEvent<InkStrokeElementAddedToPag
 
         _elements.Add(element);
         UpdatedAt = DateTime.UtcNow;
+        ReplicationId = ReplicationId.Next();
 
-        AddDomainEvent(new InkStrokeElementAddedToPageEvent(UpdatedAt, Id, element.Id, createdAt, points));
+        AddDomainEvent(new InkStrokeElementAddedToPageEvent(UpdatedAt, Id, ReplicationId, element.Id, createdAt, points));
 
         return element;
     }
-    public void Apply(InkStrokeElementAddedToPageEvent @event) {
-        var element = new InkStrokeElement(@event.ElementId, @event.CreatedAt, @event.CreatedAt, @event.Points);
-
-        _elements.Add(element);
-        UpdatedAt = @event.OccurredAt;
-    }
-
     public void RemoveElement(ElementId elementId) {
         ArgumentNullException.ThrowIfNull(elementId);
         if (!_elements.Any(e => e.Id == elementId)) throw new InvalidOperationException($"Element {elementId} does not exist on this page.");
 
         _elements.RemoveAll(e => e.Id == elementId);
         UpdatedAt = DateTime.UtcNow;
+        ReplicationId = ReplicationId.Next();
 
-        AddDomainEvent(new ElementRemovedFromPageEvent(UpdatedAt, Id, elementId));
+        AddDomainEvent(new ElementRemovedFromPageEvent(UpdatedAt, Id, ReplicationId, elementId));
+    }
+
+    #region Events
+    public void Apply(IEvent @event) {
+        switch (@event) {
+            case InkStrokeElementAddedToPageEvent inkStrokeElementAddedToPageEvent:
+                Apply(inkStrokeElementAddedToPageEvent);
+                break;
+            case ElementRemovedFromPageEvent elementRemovedFromPageEvent:
+                Apply(elementRemovedFromPageEvent);
+                break;
+            default:
+                throw new NotImplementedException();
+        }
+    }
+    public void Apply(InkStrokeElementAddedToPageEvent @event) {
+        var element = @event.ToInkStrokeElement();
+
+        _elements.Add(element);
+        UpdatedAt = @event.OccurredAt;
+        ReplicationId = @event.ReplicationId;
     }
     public void Apply(ElementRemovedFromPageEvent @event) {
         _elements.RemoveAll(e => e.Id == @event.ElementId);
         UpdatedAt = @event.OccurredAt;
+        ReplicationId = @event.ReplicationId;
     }
-
+    #endregion
 
     private readonly List<Element> _elements;
 }

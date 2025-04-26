@@ -1,22 +1,11 @@
-﻿using CommunityToolkit.Mvvm.Input;
-using CommunityToolkit.WinUI;
-using Domain.Aggregates.Elements;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Presentation.Extensions;
+﻿using Domain.Aggregates.Elements;
 using Presentation.Models.Elements;
 using Presentation.Models.Elements.InkStrokes;
-using Presentation.Services.Pages;
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using Windows.ApplicationModel.Core;
-using Windows.UI.Input.Inking;
 
-namespace Presentation.Models.Page;
+namespace Presentation.Models.Pages;
 
 public sealed partial class PageModel {
     private void AddElements(IEnumerable<ElementModel> elements) {

@@ -1,14 +1,9 @@
 ﻿using Application.Contracts.Command;
 using Application.Contracts.Services;
 using Application.Features.Pages.Commands;
-using Domain.Aggregates.Books;
 using Domain.Aggregates.Elements;
 using Domain.Aggregates.Elements.InkStrokes;
 using Domain.Aggregates.Pages;
-using Domain.Events;
-using System.Drawing;
-using System.Numerics;
-using System.Threading.Tasks;
 
 namespace Application.Features.Pages;
 public sealed class PageService(ICommandDispatcher commandDispatcher, IPageRepository pageRepository) : IPageService {

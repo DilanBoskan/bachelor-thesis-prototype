@@ -8,9 +8,10 @@ import "google/protobuf/timestamp.proto";
 // Base definition
 message Page {
 	string id = 1;
-    float width = 2;
-    float height = 3;
-	google.protobuf.Timestamp created_at = 4;
-	google.protobuf.Timestamp updated_at = 5;
-	repeated elements.Element elements = 6;
+	uint64 replication_id = 2;
+    float width = 3;
+    float height = 4;
+	google.protobuf.Timestamp created_at = 5;
+	google.protobuf.Timestamp updated_at = 6;
+	repeated elements.Element elements = 7;
 }

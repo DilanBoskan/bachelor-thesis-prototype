@@ -1,33 +1,26 @@
 ﻿using CommunityToolkit.Mvvm.Input;
-using CommunityToolkit.Mvvm.Messaging;
-using CommunityToolkit.WinUI;
 using Domain.Aggregates.Books;
-using Domain.Aggregates.Elements;
 using Domain.Aggregates.Pages;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Presentation.Extensions;
-using Presentation.Services.Pages;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Windows.ApplicationModel.Core;
 using Windows.UI.Input.Inking;
 
-namespace Presentation.Models.Page;
+namespace Presentation.Models.Pages;
 
-public sealed partial class PageModel(Domain.Aggregates.Pages.Page page) : ObservableObjectWithResources {
+public sealed partial class PageModel(PageId pageId) : ObservableObjectWithResources {
     private readonly IPageModelService _pageService = App.Current.ServiceProvider.GetRequiredService<IPageModelService>();
     private readonly ILogger<PageModel> _logger = App.Current.ServiceProvider.GetRequiredService<ILogger<PageModel>>();
 
-    public PageId Id { get; } = page.Id;
-    public BookId BookId { get; } = page.BookId;
-    public SizeF Size { get; } = page.Size;
-    public DateTime CreatedAt { get; } = page.CreatedAt;
-    public DateTime UpdatedAt { get; } = page.UpdatedAt;
+    public PageId Id { get; } = pageId.Id;
+    public SizeF Size { get; } = pageId.Size;
+    public DateTime CreatedAt { get; } = pageId.CreatedAt;
+    public DateTime UpdatedAt { get; } = pageId.UpdatedAt;
 
     #region UI-Specific
     public InkStrokeContainer StrokeContainer { get; } = new InkStrokeContainer();

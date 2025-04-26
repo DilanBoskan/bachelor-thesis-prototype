@@ -1,7 +1,5 @@
-﻿using Application.Extensions.Serializer.Books;
-using Application.Extensions.Serializer.Pages;
-using Domain.Aggregates.Elements.InkStrokes;
-using Google.Protobuf;
+﻿using Domain.Aggregates.Elements.InkStrokes;
+using Google.Protobuf.Collections;
 using Google.Protobuf.WellKnownTypes;
 using System.Numerics;
 
@@ -14,9 +12,7 @@ public static class InkStrokeElementSerializer {
         var id = ElementIdSerializer.ToDomain(proto.Id);
         var createdAt = proto.CreatedAt.ToDateTime();
         var updatedAt = proto.UpdatedAt.ToDateTime();
-        var inkPoints = proto.InkStroke.Points
-            .Select(p => new InkStrokePoint(new Vector2(p.PositionX, p.PositionY), p.Pressure))
-            .ToArray();
+        var inkPoints = PointsToDomain(proto.InkStroke.Points);
 
         return new InkStrokeElement(
             id,
@@ -30,12 +26,7 @@ public static class InkStrokeElementSerializer {
         var id = ElementIdSerializer.ToProto(value.Id);
         var createdAt = value.CreatedAt.ToTimestamp();
         var updatedAt = value.UpdatedAt.ToTimestamp();
-        var inkPoints = value.Points
-            .Select(v => new Protos.Elements.InkStrokePoint() {
-                PositionX = v.Position.X,
-                PositionY = v.Position.Y,
-                Pressure = v.Pressure
-            });
+        var inkPoints = PointsToProto(value.Points);
 
         var inkStrokeProto = new Protos.Elements.InkStrokeElement();
         inkStrokeProto.Points.AddRange(inkPoints);
@@ -46,5 +37,19 @@ public static class InkStrokeElementSerializer {
             UpdatedAt = updatedAt,
             InkStroke = inkStrokeProto,
         };
+    }
+
+    public static IReadOnlyList<InkStrokePoint> PointsToDomain(RepeatedField<Protos.Elements.InkStrokePoint> protos) {
+        return protos
+            .Select(p => new InkStrokePoint(new Vector2(p.PositionX, p.PositionY), p.Pressure))
+            .ToArray();
+    }
+    public static IEnumerable<Protos.Elements.InkStrokePoint> PointsToProto(IReadOnlyList<InkStrokePoint> values) {
+        return values
+            .Select(v => new Protos.Elements.InkStrokePoint() {
+                PositionX = v.Position.X,
+                PositionY = v.Position.Y,
+                Pressure = v.Pressure
+            });
     }
 }

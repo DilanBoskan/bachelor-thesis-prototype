@@ -1,31 +1,19 @@
 ﻿using Application.Extensions;
 using Application.Helpers.Concurrency;
-using CommunityToolkit.Mvvm.DependencyInjection;
 using Domain.Aggregates.Books;
 using Domain.Aggregates.Users;
 using Infrastructure.Extensions;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Presentation.Extensions;
-using Presentation.Services.Books;
 using Presentation.Services.Cloud;
-using Presentation.Services.Pages;
-using Presentation.ViewModels;
 using Presentation.Views;
 using System;
-using System.Collections.Generic;
-using System.Runtime.Versioning;
 using System.Threading;
-using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
-using Windows.ApplicationModel.Background;
 using Windows.System;
-using Windows.System.Threading;
-using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Navigation;
 
 namespace Presentation;
 

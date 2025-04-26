@@ -1,13 +1,10 @@
 ﻿using Domain.Events;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Domain.Aggregates.Common;
 
 public abstract class AggregateRoot : IAggregateRoot {
+    public IReadOnlyList<IEvent> DomainEvents => _domainEvents;
+
     protected void AddDomainEvent(IEvent @event) {
         _domainEvents.Add(@event);
     }
