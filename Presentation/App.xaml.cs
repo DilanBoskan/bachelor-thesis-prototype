@@ -42,9 +42,9 @@ public sealed partial class App : Windows.UI.Xaml.Application {
         Suspending += OnSuspending;
     }
 
-    private ServiceProvider ConfigureServiceProvider() {
+    private static ServiceProvider ConfigureServiceProvider() {
         var serviceProvider = new ServiceCollection()
-            .AddInfrastructure(UserId, InstanceId)
+            .AddInfrastructure()
             .AddApplication()
             .AddWindows() // UI Layer
             .BuildServiceProvider();

@@ -9,10 +9,10 @@ using System.Threading.Tasks;
 
 namespace Presentation.Models.Books;
 
-public partial class BookModel(BookId bookId) : ObservableObjectWithResources {
+public partial class BookModel(BookId id) : ObservableObjectWithResources {
     private readonly IBookService _bookService = App.Current.ServiceProvider.GetRequiredService<IBookService>();
 
-    public BookId Id { get; } = bookId;
+    public BookId Id { get; } = id;
     [ObservableProperty]
     public partial DateTime CreatedAt { get; private set; }
     [ObservableProperty]

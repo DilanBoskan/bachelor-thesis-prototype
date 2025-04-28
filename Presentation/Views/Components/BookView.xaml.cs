@@ -1,6 +1,13 @@
-﻿using Domain.Aggregates.Books;
+﻿using CommunityToolkit.WinUI;
+using Domain.Aggregates.Books;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Microsoft.UI.Xaml.Controls;
+using Presentation.Models.Pages;
 using Presentation.ViewModels.Components;
+using System;
+using Windows.Foundation;
+using Windows.UI.Input.Inking;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -15,9 +22,25 @@ public sealed partial class BookView : UserControl {
         set => SetValue(BookIdProperty, value);
     }
 
+    private readonly ILogger<BookView> _logger = App.Current.ServiceProvider.GetRequiredService<ILogger<BookView>>();
     public BookView() {
         this.InitializeComponent();
+
+        Loaded += BookView_Loaded;
+        Unloaded += BookView_Unloaded;
     }
+
+    #region Component Lifecycle
+    private async void BookView_Loaded(object sender, RoutedEventArgs e) {
+        if (BookId is not null) {
+            await ViewModel.ActivateAsync(BookId);
+        }
+    }
+    private async void BookView_Unloaded(object sender, RoutedEventArgs e) {
+        await ViewModel.DeactivateAsync();
+    }
+    #endregion
+
 
     private async void OnBookIdChanged(BookId? oldValue, BookId? newValue) {
         if (newValue is not null) {

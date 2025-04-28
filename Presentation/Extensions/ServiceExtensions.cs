@@ -11,10 +11,7 @@ public static class ServiceExtensions {
                 builder.AddDebug();
                 builder.SetMinimumLevel(LogLevel.Debug);
             })
-            .AddScoped<IBookModelService, BookModelService>()
-            .AddScoped<IPageModelService, PageModelService>()
             .AddScoped<CloudSyncingService>()
-            .AddScoped<ICloudEventHandler, CloudEventHandler>()
             .AddScoped<MainPageViewModel>();
 
         return services;

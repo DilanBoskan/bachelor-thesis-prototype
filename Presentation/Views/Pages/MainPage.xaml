@@ -11,20 +11,6 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
-        <ScrollViewer ZoomMode="Enabled" HorizontalScrollMode="Enabled" HorizontalScrollBarVisibility="Visible" MinZoomFactor="0.5">
-            <Grid HorizontalAlignment="Stretch" Width="2500">
-                <muxc:ItemsRepeater ItemsSource="{x:Bind ViewModel.Book.Pages, Mode=OneWay}" ElementPrepared="ItemsRepeater_ElementPrepared" ElementIndexChanged="ItemsRepeater_ElementIndexChanged" ElementClearing="ItemsRepeater_ElementClearing">
-                    <muxc:ItemsRepeater.ItemTemplate>
-                        <DataTemplate x:DataType="page:Page">
-                            <Grid DataContext="{x:Bind}" Background="White" HorizontalAlignment="Center" Margin="0,0,0,30" CornerRadius="4">
-                                <TextBlock Foreground="Red" FontSize="40" VerticalAlignment="Center" HorizontalAlignment="Center" Text="{x:Bind Id.Value, Mode=OneTime}"/>
-                                <InkCanvas Width="{x:Bind Size.Width, Mode=OneTime}" Height="{x:Bind Size.Height, Mode=OneTime}"></InkCanvas>
-                            </Grid>
-                        </DataTemplate>
-                    </muxc:ItemsRepeater.ItemTemplate>
-                </muxc:ItemsRepeater>
-            </Grid>
-        </ScrollViewer>
 
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,20,0,0" Background="Gray" Height="40">
             <TextBlock Text="Here is the InkToolbar"></TextBlock>
@@ -32,7 +18,6 @@
 
         <StackPanel VerticalAlignment="Top" HorizontalAlignment="Left" Margin="20,20,0,0" Spacing="20" Orientation="Vertical">
             <Button Command="{x:Bind NewWindowCommand, Mode=OneTime}">New Window</Button>
-            <Button Command="{x:Bind PrintLoadedPagesCommand, Mode=OneTime}">DEBUG: Loaded Pages</Button>
         </StackPanel>
     </Grid>
 </Page>

@@ -6,7 +6,7 @@ using System.Drawing;
 
 namespace Domain.Aggregates.Pages;
 
-public sealed class Page : AggregateRoot, IApplyEvent {
+public sealed class Page : AggregateRoot<Page>, IApplyEvent {
     public PageId Id { get; }
     public ReplicationId ReplicationId { get; private set; }
     public SizeF Size { get; }

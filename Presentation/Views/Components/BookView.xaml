@@ -5,11 +5,21 @@
     xmlns:local="using:Presentation.Views.Components"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:page="using:Domain.Aggregates.Pages"
     mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="400">
 
-    <Grid>
-
-    </Grid>
+    <ScrollViewer ZoomMode="Enabled" HorizontalScrollMode="Enabled" HorizontalScrollBarVisibility="Visible" MinZoomFactor="0.5">
+        <Grid HorizontalAlignment="Stretch" Width="2500">
+            <muxc:ItemsRepeater ItemsSource="{x:Bind ViewModel.Book.Pages, Mode=OneWay}" ElementPrepared="ItemsRepeater_ElementPrepared" ElementIndexChanged="ItemsRepeater_ElementIndexChanged" ElementClearing="ItemsRepeater_ElementClearing">
+                <muxc:ItemsRepeater.ItemTemplate>
+                    <DataTemplate x:DataType="page:Page">
+                        <local:PageView DataContext="{x:Bind}" PageId="{x:Bind Id, Mode=OneTime}"/>
+                    </DataTemplate>
+                </muxc:ItemsRepeater.ItemTemplate>
+            </muxc:ItemsRepeater>
+        </Grid>
+    </ScrollViewer>
 </UserControl>

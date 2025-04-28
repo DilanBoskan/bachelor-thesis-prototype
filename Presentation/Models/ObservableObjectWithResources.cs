@@ -79,8 +79,6 @@ public abstract partial class ObservableObjectWithResources<TArgs> : ObservableO
 
     protected abstract Task CreateResourcesAsync(TArgs args, CancellationToken ct);
     protected abstract Task ReleaseResourcesAsync();
-
-    private TArgs _args;
 }
 
 public abstract partial class ObservableObjectWithResources : ObservableObject {

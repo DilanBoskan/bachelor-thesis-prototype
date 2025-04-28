@@ -17,7 +17,7 @@ public class InMemoryPageRepository(IEventDispatcher eventDispatcher) : IPageRep
 
     public async Task SaveChangesAsync(CancellationToken ct = default) {
         var events = _transactionPages.Values
-            .SelectMany(e => e.PopDomainEvents())
+            .SelectMany(e => e.DomainEvents)
             .ToList();
 
         // Save changes (EF Core)

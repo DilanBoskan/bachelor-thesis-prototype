@@ -13,10 +13,6 @@ using Windows.UI.Input.Inking;
 
 namespace Presentation.Extensions;
 public static class MappingExtensions {
-    public static BookModel ToWindows(this Book book) => new(book);
-    public static PageModel ToWindows(this Page page) => new(page);
-
-
     public static ElementModel ToWindows(this Element element) => element switch {
         InkStrokeElement inkStrokeElement => inkStrokeElement.ToWindows(),
         _ => throw new NotImplementedException($"Mapping for {element.GetType()} is not implemented")

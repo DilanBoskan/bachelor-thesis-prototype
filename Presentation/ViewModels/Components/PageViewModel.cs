@@ -13,8 +13,10 @@ public partial class PageViewModel : ObservableObjectWithResources<PageId> {
     public partial PageModel? Page { get; private set; }
 
     protected override async Task CreateResourcesAsync(PageId pageId, CancellationToken ct) {
-        Page = new PageModel(_pageId);
-        await Page.ActivateAsync(ct);
+        var page = new PageModel(pageId);
+        await page.ActivateAsync(ct);
+
+        Page = page;
     }
 
     protected override async Task ReleaseResourcesAsync() {
@@ -23,6 +25,4 @@ public partial class PageViewModel : ObservableObjectWithResources<PageId> {
             Page = null;
         }
     }
-
-    private readonly PageId _pageId = pageId;
 }

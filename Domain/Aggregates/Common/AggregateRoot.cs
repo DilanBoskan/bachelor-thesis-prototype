@@ -2,7 +2,7 @@
 
 namespace Domain.Aggregates.Common;
 
-public abstract class AggregateRoot : IAggregateRoot {
+public abstract class AggregateRoot<TSelf> : IAggregateRoot where TSelf : AggregateRoot<TSelf> {
     public IReadOnlyList<IEvent> DomainEvents => _domainEvents;
 
     protected void AddDomainEvent(IEvent @event) {
