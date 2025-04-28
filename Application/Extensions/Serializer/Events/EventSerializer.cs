@@ -3,7 +3,7 @@
 namespace Application.Extensions.Serializer.Events;
 
 public static class EventSerializer {
-    public static IEvent ToDomain(Protos.Events.Event proto) {
+    public static Event ToDomain(Protos.Events.Event proto) {
         return proto.EventCase switch {
             Protos.Events.Event.EventOneofCase.InkStrokeElementAddedToPage => InkStrokeElementAddedToPageEventSerializer.ToDomain(proto),
             Protos.Events.Event.EventOneofCase.ElementRemovedFromPage => ElementRemovedFromPageEventSerializer.ToDomain(proto),
@@ -11,7 +11,7 @@ public static class EventSerializer {
         };
     }
 
-    public static Protos.Events.Event ToProto(IEvent value) {
+    public static Protos.Events.Event ToProto(Event value) {
         return value switch {
             InkStrokeElementAddedToPageEvent @event => InkStrokeElementAddedToPageEventSerializer.ToProto(@event),
             ElementRemovedFromPageEvent @event => ElementRemovedFromPageEventSerializer.ToProto(@event),

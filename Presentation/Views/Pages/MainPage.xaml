@@ -6,11 +6,12 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
-    xmlns:page="using:Domain.Aggregates.Pages"
+    xmlns:page="using:Domain.Aggregates.Pages" xmlns:components="using:Presentation.Views.Components"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
+        <components:BookView BookId="{x:Bind ViewModel.BookId, Mode=OneWay}"></components:BookView>
 
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,20,0,0" Background="Gray" Height="40">
             <TextBlock Text="Here is the InkToolbar"></TextBlock>

@@ -2,5 +2,5 @@
 
 namespace Application.Contracts.Event;
 public interface IEventDispatcher {
-    Task PublishAsync(IReadOnlyList<IEvent> events, CancellationToken ct = default);
+    Task PublishAsync(IReadOnlyList<Domain.Events.Event> events, CancellationToken ct = default);
 }

@@ -34,9 +34,7 @@ public sealed partial class MainPage : Page
     protected async override void OnNavigatedTo(NavigationEventArgs e) {
         base.OnNavigatedTo(e);
 
-        if (e.Parameter is not BookId bookId) {
-            bookId = BookId.New();
-        }
+        var bookId = (BookId)e.Parameter;
 
         await ViewModel.ActivateAsync(bookId);
     }

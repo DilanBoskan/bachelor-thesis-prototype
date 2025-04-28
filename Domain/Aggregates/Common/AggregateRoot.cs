@@ -2,18 +2,18 @@
 
 namespace Domain.Aggregates.Common;
 
-public abstract class AggregateRoot<TSelf> : IAggregateRoot where TSelf : AggregateRoot<TSelf> {
-    public IReadOnlyList<IEvent> DomainEvents => _domainEvents;
+public abstract class AggregateRoot : IAggregateRoot {
+    public IReadOnlyList<Event> DomainEvents => _domainEvents;
 
-    protected void AddDomainEvent(IEvent @event) {
+    protected void AddDomainEvent(Event @event) {
         _domainEvents.Add(@event);
     }
-    public IReadOnlyCollection<IEvent> PopDomainEvents() {
-        IReadOnlyCollection<IEvent> events = _domainEvents.ToList();
+    public IReadOnlyCollection<Event> PopDomainEvents() {
+        IReadOnlyCollection<Event> events = _domainEvents.ToList();
         _domainEvents.Clear();
 
         return events;
     }
 
-    private readonly List<IEvent> _domainEvents = [];
+    private readonly List<Event> _domainEvents = [];
 }

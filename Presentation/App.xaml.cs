@@ -56,7 +56,7 @@ public sealed partial class App : Windows.UI.Xaml.Application {
     protected override void OnLaunched(LaunchActivatedEventArgs e) => OnActivated(e);
 
     protected override void OnActivated(IActivatedEventArgs args) {
-        BookId bookId = BookId.New();
+        BookId bookId = BookId.Create(Guid.Empty);
         if (args is ProtocolActivatedEventArgs protocolArgs) {
             if (Guid.TryParse(protocolArgs.Uri.Host, out var id)) {
                 bookId = BookId.Create(id);
@@ -72,16 +72,16 @@ public sealed partial class App : Windows.UI.Xaml.Application {
             Window.Current.Activate();
         }
 
-        Activate(bookId);
+        Activate();
     }
-    public void Activate(BookId bookId) {
+    public void Activate() {
         _cts.Cancel();
         _cts.Dispose();
         _cts = new CancellationTokenSource();
 
         // Register background thread
         var syncingService = App.Current.ServiceProvider.GetRequiredService<CloudSyncingService>();
-        _ = syncingService.StartAsync(InstanceId, bookId, _cts.Token);
+        _ = syncingService.StartAsync(_cts.Token);
     }
 
     private void OnSuspending(object sender, SuspendingEventArgs e)

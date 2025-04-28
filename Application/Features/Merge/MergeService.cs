@@ -4,7 +4,7 @@ using Domain.Events;
 
 namespace Application.Features.Merge;
 public class MergeService : IMergeService {
-    public void Merge(Page page, IReadOnlyList<IEvent> events) {
+    public void Merge(Page page, IReadOnlyList<Event> events) {
         foreach (var @event in events) {
             page.Apply(@event);
         }

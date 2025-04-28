@@ -11,6 +11,6 @@
 
     <Grid Background="White" HorizontalAlignment="Center" Margin="0,0,0,30" CornerRadius="4">
         <TextBlock Foreground="Red" FontSize="40" VerticalAlignment="Center" HorizontalAlignment="Center" Text="{x:Bind ViewModel.Page.Id.Value, Mode=OneWay}"/>
-        <InkCanvas x:Name="InkCanvas" Width="{x:Bind ViewModel.Page.Size.Height, Mode=OneWay}" Height="{x:Bind ViewModel.Page.Size.Height, Mode=OneWay}"></InkCanvas>
+        <InkCanvas x:Name="InkCanvas" Width="{x:Bind ViewModel.Page.Size.Width, Mode=OneWay}" Height="{x:Bind ViewModel.Page.Size.Height, Mode=OneWay}"></InkCanvas>
     </Grid>
 </UserControl>

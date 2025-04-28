@@ -3,5 +3,5 @@ using Domain.Events;
 
 namespace Application.Contracts.Services;
 public interface IMergeService {
-    void Merge(Page page, IReadOnlyList<IEvent> events);
+    void Merge(Page page, IReadOnlyList<Domain.Events.Event> events);
 }

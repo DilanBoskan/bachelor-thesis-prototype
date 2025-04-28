@@ -18,7 +18,7 @@ public partial class BookModel(BookId id) : ObservableObjectWithResources {
     [ObservableProperty]
     public partial DateTime UpdatedAt { get; private set; }
     [ObservableProperty]
-    public partial ObservableCollection<Book.Page> Pages { get; private set; }
+    public partial ObservableCollection<BookPage> Pages { get; private set; }
 
 
     protected override async Task CreateResourcesAsync(CancellationToken ct) {
@@ -27,7 +27,7 @@ public partial class BookModel(BookId id) : ObservableObjectWithResources {
 
         CreatedAt = book.CreatedAt;
         UpdatedAt = book.UpdatedAt;
-        Pages = new ObservableCollection<Book.Page>(book.Pages);
+        Pages = new ObservableCollection<BookPage>(book.Pages);
     }
     protected override Task ReleaseResourcesAsync() {
         CreatedAt = default;

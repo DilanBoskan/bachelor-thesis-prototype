@@ -4,6 +4,6 @@ using Domain.Events;
 namespace Application.Contracts.Services;
 
 public interface IReplicationService {
-    Task<IReadOnlyList<IEvent>> PullAsync(PageId pageId);
+    Task<IReadOnlyList<Domain.Events.Event>> PullAsync(PageId pageId);
     Task PushAsync();
 }

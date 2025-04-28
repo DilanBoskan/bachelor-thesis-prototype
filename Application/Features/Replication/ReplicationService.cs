@@ -5,6 +5,8 @@ using Domain.Aggregates.Pages;
 using Domain.Events;
 using Google.Protobuf;
 using Microsoft.Extensions.Logging;
+using Refit;
+using System.Net;
 
 namespace Application.Features.Replication;
 
@@ -15,7 +17,7 @@ public class ReplicationService(IPageRepository pageRepository, IEventClient eve
     private readonly EventStorage _eventStorage = eventStorage;
     private readonly ILogger<ReplicationService> _logger = logger;
 
-    public async Task<IReadOnlyList<IEvent>> PullAsync(PageId pageId) {
+    public async Task<IReadOnlyList<Event>> PullAsync(PageId pageId) {
         // Get recent events from server
         if (!_lastRemoteReplication.TryGetValue(pageId, out var lastReplicationId))
             _lastRemoteReplication[pageId] = lastReplicationId = ReplicationId.Empty;
@@ -24,7 +26,7 @@ public class ReplicationService(IPageRepository pageRepository, IEventClient eve
         var page = await _pageRepository.GetByIdAsync(pageId);
         ArgumentNullException.ThrowIfNull(page);
 
-        var pullData = await _eventsClient.PullAsync(pageId, lastReplicationId);
+        PullData pullData = await _eventsClient.PullAsync(pageId, lastReplicationId);
 
         // Convert to domain events
         var events = Protos.Events.EventGroup.Parser.ParseFrom(pullData.Events).Events
@@ -61,6 +63,8 @@ public class ReplicationService(IPageRepository pageRepository, IEventClient eve
             var newReplicationId = await _eventsClient.PushAsync(pageId, lastReplicationId, eventBytes);
             _lastRemoteReplication[pageId] = newReplicationId;
         }
+
+        _eventStorage.Clear(events);
     }
 
     private readonly Dictionary<PageId, ReplicationId> _lastRemoteReplication = [];

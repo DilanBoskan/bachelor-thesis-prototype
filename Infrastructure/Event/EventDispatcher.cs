@@ -5,7 +5,7 @@ namespace Infrastructure.Event;
 internal sealed class EventDispatcher(IEnumerable<IEventHandler> eventHandlers) : IEventDispatcher {
     private readonly IReadOnlyCollection<IEventHandler> _eventHandlers = eventHandlers.ToList();
 
-    async Task IEventDispatcher.PublishAsync(IReadOnlyList<IEvent> events, CancellationToken ct) {
+    async Task IEventDispatcher.PublishAsync(IReadOnlyList<Domain.Events.Event> events, CancellationToken ct) {
         ArgumentNullException.ThrowIfNull(events);
         if (events.Count == 0) return;
 

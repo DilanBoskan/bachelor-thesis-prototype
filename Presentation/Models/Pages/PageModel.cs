@@ -21,7 +21,7 @@ public sealed partial class PageModel(PageId id) : ObservableObjectWithResources
     private readonly ILogger<PageModel> _logger = App.Current.ServiceProvider.GetRequiredService<ILogger<PageModel>>();
 
     public PageId Id { get; } = id;
-    public ReplicationId ReplicationId { get; private set; }
+
     [ObservableProperty]
     public partial SizeF Size { get; private set; }
     [ObservableProperty]
@@ -46,7 +46,6 @@ public sealed partial class PageModel(PageId id) : ObservableObjectWithResources
         RegisterMessageHandlers();
 
         // UI
-        ReplicationId = page.ReplicationId;
         Size = page.Size;
         CreatedAt = page.CreatedAt;
         UpdatedAt = page.UpdatedAt;

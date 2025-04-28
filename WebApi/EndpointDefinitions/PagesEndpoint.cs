@@ -5,18 +5,19 @@ using Microsoft.AspNetCore.Http.HttpResults;
 using Application.Contracts.Event;
 using Domain.Aggregates.Pages;
 using Application.Extensions.Serializer.Pages;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+using System.Drawing;
+using Domain.Events;
 
 namespace WebApi.EndpointDefinitions;
 
 public class PagesEndpoint : IEndpointDefinition {
     public void MapDefinitions(WebApplication app) {
-        var group = app.MapGroup("books");
+        var group = app.MapGroup("pages");
 
-        group.MapGet("pages/{pageId}/_replication", PullAsync);
-        group.MapPatch("pages/{pageId}/_replication", PatchAsync);
-        group.MapPost("pages/{pageId}/_replication", ForcePushAsync);
+        group.MapGet("{pageId}/_replication", PullAsync);
+        group.MapPatch("{pageId}/_replication", PatchAsync);
     }
-
 
     public static async Task<Results<Ok<PullData>, BadRequest<string>>> PullAsync(PageId pageId, [FromHeader(Name = "X-Replication-Id")] ReplicationId fromReplicationId) {
         ReplicationId latestReplicationId;
@@ -25,7 +26,7 @@ public class PagesEndpoint : IEndpointDefinition {
             if (!_pages.TryGetValue(pageId, out var page))
                 return TypedResults.BadRequest("Nothing to pull!");
 
-            var events = page.DomainEvents.Where(e => e.ReplicationId > fromReplicationId).ToList();
+            var events = page.Events.Where(e => e.ReplicationId > fromReplicationId).ToList();
             var eventGroup = new Application.Protos.Events.EventGroup() {
                 Events = { events.Select(EventSerializer.ToProto) }
             };
@@ -52,25 +53,24 @@ public class PagesEndpoint : IEndpointDefinition {
                 return TypedResults.Conflict("Replication Ids do not match!");
 
             foreach (var @event in events) {
-                page.Apply(@event);
+                var newEvent = @event with {
+                    ReplicationId = page.ReplicationId.Next()
+                };
+                page.Events.Add(newEvent);
+                page.ReplicationId = newEvent.ReplicationId;
             }
+            _pages[pageId] = (page.ReplicationId, page.Events);
 
             newReplicationId = page.ReplicationId;
         }
 
         return TypedResults.Ok(newReplicationId);
     }
-    public static async Task<Ok> ForcePushAsync(PageId pageId, [FromBody] byte[] data) {
-        var page = PageSerializer.ToDomain(Application.Protos.Pages.Page.Parser.ParseFrom(data));
-
-        lock (_queueLock) {
-            _pages[page.Id] = page;
-        }
-
-        return TypedResults.Ok();
-    }
 
 
     private static readonly Lock _queueLock = new();
-    private static readonly Dictionary<PageId, Page> _pages = [];
+    private static readonly Dictionary<PageId, (ReplicationId ReplicationId, List<Event> Events)> _pages = new() {
+        { PageId.Create(Guid.Parse("00000000-0000-0000-0000-000000000001")), (ReplicationId.New(), []) },
+        { PageId.Create(Guid.Parse("00000000-0000-0000-0000-000000000002")), (ReplicationId.New(), []) }
+    };
 }

@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using Presentation.Services.Cloud;
 using Presentation.ViewModels;
+using Presentation.ViewModels.Components;
 
 namespace Presentation.Extensions;
 public static class ServiceExtensions {
@@ -11,8 +12,10 @@ public static class ServiceExtensions {
                 builder.AddDebug();
                 builder.SetMinimumLevel(LogLevel.Debug);
             })
-            .AddScoped<CloudSyncingService>()
-            .AddScoped<MainPageViewModel>();
+            .AddTransient<PageViewModel>()
+            .AddTransient<BookViewModel>()
+            .AddTransient<CloudSyncingService>()
+            .AddTransient<MainPageViewModel>();
 
         return services;
     }

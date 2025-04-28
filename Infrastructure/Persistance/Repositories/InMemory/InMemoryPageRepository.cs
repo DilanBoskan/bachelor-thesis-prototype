@@ -1,5 +1,6 @@
 ﻿using Application.Contracts.Event;
 using Domain.Aggregates.Pages;
+using System.Drawing;
 
 namespace Infrastructure.Persistance.Repositories.InMemory;
 public class InMemoryPageRepository(IEventDispatcher eventDispatcher) : IPageRepository {
@@ -17,7 +18,7 @@ public class InMemoryPageRepository(IEventDispatcher eventDispatcher) : IPageRep
 
     public async Task SaveChangesAsync(CancellationToken ct = default) {
         var events = _transactionPages.Values
-            .SelectMany(e => e.DomainEvents)
+            .SelectMany(e => e.PopDomainEvents())
             .ToList();
 
         // Save changes (EF Core)
@@ -33,7 +34,10 @@ public class InMemoryPageRepository(IEventDispatcher eventDispatcher) : IPageRep
         _transactionPages.Clear();
     }
 
-    private static Dictionary<PageId, Page> _pages = [];
+    private static Dictionary<PageId, Page> _pages = new() {
+        { PageId.Create(Guid.Parse("00000000-0000-0000-0000-000000000001")), new Page(PageId.Create(Guid.Parse("00000000-0000-0000-0000-000000000001")), ReplicationId.New(), new SizeF(1000, 1414), DateTime.UtcNow, DateTime.UtcNow, []) },
+        { PageId.Create(Guid.Parse("00000000-0000-0000-0000-000000000002")), new Page(PageId.Create(Guid.Parse("00000000-0000-0000-0000-000000000002")), ReplicationId.New(), new SizeF(1000, 1414), DateTime.UtcNow, DateTime.UtcNow, []) },
+    };
     private static readonly Dictionary<PageId, Page> _transactionPages = [];
 }
 

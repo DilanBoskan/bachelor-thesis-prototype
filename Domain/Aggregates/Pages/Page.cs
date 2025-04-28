@@ -6,7 +6,7 @@ using System.Drawing;
 
 namespace Domain.Aggregates.Pages;
 
-public sealed class Page : AggregateRoot<Page>, IApplyEvent {
+public sealed class Page : AggregateRoot, IApplyEvent {
     public PageId Id { get; }
     public ReplicationId ReplicationId { get; private set; }
     public SizeF Size { get; }
@@ -51,7 +51,7 @@ public sealed class Page : AggregateRoot<Page>, IApplyEvent {
     }
 
     #region Events
-    public void Apply(IEvent @event) {
+    public void Apply(Event @event) {
         switch (@event) {
             case InkStrokeElementAddedToPageEvent inkStrokeElementAddedToPageEvent:
                 Apply(inkStrokeElementAddedToPageEvent);
@@ -67,13 +67,13 @@ public sealed class Page : AggregateRoot<Page>, IApplyEvent {
         var element = @event.ToInkStrokeElement();
 
         _elements.Add(element);
-        UpdatedAt = @event.OccurredAt;
-        ReplicationId = @event.ReplicationId;
+        UpdatedAt = UpdatedAt > @event.OccurredAt ? UpdatedAt : @event.OccurredAt;
+        ReplicationId = ReplicationId.Next();
     }
     public void Apply(ElementRemovedFromPageEvent @event) {
         _elements.RemoveAll(e => e.Id == @event.ElementId);
-        UpdatedAt = @event.OccurredAt;
-        ReplicationId = @event.ReplicationId;
+        UpdatedAt = UpdatedAt > @event.OccurredAt ? UpdatedAt : @event.OccurredAt;
+        ReplicationId = ReplicationId.Next();
     }
     #endregion
 

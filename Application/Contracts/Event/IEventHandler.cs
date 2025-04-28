@@ -6,5 +6,5 @@ namespace Application.Contracts.Event;
 /// Handler for internal events
 /// </summary>
 public interface IEventHandler {
-    Task HandleAsync(IReadOnlyList<IEvent> events);
+    Task HandleAsync(IReadOnlyList<Domain.Events.Event> events);
 }

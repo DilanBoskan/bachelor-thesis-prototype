@@ -1,4 +1,4 @@
 ﻿namespace Domain.Events;
 public interface IApplyEvent {
-    void Apply(IEvent @event);
+    void Apply(Event @event);
 }

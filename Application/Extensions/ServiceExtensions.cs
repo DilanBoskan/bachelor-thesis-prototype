@@ -15,16 +15,17 @@ public static class ServiceExtensions {
     public static IServiceCollection AddApplication(this IServiceCollection services) {
         services
             // Command Handlers
-            .AddScoped<ICommandHandler<CreateInkStrokeElementInPageCommand, InkStrokeElement>, CreateElementInPageCommandHandler>()
-            .AddScoped<ICommandHandler<RemoveElementFromPageCommand>, RemoveElementFromPageCommandHandler>()
+            .AddTransient<ICommandHandler<CreateInkStrokeElementInPageCommand, InkStrokeElement>, CreateElementInPageCommandHandler>()
+            .AddTransient<ICommandHandler<RemoveElementFromPageCommand>, RemoveElementFromPageCommandHandler>()
             // Replication
-            .AddScoped<IEventHandler, EventStorage>()
-            .AddScoped<IMergeService, MergeService>()
-            .AddScoped<IReplicationService, ReplicationService>()
+            .AddSingleton<EventStorage>()
+            .AddTransient<IEventHandler, EventStorage>(prov => prov.GetRequiredService<EventStorage>())
+            .AddTransient<IMergeService, MergeService>()
+            .AddTransient<IReplicationService, ReplicationService>()
             // Services
-            .AddScoped<IBookService, BookService>()
-            .AddScoped<IPageService, PageService>()
-            .AddScoped<IElementService, ElementService>();
+            .AddTransient<IBookService, BookService>()
+            .AddTransient<IPageService, PageService>()
+            .AddTransient<IElementService, ElementService>();
 
         return services;
     }
