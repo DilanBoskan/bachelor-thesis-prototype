@@ -8,6 +8,7 @@ using Application.Extensions.Serializer.Pages;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using System.Drawing;
 using Domain.Events;
+using Application.Contracts.Services;
 
 namespace WebApi.EndpointDefinitions;
 

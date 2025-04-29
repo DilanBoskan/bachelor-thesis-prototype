@@ -20,8 +20,7 @@ public static class ServiceExtensions {
         var jsonContentSerializer = new SystemTextJsonContentSerializer(jsonSerializerOptions);
 
         services
-            // Command/Events
-            .AddScoped<ICommandDispatcher, CommandDispatcher>()
+            // Events
             .AddScoped<IEventDispatcher, EventDispatcher>()
             .AddScoped<IEventClient, EventClient>()
             // Repositories

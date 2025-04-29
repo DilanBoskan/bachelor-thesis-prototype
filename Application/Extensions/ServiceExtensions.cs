@@ -14,9 +14,6 @@ namespace Application.Extensions;
 public static class ServiceExtensions {
     public static IServiceCollection AddApplication(this IServiceCollection services) {
         services
-            // Command Handlers
-            .AddTransient<ICommandHandler<CreateInkStrokeElementInPageCommand, InkStrokeElement>, CreateElementInPageCommandHandler>()
-            .AddTransient<ICommandHandler<RemoveElementFromPageCommand>, RemoveElementFromPageCommandHandler>()
             // Replication
             .AddSingleton<EventStorage>()
             .AddTransient<IEventHandler, EventStorage>(prov => prov.GetRequiredService<EventStorage>())
