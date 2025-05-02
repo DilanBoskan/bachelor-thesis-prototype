@@ -1,8 +1,6 @@
-﻿using Application.Contracts.Command;
-using Application.Contracts.Event;
+﻿using Application.Contracts.Event;
 using Domain.Aggregates.Books;
 using Domain.Aggregates.Pages;
-using Infrastructure.Command;
 using Infrastructure.Event;
 using Infrastructure.Persistance.Repositories.InMemory;
 using Microsoft.Extensions.DependencyInjection;
